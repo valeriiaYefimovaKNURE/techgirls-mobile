@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="Home"
+        android:icon="@drawable/baseline_home_24"
+        android:id="@+id/bottom_bar_home"
+        />
+    <item android:title="Map"
+        android:icon="@drawable/baseline_map_24"
+        android:id="@+id/bottom_bar_map"/>
+    <item android:title="Women"
+        android:icon="@drawable/baseline_face_retouching_natural_24"
+        android:id="@+id/nottom_bar_women"/>
+
+</menu>

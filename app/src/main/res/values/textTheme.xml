@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <style name="Theme.App" parent="Theme.MaterialComponents">
+    ...
+    <item name="colorPrimary">@color/pink2</item>
+    <item name="colorOnSurface">@color/pink1</item>
+    <item name="colorError">@color/error</item>
+    <item name="textAppearanceSubtitle1">@style/TextAppearance.App.Subtitle1</item>
+    <item name="textAppearanceCaption">@style/TextAppearance.App.Caption</item>
+    <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.App.SmallComponent</item>
+</style>
+
+    <style name="TextAppearance.App.Subtitle1" parent="TextAppearance.MaterialComponents.Subtitle1">
+
+    </style>
+
+    <style name="TextAppearance.App.Caption" parent="TextAppearance.MaterialComponents.Caption">
+
+    </style>
+
+    <style name="ShapeAppearance.App.SmallComponent" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+        <item name="cornerFamily">cut</item>
+        <item name="cornerSize">4dp</item>
+    </style></resources>

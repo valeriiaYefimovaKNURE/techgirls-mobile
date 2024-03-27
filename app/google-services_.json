@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "204552763865",
+    "firebase_url": "https://techgirls-1-default-rtdb.firebaseio.com",
+    "project_id": "techgirls-1",
+    "storage_bucket": "techgirls-1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:204552763865:android:93f5cd7b7cb4e00811c1c8",
+        "android_client_info": {
+          "package_name": "com.example.techgirls"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDpDP9J80Fw5jyE4PgV1SBqXOmlMqYvg4U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

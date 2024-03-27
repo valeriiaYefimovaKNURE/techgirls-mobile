@@ -1,0 +1,28 @@
+<resources>
+    <string name="app_name">mePower</string>
+    <string name="action_settings">Settings</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="error_email">Введіть коректну пошту</string>
+    <string name="error_password">Введіть пароль, який більше 5 символів</string>
+    <string name="error_signUpEmptyFields">Введіть будь ласка інформацію</string>
+    <string name="error_name">Будь ласка введіть це поле</string>
+    <string name="error_login_exist">Цей логін вже зайнятий. Введіть інший</string>
+    <string name="error_email_exist">Ця пошта вже зайнята</string>
+    <string name="error_gender">Будь ласка оберіть свій пол</string>
+    <string name="error_date">Будь ласка введіть дату у форматі dd/mm/yyyy</string>
+
+    <string name="error_logIn_password">Неправильно введена пошта або пароль</string>
+    <string name="error_logIn_userNotExist">Користувача з таким логіном не існує</string>
+
+    <string name="toast_signup_succes">Ви успішно зареєстровані</string>
+    <string name="toast_signup_failed">Виникла помилка під час реєстрації</string>
+
+    <string name="lorem_ipsum"> </string>
+
+    <string name="hello">Hello, %s!</string>
+</resources>

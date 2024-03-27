@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="background_color">#fef7ff</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="error">#c22525</color>
+    <color name="pink1">#e3688f</color>
+    <color name="pink2">#E1AFD1</color>
+    <color name="beige">#FFE6E6</color>
+    <color name="purple_light">#AD88C6</color>
+    <color name="purple">#514881</color>
+    <color name="lavender">#7469B6</color>
+    <color name="grey_hint">#c0c0c0</color>
+
+</resources>
