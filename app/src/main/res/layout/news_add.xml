@@ -1,103 +1,109 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".UploadActivity"
-    >
-
-    <androidx.cardview.widget.CardView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginBottom="50dp"
-        app:cardCornerRadius="30dp"
-        app:cardElevation="20dp">
-        <LinearLayout
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".UploadActivity"
+        >
+
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_gravity="center_horizontal"
-            android:padding="20dp"
-            android:background="@drawable/lavender_border"
-            >
-            <TextView
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="20dp"
+            app:cardCornerRadius="30dp"
+            app:cardElevation="20dp">
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Завантажте дані"
-                android:textSize="30sp"
-                android:textAlignment="center"
-                android:textColor="@color/purple"
-                />
-            <ImageView
-                android:id="@+id/uploadImage"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:scaleType="fitCenter"
-                android:src="@drawable/baseline_image_search_24"
-                android:layout_marginTop="10dp"
-                />
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:id="@+id/uploadTitle"
-                android:textSize="16sp"
-                android:textStyle="bold"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_horizontal"
                 android:background="@drawable/lavender_border"
-                android:hint="Введіть заголовок"
-                android:layout_marginTop="20dp"
-                android:padding="16dp"
-                android:layout_gravity="start|center_vertical"
-                android:textColor="@color/purple"/>
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:id="@+id/uploadCaption"
-                android:textSize="14sp"
-                android:background="@drawable/lavender_border"
-                android:hint="Введіть короткий опис"
-                android:layout_marginTop="20dp"
-                android:padding="16dp"
-                android:layout_gravity="start|center_vertical"
-                android:textColor="@color/purple"/>
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/uploadText"
-                android:background="@drawable/lavender_border"
-                android:hint="Введіть текст"
-                android:textSize="14sp"
-                android:layout_marginTop="20dp"
-                android:padding="16dp"
-                android:layout_gravity="start|center_vertical"
-                android:textColor="@color/purple"
-                android:inputType="textMultiLine"
-                android:minLines="12"
-                android:gravity="top"
-                />
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:id="@+id/uploadLink"
-                android:textSize="14sp"
-                android:background="@drawable/lavender_border"
-                android:hint="Посилання"
-                android:layout_marginTop="20dp"
-                android:padding="16dp"
-                android:layout_gravity="start|center_vertical"
-                android:textColor="@color/purple"/>
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/outlinedGenderField"
-                style="@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                app:errorEnabled="true">
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <ImageButton
+                    android:id="@+id/uploadButton_close"
+                    android:layout_width="25dp"
+                    android:layout_height="26dp"
+                    android:layout_marginStart="2dp"
+                    android:background="@android:color/transparent"
+                    android:onClick="showBackToMain"
+                    android:scaleType="fitCenter"
+                    app:srcCompat="@drawable/close_icon" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Завантажте дані"
+                    android:textAlignment="center"
+                    android:textColor="@color/purple"
+                    android:textSize="30sp" />
+
+                <ImageView
+                    android:id="@+id/uploadImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_marginTop="10dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/baseline_image_search_24" />
+
+                <EditText
+                    android:id="@+id/uploadTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_gravity="start|center_vertical"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/lavender_border"
+                    android:hint="Введіть заголовок"
+                    android:padding="16dp"
+                    android:textColor="@color/purple"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/uploadCaption"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_gravity="start|center_vertical"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/lavender_border"
+                    android:hint="Введіть короткий опис"
+                    android:padding="16dp"
+                    android:textColor="@color/purple"
+                    android:textSize="14sp" />
+
+                <EditText
+                    android:id="@+id/uploadText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start|center_vertical"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/lavender_border"
+                    android:gravity="top"
+                    android:hint="Введіть текст"
+                    android:inputType="textMultiLine"
+                    android:minLines="12"
+                    android:padding="16dp"
+                    android:textColor="@color/purple"
+                    android:textSize="14sp" />
+
+                <EditText
+                    android:id="@+id/uploadLink"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_gravity="start|center_vertical"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/lavender_border"
+                    android:hint="Посилання"
+                    android:padding="16dp"
+                    android:textColor="@color/purple"
+                    android:textSize="14sp" />
 
                 <AutoCompleteTextView
                     android:id="@+id/uploadTheme"
@@ -106,24 +112,24 @@
                     android:layout_gravity="start|center_vertical"
                     android:layout_marginTop="20dp"
                     android:background="@drawable/lavender_border"
+                    android:drawableEnd="@drawable/baseline_arrow_drop_down_24"
                     android:hint="Оберіть тему"
                     android:inputType="none"
                     android:padding="16dp"
                     android:textColor="@color/purple"
                     android:textSize="14sp"
                     tools:ignore="SpeakableTextPresentCheck" />
-            </com.google.android.material.textfield.TextInputLayout>
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:text="Зберегти"
-                android:id="@+id/uploadButton_save"
-                android:textSize="18sp"
-                android:layout_marginTop="10dp"
-                />
 
-        </LinearLayout>
+                <Button
+                    android:id="@+id/uploadButton_save"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_marginTop="10dp"
+                    android:text="Зберегти"
+                    android:textSize="18sp" />
 
-    </androidx.cardview.widget.CardView>
+            </LinearLayout>
 
-</ScrollView>
+        </androidx.cardview.widget.CardView>
+
+    </ScrollView>

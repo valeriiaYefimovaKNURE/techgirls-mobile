@@ -45,9 +45,6 @@ public class MainPage extends AppCompatActivity {
         String name = getIntent().getStringExtra("name");
         String role=getIntent().getStringExtra("role");
 
-        if (Objects.requireNonNull(name).length() > 7) {
-            welcomeText.setTextSize(20);
-        }
         welcomeText.setText(String.format(getString(R.string.hello), name));
 
         addNewsbtn=findViewById(R.id.addNews_button);
