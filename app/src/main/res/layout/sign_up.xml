@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/background_color">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -28,6 +29,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="80dp"
             android:text="Sign Up"
+            android:textColor="@color/bistre"
             android:textSize="30sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
@@ -40,6 +42,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:text="To join the safety space community"
+            android:textColor="@color/bistre"
             android:textSize="12sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
@@ -66,6 +69,7 @@
                 android:hint="Email"
                 android:inputType="textEmailAddress"
                 android:text=""
+
                 android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.49"
@@ -218,7 +222,7 @@
             app:layout_constraintTop_toBottomOf="@+id/outlinedGenderField" />
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/signUp_Google"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
@@ -227,6 +231,5 @@
             app:layout_constraintHorizontal_bias="0.491"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/btnNext" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </RelativeLayout>

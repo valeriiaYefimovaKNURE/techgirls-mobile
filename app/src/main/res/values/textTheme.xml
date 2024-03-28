@@ -4,6 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <style name="Theme.App" parent="Theme.MaterialComponents">
     ...
+        <item name="android:textColorPrimary">@color/bistre</item>
     <item name="colorPrimary">@color/pink2</item>
     <item name="colorOnSurface">@color/pink1</item>
     <item name="colorError">@color/error</item>

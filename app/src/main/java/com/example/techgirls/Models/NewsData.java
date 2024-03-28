@@ -7,6 +7,7 @@ public class NewsData {
     private String dataLink;
     private String dataTheme;
     private String dataImage;
+    public NewsData(){}
 
     public NewsData(String dataTitle, String dataCaption, String dataText, String dataLink, String dataTheme, String dataImage) {
         this.dataTitle = dataTitle;

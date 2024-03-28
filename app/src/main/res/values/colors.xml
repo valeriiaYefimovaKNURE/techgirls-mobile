@@ -12,4 +12,11 @@
     <color name="lavender">#7469B6</color>
     <color name="grey_hint">#c0c0c0</color>
 
+    <color name="bistre">#34211b</color>
+    <color name="glaucous">#6073B5</color>
+    <color name="alabaster">#F5F3E7</color>
+    <color name="pink">#F7BBC8</color>
+    <color name="puce">#E190A2</color>
+    <color name="cerise">#D14667</color>
+
 </resources>

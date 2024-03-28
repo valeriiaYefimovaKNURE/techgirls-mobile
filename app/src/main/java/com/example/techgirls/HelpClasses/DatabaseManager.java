@@ -4,11 +4,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.NonNull;
 
 import com.example.techgirls.MainPage;
 import com.example.techgirls.Models.Users;
 import com.example.techgirls.R;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -26,6 +28,7 @@ public class DatabaseManager {
     public DatabaseManager() {
         FirebaseDatabase db = FirebaseDatabase.getInstance();
         table = db.getReference("Users");
+
     }
     public void checkEmailExistence(String email, TextInputLayout layout, AtomicBoolean validEmail) {
         table.orderByChild("email").equalTo(email).addListenerForSingleValueEvent(
@@ -77,6 +80,9 @@ public class DatabaseManager {
         table.child(Login).setValue(user);
 
         Toast.makeText(context, R.string.toast_signup_succes, Toast.LENGTH_SHORT).show();
+    }
+    public void registerUserGoogle(Context context,String Email, String Name, String Login, String Password, String Birth, String Gender){
+
     }
     public void authenticateUser(Context context,String login,TextInputLayout loginLayout,
                                  String password, TextInputLayout passLayout) {

@@ -10,23 +10,32 @@ import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.techgirls.HelpClasses.DatabaseManager;
 import com.example.techgirls.HelpClasses.NewsAdapter;
 import com.example.techgirls.Models.GridItem;
+import com.example.techgirls.Models.NewsData;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Objects;
 
 public class MainPage extends AppCompatActivity {
     DatabaseManager databaseManager=new DatabaseManager();
-    GridView newsGV;
     TextView welcomeText;
     FloatingActionButton addNewsbtn;
 
-
+    GridView newsGV;
+    ArrayList<NewsData> newsList;
+    NewsAdapter adapter;
+    final private DatabaseReference databaseReference= FirebaseDatabase.getInstance().getReference("News");
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,10 +57,23 @@ public class MainPage extends AppCompatActivity {
         else addNewsbtn.setVisibility(View.INVISIBLE);
 
         newsGV=findViewById(R.id.gridView);
-        ArrayList<GridItem> newsArrayList=new ArrayList<GridItem>();
+        newsList=new ArrayList<>();
+        adapter=new NewsAdapter(newsList,this);
+        newsGV.setAdapter(adapter);
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot dataSnapshot:snapshot.getChildren()){
+                    NewsData newsClass=dataSnapshot.getValue(NewsData.class);
+                    newsList.add(newsClass);
+                }
+                adapter.notifyDataSetChanged();
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
 
-        NewsAdapter newsAdapter = new NewsAdapter(this, newsArrayList);
-        newsGV.setAdapter(newsAdapter);
+            }
+        });
 
         addNewsbtn.setOnClickListener(new View.OnClickListener() {
             @Override

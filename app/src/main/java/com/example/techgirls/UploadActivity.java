@@ -2,10 +2,12 @@ package com.example.techgirls;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.webkit.MimeTypeMap;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -29,6 +31,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
@@ -98,7 +101,7 @@ public class UploadActivity extends AppCompatActivity {
             public void onClick(View view){
                 if(imageUri!=null){
                     uploadToFirebase(imageUri);
-                    saveData();
+                    //saveData();
                 }else
                     Toast.makeText(UploadActivity.this,"Please select image",Toast.LENGTH_SHORT).show();
 
@@ -106,7 +109,48 @@ public class UploadActivity extends AppCompatActivity {
         });
     }
     public void uploadToFirebase(Uri uri){
-        
+        String title=uploadTitle.getText().toString().trim();
+        String caption=uploadCaption.getText().toString().trim();
+        String text=uploadText.getText().toString().trim();
+        String link=uploadLink.getText().toString().trim();
+        String theme=uploadTheme.getText().toString().trim();
+
+        final StorageReference fileRef = storageReference.child("Images").child(System.currentTimeMillis()+"."+getFileExtension(uri));
+
+        fileRef.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        NewsData newsData=new NewsData(title,caption,text,link,theme,uri.toString());
+                        String key=databaseReference.push().getKey();
+                        databaseReference.child(key).setValue(newsData);
+                        AlertDialog.Builder builder=new AlertDialog.Builder(UploadActivity.this);
+                        builder.setCancelable(false);
+                        builder.setView(R.layout.progress_layout);
+                        Toast.makeText(UploadActivity.this,"Uploaded",Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
+                AlertDialog.Builder builder=new AlertDialog.Builder(UploadActivity.this);
+                builder.setCancelable(false);
+                builder.setView(R.layout.progress_layout);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(UploadActivity.this,"Failed",Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+    private String getFileExtension(Uri fileUri){
+        ContentResolver contentResolver=getContentResolver();
+        MimeTypeMap mime=MimeTypeMap.getSingleton();
+        return mime.getExtensionFromMimeType(contentResolver.getType(fileUri));
     }
     public void saveData(){
         //StorageReference storageReference=FirebaseStorage.getInstance().getReference().child("Images")

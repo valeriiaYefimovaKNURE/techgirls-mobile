@@ -10,12 +10,29 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.bumptech.glide.Glide;
 import com.example.techgirls.HelpClasses.DatabaseManager;
 import com.example.techgirls.HelpClasses.ValidationManager;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.GoogleAuthProvider;
 
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class RegisterPage extends AppCompatActivity {
@@ -27,6 +44,7 @@ public class RegisterPage extends AppCompatActivity {
     ArrayAdapter<String> adapterItems;
     private AtomicBoolean isEmailValid = new AtomicBoolean(false);
     private AtomicBoolean isLoginValid = new AtomicBoolean(false);
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +77,7 @@ public class RegisterPage extends AppCompatActivity {
         gender=autoCompleteTextView;
 
         Button btnNext = findViewById(R.id.btnNext);
+        Button btnGoogle=findViewById(R.id.signUp_Google);
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

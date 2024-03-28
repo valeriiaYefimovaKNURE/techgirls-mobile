@@ -13,7 +13,20 @@
           "package_name": "com.example.techgirls"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "204552763865-g8ppd53e0s1qnkheejitdimlilsad40g.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.techgirls",
+            "certificate_hash": "91764584e361f206ce17303e45973bb2c42084f2"
+          }
+        },
+        {
+          "client_id": "204552763865-mm2dh7r53pev83o4ok2che72fa7usm2s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyDpDP9J80Fw5jyE4PgV1SBqXOmlMqYvg4U"
@@ -21,7 +34,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "204552763865-mm2dh7r53pev83o4ok2che72fa7usm2s.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

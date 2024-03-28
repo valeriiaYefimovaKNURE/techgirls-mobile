@@ -12,7 +12,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.TechGirls"
+        android:theme="@style/Base.Theme.TechGirls"
         tools:targetApi="31" >
         <meta-data
             android:name="com.google.android.actions"
@@ -21,7 +21,7 @@
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:theme="@style/Theme.TechGirls" >
+            android:theme="@style/Base.Theme.TechGirls" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
