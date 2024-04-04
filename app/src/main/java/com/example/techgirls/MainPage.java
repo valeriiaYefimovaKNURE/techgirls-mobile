@@ -3,11 +3,10 @@ package com.example.techgirls;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
+import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.GridView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -15,8 +14,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.techgirls.HelpClasses.DatabaseManager;
 import com.example.techgirls.HelpClasses.NewsAdapter;
-import com.example.techgirls.Models.GridItem;
+import com.example.techgirls.HelpClasses.SharedData;
 import com.example.techgirls.Models.NewsData;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -25,62 +25,98 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class MainPage extends AppCompatActivity {
     DatabaseManager databaseManager=new DatabaseManager();
     TextView welcomeText;
     FloatingActionButton addNewsbtn;
 
-    GridView newsGV;
+    GridView gridView;
     ArrayList<NewsData> newsList;
     NewsAdapter adapter;
+    LinearLayout buttonsLayout;
     final private DatabaseReference databaseReference= FirebaseDatabase.getInstance().getReference("News");
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_page);
 
-        welcomeText=findViewById(R.id.welcomeText);
+        buttonsLayout=findViewById(R.id.themeButtonsLayout);
+        createButtons(buttonsLayout);
+
+        welcomeText = findViewById(R.id.welcomeText);
         String name = getIntent().getStringExtra("name");
-        String role=getIntent().getStringExtra("role");
+        String role = getIntent().getStringExtra("role");
 
         welcomeText.setText(String.format(getString(R.string.hello), name));
 
-        addNewsbtn=findViewById(R.id.addNews_button);
-        if(databaseManager.isEditor(role) || databaseManager.isAdmin(role)){
+        addNewsbtn = findViewById(R.id.addNews_button);
+        if (databaseManager.isEditor(role) || databaseManager.isAdmin(role)) {
             addNewsbtn.setVisibility(View.VISIBLE);
-        }
-        else addNewsbtn.setVisibility(View.INVISIBLE);
+        } else addNewsbtn.setVisibility(View.INVISIBLE);
 
-        newsGV=findViewById(R.id.gridView);
-        newsList=new ArrayList<>();
-        adapter=new NewsAdapter(newsList,this);
-        newsGV.setAdapter(adapter);
+        gridView = findViewById(R.id.gridView);
+        newsList = new ArrayList<>();
+        adapter = new NewsAdapter(newsList, this);
+        gridView.setAdapter(adapter);
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot dataSnapshot:snapshot.getChildren()){
-                    NewsData newsClass=dataSnapshot.getValue(NewsData.class);
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    NewsData newsClass = dataSnapshot.getValue(NewsData.class);
                     newsList.add(newsClass);
                 }
                 adapter.notifyDataSetChanged();
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
         });
-
         addNewsbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showUploadNews(v);
             }
         });
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                NewsData newsData = newsList.get(position);
+
+                Intent intent = new Intent(MainPage.this, NewsActivity.class);
+                intent.putExtra("Image", newsData.getDataImage());
+                intent.putExtra("Title", newsData.getDataTitle());
+                intent.putExtra("Caption", newsData.getDataCaption());
+                intent.putExtra("Text",newsData.getDataText());
+                intent.putExtra("Link",newsData.getDataLink());
+                intent.putExtra("Theme",newsData.getDataTheme());
+                startActivity(intent);
+            }
+        });
     }
-    public void showUploadNews(View v) {
+    public void showUploadNews (View v){
         Intent intent = new Intent(this, UploadActivity.class);
         startActivity(intent);
     }
+    public void createButtons(LinearLayout layout){
+        String[] itemThemes = SharedData.itemThemes;
+
+        for (String theme : itemThemes) {
+            MaterialButton button = new MaterialButton(this);
+
+            button.setText(theme);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+            );
+            params.setMargins(4, 0, 4, 0);
+            params.weight = 1;
+            button.setLayoutParams(params);
+
+            layout.addView(button);
+        }
+    }
 }
+

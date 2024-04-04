@@ -4,25 +4,17 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.bumptech.glide.Glide;
-import com.example.techgirls.Models.GridItem;
 import com.example.techgirls.Models.NewsData;
 import com.example.techgirls.R;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class NewsAdapter extends BaseAdapter {
-
     private ArrayList<NewsData> dataList;
 
     private Context context;
@@ -62,6 +54,7 @@ public class NewsAdapter extends BaseAdapter {
         Glide.with(context).load(dataList.get(position).getDataImage()).into(gridImage);
         gridTitle.setText(dataList.get(position).getDataTitle());
         gridCaption.setText(dataList.get(position).getDataCaption());
+
 
         return view;
     }

@@ -24,11 +24,10 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.techgirls.HelpClasses.SharedData;
 import com.example.techgirls.Models.NewsData;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -47,7 +46,8 @@ public class UploadActivity extends AppCompatActivity {
     String imageURL;
     Uri imageUri;
 
-    private final String[] itemThemes = {"Наука", "Соціальне", "Новини"};
+
+    private final String[] itemThemes = SharedData.itemThemes;
     AutoCompleteTextView autoCompleteTextView;
     ArrayAdapter<String> adapterItems;
 
@@ -61,13 +61,6 @@ public class UploadActivity extends AppCompatActivity {
         autoCompleteTextView = findViewById(R.id.uploadTheme);
         adapterItems = new ArrayAdapter<String>(this, R.layout.item_list, itemThemes);
         autoCompleteTextView.setAdapter(adapterItems);
-        autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int i, long id) {
-                String item = parent.getItemAtPosition(i).toString();
-                Toast.makeText(UploadActivity.this, "Item: " + item, Toast.LENGTH_SHORT).show();
-            }
-        });
 
         uploadImage = findViewById(R.id.uploadImage);
         uploadTitle = findViewById(R.id.uploadTitle);
