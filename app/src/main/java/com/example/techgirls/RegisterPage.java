@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResult;
@@ -19,6 +20,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 import com.example.techgirls.HelpClasses.DatabaseManager;
+import com.example.techgirls.HelpClasses.ShowPages;
 import com.example.techgirls.HelpClasses.ValidationManager;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -96,19 +98,18 @@ public class RegisterPage extends AppCompatActivity {
                             if (ValidationManager.validateName(userName, nameLayout) && ValidationManager.validatePassword(userPassword, passwordLayout)
                                     && ValidationManager.validateDate(userBirthday,birthdayLayout) && ValidationManager.validateGender(userGender,genderLayout)) {
                                 databaseManager.registerUser(RegisterPage.this,userEmail, userName, userLogin, userPassword, userBirthday, userGender);
-                                showMainPage();
+                                ShowPages.showMainPage(v.getContext());
                             }
                         }
                     }
             }
         });
-    }
-    public void showMainPage() {
-        Intent intent = new Intent(this, MainPage.class);
-        startActivity(intent);
-    }
-    public void signBackToWelcomePage(View v) {
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
+        ImageButton backButton=findViewById(R.id.signUp_btnClose);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ShowPages.showWelcomePage(v.getContext());
+            }
+        });
     }
 }

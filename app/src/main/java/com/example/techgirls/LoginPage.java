@@ -5,11 +5,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.techgirls.HelpClasses.DatabaseManager;
+import com.example.techgirls.HelpClasses.ShowPages;
 import com.example.techgirls.HelpClasses.ValidationManager;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
@@ -49,10 +51,12 @@ public class LoginPage extends AppCompatActivity {
                 }
             }
         });
+        ImageButton backBtn=findViewById(R.id.login_btnClose);
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ShowPages.showWelcomePage(v.getContext());
+            }
+        });
     }
-    public void signBackToWelcomePage2(View v) {
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
-    }
-
 }

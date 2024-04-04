@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.techgirls.HelpClasses.DatabaseManager;
 import com.example.techgirls.HelpClasses.NewsAdapter;
 import com.example.techgirls.HelpClasses.SharedData;
+import com.example.techgirls.HelpClasses.ShowPages;
 import com.example.techgirls.Models.NewsData;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -77,7 +78,7 @@ public class MainPage extends AppCompatActivity {
         addNewsbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showUploadNews(v);
+                ShowPages.showUploadNews(v.getContext());
             }
         });
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -95,10 +96,6 @@ public class MainPage extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-    }
-    public void showUploadNews (View v){
-        Intent intent = new Intent(this, UploadActivity.class);
-        startActivity(intent);
     }
     public void createButtons(LinearLayout layout){
         String[] itemThemes = SharedData.itemThemes;

@@ -33,7 +33,6 @@
                     android:layout_height="26dp"
                     android:layout_marginStart="2dp"
                     android:background="@android:color/transparent"
-                    android:onClick="showBackToMain"
                     android:scaleType="fitCenter"
                     app:srcCompat="@drawable/close_icon" />
 

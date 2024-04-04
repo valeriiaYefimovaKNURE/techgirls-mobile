@@ -17,7 +17,6 @@
             android:layout_marginStart="16dp"
             android:layout_marginBottom="28dp"
             android:background="@android:color/transparent"
-            android:onClick="signBackToWelcomePage"
             android:scaleType="fitCenter"
             app:layout_constraintBottom_toTopOf="@+id/textView5"
             app:layout_constraintStart_toStartOf="parent"

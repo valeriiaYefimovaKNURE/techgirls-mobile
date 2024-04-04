@@ -4,14 +4,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.widget.Toast;
 
-import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.NonNull;
 
 import com.example.techgirls.MainPage;
 import com.example.techgirls.Models.Users;
 import com.example.techgirls.R;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -24,6 +24,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class DatabaseManager {
     private final DatabaseReference table;
+    private FirebaseUser firebaseUser;
 
     public DatabaseManager() {
         FirebaseDatabase db = FirebaseDatabase.getInstance();
@@ -134,5 +135,8 @@ public class DatabaseManager {
     }
     public boolean isAdmin(String role){
         return role != null && (role.equals("ADMIN"));
+    }
+    public FirebaseUser getUser(){
+        return FirebaseAuth.getInstance().getCurrentUser();
     }
 }

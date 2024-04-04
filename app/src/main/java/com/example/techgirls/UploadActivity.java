@@ -25,6 +25,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.techgirls.HelpClasses.SharedData;
+import com.example.techgirls.HelpClasses.ShowPages;
 import com.example.techgirls.Models.NewsData;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -97,7 +98,6 @@ public class UploadActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (imageUri != null) {
                     uploadToFirebase(imageUri);
-                    //saveData();
                 } else
                     Toast.makeText(UploadActivity.this, "Please select image", Toast.LENGTH_SHORT).show();
 
@@ -106,7 +106,7 @@ public class UploadActivity extends AppCompatActivity {
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showBackToMain(v);
+                ShowPages.showMainPage(v.getContext());
             }
         });
     }
@@ -155,9 +155,5 @@ public class UploadActivity extends AppCompatActivity {
         ContentResolver contentResolver = getContentResolver();
         MimeTypeMap mime = MimeTypeMap.getSingleton();
         return mime.getExtensionFromMimeType(contentResolver.getType(fileUri));
-    }
-    public void showBackToMain(View v) {
-        Intent intent = new Intent(this, MainPage.class);
-        startActivity(intent);
     }
 }

@@ -10,13 +10,12 @@
         android:layout_height="match_parent">
 
         <ImageButton
-            android:id="@+id/signUp_btnClose"
+            android:id="@+id/login_btnClose"
             android:layout_width="25dp"
             android:layout_height="26dp"
             android:layout_marginStart="16dp"
             android:layout_marginBottom="84dp"
             android:background="@android:color/transparent"
-            android:onClick="signBackToWelcomePage2"
             android:scaleType="fitCenter"
             app:layout_constraintBottom_toTopOf="@+id/textView4"
             app:layout_constraintStart_toStartOf="parent"
