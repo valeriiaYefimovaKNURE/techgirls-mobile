@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".MainPage">
+    tools:context=".MainPage"
+    >
 
     <ScrollView
         android:id="@+id/scrollView3"
@@ -16,48 +18,47 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        >
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            >
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/constraintLayout"
                 android:layout_width="match_parent"
-                android:layout_height="185dp"
-                android:layout_marginBottom="-30dp"
-                android:background="@color/pink2">
-
-                <TextView
-                    android:id="@+id/welcomeText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="32dp"
-                    android:layout_marginTop="32dp"
-                    android:text="@string/hello"
-                    android:textColor="@color/black"
-                    android:textSize="24sp"
-                    android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
+                android:layout_height="150dp"
+                android:background="@color/pink2"
+                >
                 <ImageView
                     android:id="@+id/imageView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:scaleType="fitEnd"
                     android:visibility="visible"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
                     tools:srcCompat="@drawable/asset_2" />
+                <TextView
+                    android:id="@+id/welcomeText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="32dp"
+                    android:text="@string/hello"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <com.google.android.material.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/floatingActionButton"
+                    android:id="@+id/notification_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
@@ -66,7 +67,7 @@
                     android:contentDescription="Налаштування"
                     android:focusable="true"
                     android:visibility="visible"
-                    app:layout_constraintEnd_toEndOf="@+id/imageView"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.914"
                     app:layout_constraintStart_toEndOf="@+id/welcomeText"
                     app:layout_constraintTop_toTopOf="parent"
@@ -82,11 +83,12 @@
                     android:contentDescription="Додати публікацію"
                     android:focusable="true"
                     android:visibility="visible"
-                    app:layout_constraintEnd_toStartOf="@+id/floatingActionButton"
+                    app:layout_constraintEnd_toStartOf="@+id/notification_button"
                     app:layout_constraintHorizontal_bias="0.859"
                     app:layout_constraintStart_toEndOf="@+id/welcomeText"
                     app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/baseline_edit_document_24" />
+
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -119,10 +121,12 @@
 
             <GridView
                 android:id="@+id/gridView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:numColumns="2"
-                android:layout_margin="4dp"/>
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:paddingBottom="10dp"
+                android:elevation="4dp"
+                android:numColumns="2" />
 
 
         </LinearLayout>

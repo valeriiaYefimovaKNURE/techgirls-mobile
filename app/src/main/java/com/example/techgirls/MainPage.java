@@ -28,7 +28,6 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 public class MainPage extends AppCompatActivity {
-    DatabaseManager databaseManager=new DatabaseManager();
     TextView welcomeText;
     FloatingActionButton addNewsbtn;
 
@@ -46,13 +45,19 @@ public class MainPage extends AppCompatActivity {
         createButtons(buttonsLayout);
 
         welcomeText = findViewById(R.id.welcomeText);
-        String name = getIntent().getStringExtra("name");
-        String role = getIntent().getStringExtra("role");
+
+        String name=SharedData.getUserName(this);
+        String role=SharedData.getUserRole(this);
+        String email=SharedData.getUserEmail(this);
+        String login=SharedData.getUserLogin(this);
+        String gender=SharedData.getUserGender(this);
+        String birthday=SharedData.getUserBirthday(this);
+        String password=SharedData.getUserPassword(this);
 
         welcomeText.setText(String.format(getString(R.string.hello), name));
 
         addNewsbtn = findViewById(R.id.addNews_button);
-        if (databaseManager.isEditor(role) || databaseManager.isAdmin(role)) {
+        if (DatabaseManager.isEditor(role) || DatabaseManager.isAdmin(role)) {
             addNewsbtn.setVisibility(View.VISIBLE);
         } else addNewsbtn.setVisibility(View.INVISIBLE);
 
@@ -87,15 +92,11 @@ public class MainPage extends AppCompatActivity {
                 NewsData newsData = newsList.get(position);
 
                 Intent intent = new Intent(MainPage.this, NewsActivity.class);
-                intent.putExtra("Image", newsData.getDataImage());
-                intent.putExtra("Title", newsData.getDataTitle());
-                intent.putExtra("Caption", newsData.getDataCaption());
-                intent.putExtra("Text",newsData.getDataText());
-                intent.putExtra("Link",newsData.getDataLink());
-                intent.putExtra("Theme",newsData.getDataTheme());
+                SharedData.putNewsInfo(intent,newsData);
                 startActivity(intent);
             }
         });
+        SharedData.putUserInfo(this,name,email,login,birthday,gender,password,role);
     }
     public void createButtons(LinearLayout layout){
         String[] itemThemes = SharedData.itemThemes;

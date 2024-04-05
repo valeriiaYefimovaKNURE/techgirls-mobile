@@ -103,7 +103,13 @@
                     android:padding="16dp"
                     android:textColor="@color/purple"
                     android:textSize="14sp" />
-
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/outlinedGenderField"
+                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    app:errorEnabled="true">
                 <AutoCompleteTextView
                     android:id="@+id/uploadTheme"
                     android:layout_width="match_parent"
@@ -111,13 +117,13 @@
                     android:layout_gravity="start|center_vertical"
                     android:layout_marginTop="20dp"
                     android:background="@drawable/lavender_border"
-                    android:drawableEnd="@drawable/baseline_arrow_drop_down_24"
-                    android:hint="Оберіть тему"
                     android:inputType="none"
-                    android:padding="16dp"
+                    android:padding="18dp"
+                    android:hint="Оберіть тему"
                     android:textColor="@color/purple"
                     android:textSize="14sp"
                     tools:ignore="SpeakableTextPresentCheck" />
+                </com.google.android.material.textfield.TextInputLayout>
 
                 <Button
                     android:id="@+id/uploadButton_save"

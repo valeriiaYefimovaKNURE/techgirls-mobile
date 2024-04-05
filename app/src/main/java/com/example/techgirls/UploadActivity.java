@@ -44,9 +44,7 @@ public class UploadActivity extends AppCompatActivity {
     Button saveButton;
     ImageButton backButton;
     EditText uploadTitle, uploadCaption, uploadText, uploadLink, uploadTheme;
-    String imageURL;
     Uri imageUri;
-
 
     private final String[] itemThemes = SharedData.itemThemes;
     AutoCompleteTextView autoCompleteTextView;
@@ -56,6 +54,7 @@ public class UploadActivity extends AppCompatActivity {
     protected void onCreate(Bundle saveInstanceState) {
         super.onCreate(saveInstanceState);
         setContentView(R.layout.news_add);
+
         saveButton = findViewById(R.id.uploadButton_save);
         backButton=findViewById(R.id.uploadButton_close);
 
@@ -69,6 +68,14 @@ public class UploadActivity extends AppCompatActivity {
         uploadText = findViewById(R.id.uploadText);
         uploadLink = findViewById(R.id.uploadLink);
         uploadTheme = autoCompleteTextView;
+
+        String name=SharedData.getUserName(this);
+        String role=SharedData.getUserRole(this);
+        String email=SharedData.getUserEmail(this);
+        String login=SharedData.getUserLogin(this);
+        String gender=SharedData.getUserGender(this);
+        String birthday=SharedData.getUserBirthday(this);
+        String password=SharedData.getUserPassword(this);
 
         ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
@@ -109,6 +116,7 @@ public class UploadActivity extends AppCompatActivity {
                 ShowPages.showMainPage(v.getContext());
             }
         });
+        SharedData.putUserInfo(this,name,email,login,birthday,gender,password,role);
     }
 
     public void uploadToFirebase(Uri uri) {

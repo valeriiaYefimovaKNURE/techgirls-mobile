@@ -24,7 +24,7 @@
 
     <string name="lorem_ipsum"> </string>
 
-    <string name="hello">Hello, %s!</string>
+    <string name="hello">Привіт, %s!</string>
 
     <string name="API_KEY_TOMTOM">6WBsywKI5kbmIKjnCmNJCPIGXvGhtqAt</string>
 </resources>

@@ -2,6 +2,7 @@ package com.example.techgirls.HelpClasses;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -80,6 +81,10 @@ public class DatabaseManager {
 
         table.child(Login).setValue(user);
 
+        SharedData.putUserInfo(context,user);
+        /*FirebaseUser userReg = FirebaseAuth.getInstance().getCurrentUser();
+        DatabaseManager.saveToken(context, userReg);*/
+
         Toast.makeText(context, R.string.toast_signup_succes, Toast.LENGTH_SHORT).show();
     }
     public void registerUserGoogle(Context context,String Email, String Name, String Login, String Password, String Birth, String Gender){
@@ -106,14 +111,11 @@ public class DatabaseManager {
                         String genderFromDB = snapshot.child(login).child("gender").getValue(String.class);
                         String role=snapshot.child(login).child("role").getValue(String.class);
 
+                       /* FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                        DatabaseManager.saveToken(context, user);*/
+
                         Intent intent = new Intent(context, MainPage.class);
-                        intent.putExtra("name", nameFromDB);
-                        intent.putExtra("email", emailFromDB);
-                        intent.putExtra("login", loginFromDB);
-                        intent.putExtra("birthday", dateFromDB);
-                        intent.putExtra("gender", genderFromDB);
-                        intent.putExtra("password", passwordFromDB);
-                        intent.putExtra("role",role);
+                        SharedData.putUserInfo(intent,nameFromDB,emailFromDB,loginFromDB,dateFromDB,genderFromDB,passwordFromDB,role);
                         context.startActivity(intent);
                     }
                     else {
@@ -130,13 +132,23 @@ public class DatabaseManager {
             }
         });
     }
-    public boolean isEditor(String role){
+    public static boolean isEditor(String role){
         return role != null && (role.equals("EDITOR"));
     }
-    public boolean isAdmin(String role){
+    public static boolean isAdmin(String role){
         return role != null && (role.equals("ADMIN"));
     }
     public FirebaseUser getUser(){
         return FirebaseAuth.getInstance().getCurrentUser();
+    }
+    private static void saveToken(Context context, FirebaseUser user) {
+        if (user != null) {
+            String accessToken = user.getIdToken(true).getResult().getToken();
+
+            SharedPreferences sharedPreferences = context.getSharedPreferences("my_preferences", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString("access_token", accessToken);
+            editor.apply();
+        }
     }
 }
