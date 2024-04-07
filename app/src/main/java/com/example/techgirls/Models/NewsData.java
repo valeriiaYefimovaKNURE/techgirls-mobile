@@ -7,6 +7,7 @@ public class NewsData {
     private String dataLink;
     private String dataTheme;
     private String dataImage;
+    private String key;
     public NewsData(){}
 
     public NewsData(String dataTitle, String dataCaption, String dataText, String dataLink, String dataTheme, String dataImage) {
@@ -17,7 +18,13 @@ public class NewsData {
         this.dataTheme = dataTheme;
         this.dataImage=dataImage;
     }
+    public String getKey() {
+        return key;
+    }
 
+    public void setKey(String key) {
+        this.key = key;
+    }
     public String getDataTitle() {
         return dataTitle;
     }

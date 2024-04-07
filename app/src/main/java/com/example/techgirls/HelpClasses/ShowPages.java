@@ -6,7 +6,9 @@ import android.content.Intent;
 import com.example.techgirls.LoginPage;
 import com.example.techgirls.MainActivity;
 import com.example.techgirls.MainPage;
+import com.example.techgirls.NewsUpdate;
 import com.example.techgirls.RegisterPage;
+import com.example.techgirls.SettingsPage;
 import com.example.techgirls.UploadActivity;
 
 public class ShowPages {
@@ -28,6 +30,14 @@ public class ShowPages {
     }
     public static void showUploadNews (Context context){
         Intent intent = new Intent(context, UploadActivity.class);
+        context.startActivity(intent);
+    }
+    public static void showSettings (Context context){
+        Intent intent = new Intent(context, SettingsPage.class);
+        context.startActivity(intent);
+    }
+    public static void showUpdateNews (Context context){
+        Intent intent = new Intent(context, NewsUpdate.class);
         context.startActivity(intent);
     }
 }

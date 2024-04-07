@@ -1,10 +1,8 @@
 package com.example.techgirls;
 
-import android.content.Intent;
-import android.net.Uri;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
-import android.view.ContextMenu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -12,17 +10,23 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.view.menu.MenuBuilder;
 
-import com.bumptech.glide.Glide;
 import com.example.techgirls.HelpClasses.DatabaseManager;
 import com.example.techgirls.HelpClasses.SharedData;
 import com.example.techgirls.HelpClasses.ShowPages;
+import com.example.techgirls.HelpClasses.UserManager;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 public class NewsActivity extends AppCompatActivity {
     ImageView settingsBtn;
+    String key="";
+    String imageUrl="";
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.news_view);
@@ -36,13 +40,7 @@ public class NewsActivity extends AppCompatActivity {
         TextView linkView=findViewById(R.id.link);
         TextView themeView=findViewById(R.id.themes);
 
-        String name=SharedData.getUserName(this);
-        String role=SharedData.getUserRole(this);
-        String email=SharedData.getUserEmail(this);
-        String login=SharedData.getUserLogin(this);
-        String gender=SharedData.getUserGender(this);
-        String birthday=SharedData.getUserBirthday(this);
-        String password=SharedData.getUserPassword(this);
+        String role= UserManager.getInstance(this).getRole();
 
         SharedData.getNewsData(this,imageView,titleView,captionView,textView,linkView,themeView);
 
@@ -58,6 +56,8 @@ public class NewsActivity extends AppCompatActivity {
                 ShowPages.showMainPage(v.getContext());
             }
         });
+        key=getIntent().getStringExtra("Key");
+        imageUrl=getIntent().getStringExtra("Image");
         settingsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -68,10 +68,12 @@ public class NewsActivity extends AppCompatActivity {
                     public boolean onMenuItemClick(MenuItem item) {
                         int id = item.getItemId();
                         if(id==R.id.item_1){
-                            Toast.makeText(NewsActivity.this,"Edit pressed",Toast.LENGTH_LONG).show();
+                            SharedData.putNewsInfo(NewsActivity.this,imageUrl,titleView.toString(),captionView.toString(),textView.toString(),
+                                    linkView.toString(),themeView.toString(),key);
+                            ShowPages.showUpdateNews(NewsActivity.this);
                         }
                         else if(id==R.id.item_2){
-                            Toast.makeText(NewsActivity.this,"Delete pressed",Toast.LENGTH_LONG).show();
+                            DeleteNews();
                         }
                         return true;
                     }
@@ -79,6 +81,32 @@ public class NewsActivity extends AppCompatActivity {
                 popupMenu.show();
             }
         });
-        SharedData.putUserInfo(this,name,email,login,birthday,gender,password,role);
+    }
+    private void DeleteNews(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Ви точно хочете видалити цей запис?")
+                .setCancelable(false)
+                .setPositiveButton("Так", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        final DatabaseReference reference= FirebaseDatabase.getInstance().getReference("News");
+                        FirebaseStorage storage=FirebaseStorage.getInstance();
+                        StorageReference storageReference=storage.getReferenceFromUrl(imageUrl);
+                        storageReference.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void unused) {
+                                reference.child(key).removeValue();
+                                Toast.makeText(NewsActivity.this,"Видалено",Toast.LENGTH_SHORT).show();
+                                ShowPages.showMainPage(NewsActivity.this);
+                            }
+                        });
+                    }
+                })
+                .setNegativeButton("Ні", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
     }
 }

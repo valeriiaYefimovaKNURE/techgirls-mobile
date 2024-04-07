@@ -46,9 +46,7 @@ public class UploadActivity extends AppCompatActivity {
     EditText uploadTitle, uploadCaption, uploadText, uploadLink, uploadTheme;
     Uri imageUri;
 
-    private final String[] itemThemes = SharedData.itemThemes;
     AutoCompleteTextView autoCompleteTextView;
-    ArrayAdapter<String> adapterItems;
 
     @Override
     protected void onCreate(Bundle saveInstanceState) {
@@ -59,8 +57,7 @@ public class UploadActivity extends AppCompatActivity {
         backButton=findViewById(R.id.uploadButton_close);
 
         autoCompleteTextView = findViewById(R.id.uploadTheme);
-        adapterItems = new ArrayAdapter<String>(this, R.layout.item_list, itemThemes);
-        autoCompleteTextView.setAdapter(adapterItems);
+        SharedData.themeAutoCompleteTextView(this,autoCompleteTextView);
 
         uploadImage = findViewById(R.id.uploadImage);
         uploadTitle = findViewById(R.id.uploadTitle);
@@ -68,14 +65,6 @@ public class UploadActivity extends AppCompatActivity {
         uploadText = findViewById(R.id.uploadText);
         uploadLink = findViewById(R.id.uploadLink);
         uploadTheme = autoCompleteTextView;
-
-        String name=SharedData.getUserName(this);
-        String role=SharedData.getUserRole(this);
-        String email=SharedData.getUserEmail(this);
-        String login=SharedData.getUserLogin(this);
-        String gender=SharedData.getUserGender(this);
-        String birthday=SharedData.getUserBirthday(this);
-        String password=SharedData.getUserPassword(this);
 
         ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
@@ -116,7 +105,6 @@ public class UploadActivity extends AppCompatActivity {
                 ShowPages.showMainPage(v.getContext());
             }
         });
-        SharedData.putUserInfo(this,name,email,login,birthday,gender,password,role);
     }
 
     public void uploadToFirebase(Uri uri) {
@@ -126,7 +114,8 @@ public class UploadActivity extends AppCompatActivity {
         String link = uploadLink.getText().toString().trim();
         String theme = uploadTheme.getText().toString().trim();
 
-        final StorageReference fileRef = storageReference.child("Images").child(System.currentTimeMillis() + "." + getFileExtension(uri));
+        final StorageReference fileRef = storageReference.child("Images")
+                .child(System.currentTimeMillis() + "." + getFileExtension(uri));
 
         fileRef.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
@@ -136,6 +125,7 @@ public class UploadActivity extends AppCompatActivity {
                     public void onSuccess(Uri uri) {
                         NewsData newsData = new NewsData(title, caption, text, link, theme, uri.toString());
                         String key = databaseReference.push().getKey();
+                        newsData.setKey(key);
                         databaseReference.child(key).setValue(newsData);
                         AlertDialog.Builder builder = new AlertDialog.Builder(UploadActivity.this);
                         builder.setCancelable(false);

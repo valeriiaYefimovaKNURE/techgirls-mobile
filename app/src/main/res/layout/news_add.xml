@@ -103,8 +103,9 @@
                     android:padding="16dp"
                     android:textColor="@color/purple"
                     android:textSize="14sp" />
+
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/outlinedGenderField"
+                    android:id="@+id/outlinedThemeField"
                     style="@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

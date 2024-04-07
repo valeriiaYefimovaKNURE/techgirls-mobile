@@ -81,9 +81,8 @@ public class DatabaseManager {
 
         table.child(Login).setValue(user);
 
-        SharedData.putUserInfo(context,user);
-        /*FirebaseUser userReg = FirebaseAuth.getInstance().getCurrentUser();
-        DatabaseManager.saveToken(context, userReg);*/
+        UserManager.getInstance(context).saveUser(Login,Email,Password,Name,Birth,Gender,"USER");
+        saveDataSharedPreference(context,Login,Email);
 
         Toast.makeText(context, R.string.toast_signup_succes, Toast.LENGTH_SHORT).show();
     }
@@ -111,11 +110,10 @@ public class DatabaseManager {
                         String genderFromDB = snapshot.child(login).child("gender").getValue(String.class);
                         String role=snapshot.child(login).child("role").getValue(String.class);
 
-                       /* FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                        DatabaseManager.saveToken(context, user);*/
+                        saveDataSharedPreference(context,loginFromDB,emailFromDB);
 
                         Intent intent = new Intent(context, MainPage.class);
-                        SharedData.putUserInfo(intent,nameFromDB,emailFromDB,loginFromDB,dateFromDB,genderFromDB,passwordFromDB,role);
+                        UserManager.getInstance(context).saveUser(loginFromDB,emailFromDB,passwordFromDB,nameFromDB,dateFromDB,genderFromDB,role);
                         context.startActivity(intent);
                     }
                     else {
@@ -141,14 +139,12 @@ public class DatabaseManager {
     public FirebaseUser getUser(){
         return FirebaseAuth.getInstance().getCurrentUser();
     }
-    private static void saveToken(Context context, FirebaseUser user) {
-        if (user != null) {
-            String accessToken = user.getIdToken(true).getResult().getToken();
-
-            SharedPreferences sharedPreferences = context.getSharedPreferences("my_preferences", Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putString("access_token", accessToken);
-            editor.apply();
-        }
+    private static void saveDataSharedPreference(Context context,String login, String email){
+        SharedPreferences sh=context.getSharedPreferences("mePowerLogin",Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor=sh.edit();
+        editor.putBoolean("loginCounter",true);
+        editor.putString("userLogin",login);
+        editor.putString("userEmail",email);
+        editor.apply();
     }
 }

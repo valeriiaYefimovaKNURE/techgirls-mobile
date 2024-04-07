@@ -19,16 +19,10 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
     public Button btnLogin, btnReg;
-    DatabaseManager databaseManager;
-    private FirebaseAuth auth;
     @Override
     protected void onStart() {
         super.onStart();
-        auth = FirebaseAuth.getInstance();
-        if (auth.getCurrentUser() != null){
-            ShowPages.showMainPage(this);
-        }
-        //checkAccessToken();
+        checkAccessToken();
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,14 +46,14 @@ public class MainActivity extends AppCompatActivity {
         });
     }
     private void checkAccessToken() {
-        SharedPreferences sharedPreferences = getSharedPreferences("my_preferences", Context.MODE_PRIVATE);
-        String accessToken = sharedPreferences.getString("access_token", null);
-
-        if (accessToken != null) {
+        SharedPreferences sharedPreferences = getSharedPreferences("mePowerLogin", Context.MODE_PRIVATE);
+        Boolean counter=sharedPreferences.getBoolean("loginCounter",Boolean.valueOf(String.valueOf(MODE_PRIVATE)));
+        String login=sharedPreferences.getString("userLogin",String.valueOf(MODE_PRIVATE));
+        String email=sharedPreferences.getString("userEmail",String.valueOf(MODE_PRIVATE));
+        if(counter){
             ShowPages.showMainPage(this);
-            finish();
-        } else {
-            Toast.makeText(this, "Access token not found", Toast.LENGTH_SHORT).show();
+        }else{
+            Toast.makeText(this,"Hi!",Toast.LENGTH_SHORT).show();
         }
     }
 }

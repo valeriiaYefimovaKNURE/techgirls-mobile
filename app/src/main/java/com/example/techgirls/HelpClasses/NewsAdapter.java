@@ -13,6 +13,7 @@ import com.example.techgirls.Models.NewsData;
 import com.example.techgirls.R;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class NewsAdapter extends BaseAdapter {
     private ArrayList<NewsData> dataList;
@@ -55,7 +56,23 @@ public class NewsAdapter extends BaseAdapter {
         gridTitle.setText(dataList.get(position).getDataTitle());
         gridCaption.setText(dataList.get(position).getDataCaption());
 
-
+        return view;
+    }
+    public View getViewByTheme(int position, View view, ViewGroup parent, String theme){
+        if(layoutInflater==null){
+            layoutInflater=(LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        }
+        if(view==null){
+            view=layoutInflater.inflate(R.layout.grid_item,null);
+        }
+        if(Objects.equals(dataList.get(position).getDataTheme(), theme)){
+            ImageView gridImage=view.findViewById(R.id.gridImage);
+            TextView gridTitle=view.findViewById(R.id.gridTitle);
+            TextView gridCaption=view.findViewById(R.id.gridCaption);
+            Glide.with(context).load(dataList.get(position).getDataImage()).into(gridImage);
+            gridTitle.setText(dataList.get(position).getDataTitle());
+            gridCaption.setText(dataList.get(position).getDataCaption());
+        }
         return view;
     }
 }
