@@ -20,6 +20,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 import com.example.techgirls.HelpClasses.DatabaseManager;
+import com.example.techgirls.HelpClasses.SharedData;
 import com.example.techgirls.HelpClasses.ShowPages;
 import com.example.techgirls.HelpClasses.ValidationManager;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -41,9 +42,7 @@ public class RegisterPage extends AppCompatActivity {
     private TextInputLayout passwordLayout, emailLayout, nameLayout, loginLayout, birthdayLayout, genderLayout;
     private EditText email, name, login, birthday, gender, password;
 
-    private final String[] item={"Male","Female","Uknown"};
     AutoCompleteTextView autoCompleteTextView;
-    ArrayAdapter<String> adapterItems;
     private AtomicBoolean isEmailValid = new AtomicBoolean(false);
     private AtomicBoolean isLoginValid = new AtomicBoolean(false);
 
@@ -54,15 +53,7 @@ public class RegisterPage extends AppCompatActivity {
         setContentView(R.layout.sign_up);
 
         autoCompleteTextView =findViewById(R.id.signUp_list);
-        adapterItems=new ArrayAdapter<String>(this,R.layout.item_list,item);
-        autoCompleteTextView.setAdapter(adapterItems);
-        autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int i, long id) {
-                String item=parent.getItemAtPosition(i).toString();
-                Toast.makeText(RegisterPage.this,"Item: "+item,Toast.LENGTH_SHORT).show();
-            }
-        });
+        SharedData.genderAutoCompleteTextView(this,autoCompleteTextView);
 
         emailLayout=findViewById(R.id.outlinedEmailField);
         passwordLayout=findViewById(R.id.outlinedPasswordField);
@@ -79,7 +70,6 @@ public class RegisterPage extends AppCompatActivity {
         gender=autoCompleteTextView;
 
         Button btnNext = findViewById(R.id.btnNext);
-        Button btnGoogle=findViewById(R.id.signUp_Google);
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

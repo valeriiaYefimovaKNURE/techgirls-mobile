@@ -1,8 +1,6 @@
 package com.example.techgirls;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -12,12 +10,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.example.techgirls.HelpClasses.DatabaseManager;
 import com.example.techgirls.HelpClasses.ShowPages;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
-public class MainActivity extends AppCompatActivity {
+public class WelcomeActivity extends AppCompatActivity {
     public Button btnLogin, btnReg;
     @Override
     protected void onStart() {
@@ -52,8 +47,6 @@ public class MainActivity extends AppCompatActivity {
         String email=sharedPreferences.getString("userEmail",String.valueOf(MODE_PRIVATE));
         if(counter){
             ShowPages.showMainPage(this);
-        }else{
-            Toast.makeText(this,"Hi!",Toast.LENGTH_SHORT).show();
         }
     }
 }

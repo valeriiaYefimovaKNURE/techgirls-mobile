@@ -7,7 +7,7 @@
 
     <activity
         android:id="@+id/WelcomePage"
-        android:name="com.example.techgirls.MainActivity"
+        android:name="com.example.techgirls.WelcomeActivity"
         android:label="welcome_page"
         tools:layout="@layout/welcome_page" />
     <activity

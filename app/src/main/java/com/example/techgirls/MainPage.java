@@ -1,8 +1,15 @@
 package com.example.techgirls;
 
+import static android.provider.Settings.System.getString;
+import static androidx.core.content.ContentProviderCompat.requireContext;
+
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
@@ -10,7 +17,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
 
 import com.example.techgirls.HelpClasses.DatabaseManager;
 import com.example.techgirls.HelpClasses.NewsAdapter;
@@ -29,6 +39,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
+
 public class MainPage extends AppCompatActivity {
     TextView welcomeText;
     FloatingActionButton addNewsbtn, settingsBtn;
@@ -39,17 +50,21 @@ public class MainPage extends AppCompatActivity {
     NewsAdapter adapter;
     LinearLayout buttonsLayout;
     final private DatabaseReference databaseReference= FirebaseDatabase.getInstance().getReference("News");
+    @Override
+    protected void onStart() {
+        super.onStart();
 
+        buttonsLayout=findViewById(R.id.themeButtonsLayout);
+        createButtons(buttonsLayout);
+    }
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_page);
 
-        buttonsLayout=findViewById(R.id.themeButtonsLayout);
-        createButtons(buttonsLayout);
-
         welcomeText = findViewById(R.id.welcomeText);
 
         String name= UserManager.getInstance(this).getName();
+        name = name.replace(" ", "\n");
         String role=UserManager.getInstance(this).getRole();
 
         welcomeText.setText(String.format(getString(R.string.hello), name));
@@ -141,7 +156,7 @@ public class MainPage extends AppCompatActivity {
                 LinearLayout.LayoutParams.WRAP_CONTENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT
         );
-        params.setMargins(4, 0, 4, 0);
+        params.setMargins(12, 0,0, 0);
         params.weight = 1;
         button.setLayoutParams(params);
         button.setOnClickListener(new View.OnClickListener() {
@@ -150,6 +165,7 @@ public class MainPage extends AppCompatActivity {
                 displayNewsByTheme(theme);
             }
         });
+        params.setMarginEnd(12);
         layout.addView(button);
     }
     private void displayNewsByTheme(String theme) {

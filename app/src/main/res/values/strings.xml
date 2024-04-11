@@ -1,6 +1,10 @@
 <resources>
     <string name="app_name">mePower</string>
-    <string name="action_settings">Settings</string>
+    <string name="welcomePage_hello">Вітємо у mePower</string>
+    <string name="welcomePage_text">Почувай себе комфортно</string>
+    <string name="welcomePage_login">Увійти</string>
+    <string name="welcomePage_registartion">Зареєструватись</string>
+    <string name="action_settings">Налаштування</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
     <string name="second_fragment_label">Second Fragment</string>
@@ -27,4 +31,39 @@
     <string name="hello">Привіт, %s!</string>
 
     <string name="API_KEY_TOMTOM">6WBsywKI5kbmIKjnCmNJCPIGXvGhtqAt</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_gallery">Gallery</string>
+    <string name="menu_slideshow">Slideshow</string>
+    <string name="main_sortButton_All">Всі</string>
+    <string name="contentDescription_main_button_addNews">Додати нову публікацію</string>
+    <string name="contentDescription_main_button_settings">Перейти до налаштувань</string>
+    <string name="backOnMainPage_button">Повернутись на головну сторінку</string>
+    <string name="logout_text">Вийти з акаунту</string>
+    <string name="aboutApp_text">Про додаток</string>
+    <string name="Login">Логін</string>
+    <string name="Password">Пароль</string>
+    <string name="Abo">Або</string>
+    <string name="Enter">Вхід</string>
+    <string name="Happy_to_see_you">Ради тебе бачити!</string>
+    <string name="Registartion">Реєстрація</string>
+    <string name="Email">Пошта</string>
+    <string name="Name">Ім\'я</string>
+    <string name="Birthday">dd/mm/yyyy</string>
+    <string name="gender">Пол</string>
+    <string name="settings_userInfo">Дані користувача</string>
+    <string name="login_with_google">Login with Google</string>
+    <string name="developers">Ірина Лабенко,\nБогдана(менеджер),\nОльга(менеджер),\nЄфімова Валерія(розробниця додатку)</string>
+    <string name="user_info">Дані користувача</string>
+    <string name="back_to_settings">Повернутись до налаштувань</string>
+    <string name="change">Змінити</string>
+    <string name="date_birthday">День народження</string>
+    <string name="change_password">Змінити пароль</string>
+
 </resources>

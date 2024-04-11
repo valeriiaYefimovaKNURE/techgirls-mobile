@@ -1,24 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="background_color">#fef7ff</color>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
-    <color name="error">#c22525</color>
-    <color name="pink1">#e3688f</color>
-    <color name="pink2">#E1AFD1</color>
-    <color name="beige">#FFE6E6</color>
-    <color name="purple_light">#AD88C6</color>
-    <color name="purple_background">#decfe8</color>
+
+    <!--Purple-->
     <color name="purple">#514881</color>
     <color name="lavender">#7469B6</color>
-    <color name="grey_hint">#c0c0c0</color>
-    <color name="red_background">#c93c3c</color>
+    <color name="purple_light">#AD88C6</color>
+    <color name="purple_mauve">#D8C0F4</color>
+    <color name="purple_pale">#ECD3ED</color>
+    <color name="purple_background">#decfe8</color>
+    <color name="purple_logo">#AC88BE</color>
+    <color name="violet">#976BAD</color>
+    <color name="violet_dark">#734A87</color>
 
-    <color name="bistre">#34211b</color>
-    <color name="glaucous">#6073B5</color>
-    <color name="alabaster">#F5F3E7</color>
+
+    <!--Pink-->
+    <color name="pink1">#e3688f</color>
+    <color name="pink2">#E1AFD1</color>
     <color name="pink">#F7BBC8</color>
     <color name="puce">#E190A2</color>
     <color name="cerise">#D14667</color>
+    <color name="misty_rose">#FFE6E6</color>
+
+    <!--Light-->
+    <color name="beige">#FFE6E6</color>
+    <color name="alabaster">#F5F3E7</color>
+    <color name="white">#FFFFFFFF</color>
+
+
+    <!--Dark-->
+    <color name="black">#FF000000</color>
+    <color name="bistre">#34211b</color>
+
+
+    <!--Red-->
+    <color name="error">#c22525</color>
+    <color name="red_background">#c93c3c</color>
+
+
+    <!--Blue-->
+    <color name="glaucous">#6073B5</color>
+
+
+    <!--Grey-->
+    <color name="grey_hint">#c0c0c0</color>
+
+    <!--Yellow-->
+    <color name="yellow">#ffd966</color>
+    <color name="yellow2">#f1c232</color>
 
 </resources>

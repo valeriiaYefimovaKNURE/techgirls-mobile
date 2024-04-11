@@ -130,6 +130,7 @@ public class DatabaseManager {
             }
         });
     }
+
     public static boolean isEditor(String role){
         return role != null && (role.equals("EDITOR"));
     }
@@ -139,7 +140,7 @@ public class DatabaseManager {
     public FirebaseUser getUser(){
         return FirebaseAuth.getInstance().getCurrentUser();
     }
-    private static void saveDataSharedPreference(Context context,String login, String email){
+    public static void saveDataSharedPreference(Context context,String login, String email){
         SharedPreferences sh=context.getSharedPreferences("mePowerLogin",Context.MODE_PRIVATE);
         SharedPreferences.Editor editor=sh.edit();
         editor.putBoolean("loginCounter",true);

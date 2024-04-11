@@ -18,9 +18,15 @@ import org.checkerframework.checker.units.qual.C;
 
 public class SharedData {
     public static String[] itemThemes = {"Наука", "Соціальне", "Новини","Спорт","Подкасти","Навчання","Мода"};
+    public static String[] itemGender={"Жінка","Чоловік","Невідомо"};
     public static void themeAutoCompleteTextView(Context context,AutoCompleteTextView textView){
         ArrayAdapter<String> adapterItems;
         adapterItems = new ArrayAdapter<String>(context, R.layout.item_list, itemThemes);
+        textView.setAdapter(adapterItems);
+    }
+    public static void genderAutoCompleteTextView(Context context,AutoCompleteTextView textView){
+        ArrayAdapter<String> adapterItems;
+        adapterItems = new ArrayAdapter<String>(context, R.layout.item_list, itemGender);
         textView.setAdapter(adapterItems);
     }
     public static void putNewsInfo(Intent intent, NewsData news){
@@ -58,5 +64,14 @@ public class SharedData {
         textView.setText(intent.getStringExtra("Text"));
         linkView.setText(intent.getStringExtra("Link"));
         themeView.setText(intent.getStringExtra("Theme"));
+        intent.getStringExtra("Key");
+    }
+    public static String getNewsKey(Context context){
+        Intent intent = ((Activity) context).getIntent();
+        return intent.getStringExtra("Key");
+    }
+    public static String getNewsImageUrl(Context context){
+        Intent intent = ((Activity) context).getIntent();
+        return intent.getStringExtra("Image");
     }
 }

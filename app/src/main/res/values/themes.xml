@@ -1,14 +1,25 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme.TechGirls" parent="Theme.Material3.DayNight.NoActionBar" >
+    <style name="Base.Theme.TechGirls" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
         <item name="android:windowFullscreen">true</item>
         <item name="android:textColorPrimary">@color/bistre</item>
-        <item name="colorPrimary">@color/glaucous</item>
+        <item name="textFillColor">@color/bistre</item>
+        <item name="colorPrimary">@color/lavender</item>
         <item name="popupMenuBackground">@drawable/popup_background</item>
+        <item name="fontFamily">@font/ubuntu</item>
+        <item name="colorSecondary">#00FF00</item> <!-- Цвет иконки -->
+    </style>
+    <style name="Theme.TechGirls" parent="Base.Theme.TechGirls" />
+
+    <style name="Base.Theme.TechGirls.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="Theme.TechGirls" parent="Base.Theme.TechGirls" />
+    <style name="Base.Theme.TechGirls.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Base.Theme.TechGirls.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 </resources>

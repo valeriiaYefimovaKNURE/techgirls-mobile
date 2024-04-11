@@ -2,8 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" >
 
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -14,12 +15,16 @@
         android:supportsRtl="true"
         android:theme="@style/Base.Theme.TechGirls"
         tools:targetApi="31" >
+
         <meta-data
             android:name="com.google.android.actions"
             android:resource="@xml/data_extraction_rules" />
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
 
         <activity
-            android:name=".MainActivity"
+            android:name=".WelcomeActivity"
             android:exported="true"
             android:theme="@style/Base.Theme.TechGirls" >
             <intent-filter>
@@ -30,12 +35,13 @@
         </activity>
         <activity android:name=".RegisterPage" />
         <activity android:name=".LoginPage" />
-        <activity android:name=".MainPage"/>
-        <activity android:name=".UploadActivity"/>
-        <activity android:name=".NewsActivity"/>
-        <activity android:name=".SettingsPage"/>
-        <activity android:name=".NewsUpdate"/>
-
+        <activity android:name=".MainPage" />
+        <activity android:name=".UploadActivity" />
+        <activity android:name=".NewsActivity" />
+        <activity android:name=".SettingsPage" />
+        <activity android:name=".NewsUpdate" />
+        <activity android:name=".SettingsUser"/>
+        <activity android:name=".AboutAppPage"/>
     </application>
 
 </manifest>

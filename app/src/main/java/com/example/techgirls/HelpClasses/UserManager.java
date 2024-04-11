@@ -61,4 +61,45 @@ public class UserManager {
     public String getGender() {
         return sharedPreferences.getString(KEY_GENDER, "");
     }
+    public void setLogin(String username) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(KEY_LOGIN, username);
+        editor.apply();
+    }
+
+    public void setEmail(String email) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(KEY_EMAIL, email);
+        editor.apply();
+    }
+
+    public void setName(String name) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(KEY_NAME, name);
+        editor.apply();
+    }
+
+    public void setPassword(String password) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(KEY_PASSWORD, password);
+        editor.apply();
+    }
+
+    public void setRole(String role) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(KEY_ROLE, role);
+        editor.apply();
+    }
+
+    public void setBirthday(String birthday) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(KEY_BIRTHDAY, birthday);
+        editor.apply();
+    }
+
+    public void setGender(String gender) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(KEY_GENDER, gender);
+        editor.apply();
+    }
 }

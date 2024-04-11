@@ -3,9 +3,12 @@ package com.example.techgirls.HelpClasses;
 import android.content.Context;
 import android.content.Intent;
 
+import com.example.techgirls.AboutAppPage;
 import com.example.techgirls.LoginPage;
-import com.example.techgirls.MainActivity;
 import com.example.techgirls.MainPage;
+import com.example.techgirls.SettingsUser;
+import com.example.techgirls.WelcomeActivity;
+import com.example.techgirls.NewsActivity;
 import com.example.techgirls.NewsUpdate;
 import com.example.techgirls.RegisterPage;
 import com.example.techgirls.SettingsPage;
@@ -25,7 +28,7 @@ public class ShowPages {
         context.startActivity(intent);
     }
     public static void showWelcomePage(Context context){
-        Intent intent = new Intent(context, MainActivity.class);
+        Intent intent = new Intent(context, WelcomeActivity.class);
         context.startActivity(intent);
     }
     public static void showUploadNews (Context context){
@@ -38,6 +41,18 @@ public class ShowPages {
     }
     public static void showUpdateNews (Context context){
         Intent intent = new Intent(context, NewsUpdate.class);
+        context.startActivity(intent);
+    }
+    public static void showNews (Context context){
+        Intent intent = new Intent(context, NewsActivity.class);
+        context.startActivity(intent);
+    }
+    public static void showAboutAppPage(Context context){
+        Intent intent = new Intent(context, AboutAppPage.class);
+        context.startActivity(intent);
+    }
+    public static void showUserSettings(Context context){
+        Intent intent = new Intent(context, SettingsUser.class);
         context.startActivity(intent);
     }
 }

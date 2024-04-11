@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -21,6 +22,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
+import com.example.techgirls.HelpClasses.SharedData;
+import com.example.techgirls.HelpClasses.ShowPages;
 import com.example.techgirls.Models.NewsData;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -35,6 +38,7 @@ import com.google.firebase.storage.UploadTask;
 public class NewsUpdate extends AppCompatActivity {
     ImageView updateImage;
     Button updateButton;
+    ImageButton backButton;
     EditText updateTitle, updateCaption, updateText, updateLink;
     AutoCompleteTextView autoCompleteTextView;
     String title, caption, text, link,theme;
@@ -54,6 +58,7 @@ public class NewsUpdate extends AppCompatActivity {
         updateText=findViewById(R.id.updateText);
         updateLink=findViewById(R.id.updateLink);
         autoCompleteTextView=findViewById(R.id.uploadTheme);
+        backButton=findViewById(R.id.updateButton_close);
 
         ActivityResultLauncher<Intent> activityResultLauncher=registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
                 new ActivityResultCallback<ActivityResult>() {
@@ -66,7 +71,10 @@ public class NewsUpdate extends AppCompatActivity {
                         }else Toast.makeText(NewsUpdate.this,"No image selected",Toast.LENGTH_SHORT).show();
                     }
                 });
-        Bundle bundle=getIntent().getExtras();
+        SharedData.getNewsData(this,updateImage,updateTitle,updateCaption,updateText,updateLink,autoCompleteTextView);
+        key=SharedData.getNewsKey(this);
+        oldImageUrl=SharedData.getNewsImageUrl(this);
+        /*Bundle bundle=getIntent().getExtras();
         if(bundle!=null){
             Glide.with(NewsUpdate.this).load(bundle.getString("Image")).into(updateImage);
             updateTitle.setText(bundle.getString("Title"));
@@ -76,7 +84,7 @@ public class NewsUpdate extends AppCompatActivity {
             autoCompleteTextView.setText(bundle.getString("Theme"));
             key=bundle.getString("Key");
             oldImageUrl=bundle.getString("Image");
-        }
+        }*/
         databaseReference= FirebaseDatabase.getInstance().getReference("News").child(key);
         updateImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -117,6 +125,12 @@ public class NewsUpdate extends AppCompatActivity {
             @Override
             public void onFailure(@NonNull Exception e) {
                 dialog.dismiss();
+            }
+        });
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ShowPages.showNews(NewsUpdate.this);
             }
         });
     }
