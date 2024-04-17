@@ -4,6 +4,7 @@ import static android.provider.Settings.System.getString;
 import static androidx.core.content.ContentProviderCompat.requireContext;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
@@ -41,6 +42,7 @@ import java.util.ArrayList;
 
 
 public class MainPage extends AppCompatActivity {
+    private boolean isFirstLoad = true;
     TextView welcomeText;
     FloatingActionButton addNewsbtn, settingsBtn;
     Button allThemeBtn;
@@ -50,13 +52,6 @@ public class MainPage extends AppCompatActivity {
     NewsAdapter adapter;
     LinearLayout buttonsLayout;
     final private DatabaseReference databaseReference= FirebaseDatabase.getInstance().getReference("News");
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-        buttonsLayout=findViewById(R.id.themeButtonsLayout);
-        createButtons(buttonsLayout);
-    }
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_page);
@@ -76,6 +71,9 @@ public class MainPage extends AppCompatActivity {
 
         settingsBtn=findViewById(R.id.settings_button);
         allThemeBtn=findViewById(R.id.button_All);
+
+        buttonsLayout=findViewById(R.id.themeButtonsLayout);
+        createButtons(buttonsLayout);
 
         gridView = findViewById(R.id.gridView);
         newsList = new ArrayList<>();
@@ -115,7 +113,7 @@ public class MainPage extends AppCompatActivity {
         settingsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ShowPages.showSettings(MainPage.this);
+                ShowPages.showDep(MainPage.this);
             }
         });
         allThemeBtn.setOnClickListener(new View.OnClickListener() {

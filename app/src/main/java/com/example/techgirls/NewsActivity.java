@@ -2,6 +2,7 @@ package com.example.techgirls;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -68,9 +69,9 @@ public class NewsActivity extends AppCompatActivity {
                     public boolean onMenuItemClick(MenuItem item) {
                         int id = item.getItemId();
                         if(id==R.id.item_1){
-                            SharedData.putNewsInfo(NewsActivity.this,imageUrl,titleView.toString(),captionView.toString(),textView.toString(),
-                                    linkView.toString(),themeView.toString(),key);
-                            ShowPages.showUpdateNews(NewsActivity.this);
+                            Intent intent = new Intent(NewsActivity.this, NewsUpdate.class);
+                            intent.putExtra("Key", key);
+                            startActivity(intent);
                         }
                         else if(id==R.id.item_2){
                             DeleteNews();

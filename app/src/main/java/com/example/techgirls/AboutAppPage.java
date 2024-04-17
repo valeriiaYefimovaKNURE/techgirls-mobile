@@ -17,7 +17,7 @@ public class AboutAppPage extends AppCompatActivity {
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ShowPages.showSettings(AboutAppPage.this);
+                ShowPages.showDep(AboutAppPage.this);
             }
         });
     }

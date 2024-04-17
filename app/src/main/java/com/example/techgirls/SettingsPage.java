@@ -24,7 +24,6 @@ public class SettingsPage extends AppCompatActivity {
 
         logoutBtn=findViewById(R.id.logout_button);
         backBtn=findViewById(R.id.back_button);
-        aboutAppBtn=findViewById(R.id.aboutApp_button);
         userBtn=findViewById(R.id.userInfo_button);
         logoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,13 +53,7 @@ public class SettingsPage extends AppCompatActivity {
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ShowPages.showMainPage(SettingsPage.this);
-            }
-        });
-        aboutAppBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ShowPages.showAboutAppPage(SettingsPage.this);
+                ShowPages.showDep(SettingsPage.this);
             }
         });
         userBtn.setOnClickListener(new View.OnClickListener() {

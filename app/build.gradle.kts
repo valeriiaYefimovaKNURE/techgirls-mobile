@@ -57,4 +57,5 @@ dependencies {
     annotationProcessor("com.github.bumptech.glide:compiler:4.14.2")
     implementation("com.google.android.gms:play-services-auth:21.0.0")
     implementation("com.google.android.material:material:1.1.0")
+
 }

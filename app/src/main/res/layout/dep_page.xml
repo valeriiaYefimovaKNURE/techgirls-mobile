@@ -27,19 +27,19 @@
         android:layout_marginTop="32dp"
         android:layout_marginBottom="20dp"
         android:fontFamily="@font/ubuntu_medium"
-        android:text="@string/action_settings"
+        android:text="@string/Deps"
         android:textColor="@color/bistre"
         android:textSize="28sp"
         android:textStyle="bold" />
     <Button
-        android:id="@+id/userInfo_button"
+        android:id="@+id/settingsDep_button"
         style="@style/Widget.Material3.Button.TextButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/settings_userInfo"
+        android:text="@string/action_settings"
         android:layout_marginStart="20dp"
         android:layout_marginTop="18dp"
-        android:drawableLeft="@drawable/baseline_account_circle_24"
+        android:drawableLeft="@drawable/settings_icon"
         android:paddingStart="12dp"
         android:paddingEnd="8dp"
         android:textSize="17sp"
@@ -47,16 +47,31 @@
         android:drawablePadding="10dp"
         android:gravity="center_vertical"
         tools:ignore="RtlHardcoded" />
-
     <Button
-        android:id="@+id/logout_button"
+        android:id="@+id/helpCenter_button"
         style="@style/Widget.Material3.Button.TextButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/logout_text"
+        android:text="@string/helpCenter_name"
         android:layout_marginStart="20dp"
         android:layout_marginTop="18dp"
-        android:drawableLeft="@drawable/baseline_logout_24"
+        android:drawableLeft="@drawable/baseline_fmd_good_24"
+        android:paddingStart="10dp"
+        android:paddingEnd="8dp"
+        android:textSize="17sp"
+        android:textColor="@color/black"
+        android:drawablePadding="5dp"
+        android:gravity="center_vertical"
+        tools:ignore="RtlHardcoded" />
+    <Button
+        android:id="@+id/aboutApp_button"
+        style="@style/Widget.Material3.Button.TextButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/aboutApp_text"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="18dp"
+        android:drawableLeft="@drawable/baseline_app_settings_alt_24"
         android:paddingStart="10dp"
         android:paddingEnd="8dp"
         android:textSize="17sp"
@@ -64,6 +79,8 @@
         android:drawablePadding="10dp"
         android:gravity="center_vertical"
         tools:ignore="RtlHardcoded" />
+
+
 
 
 </LinearLayout>

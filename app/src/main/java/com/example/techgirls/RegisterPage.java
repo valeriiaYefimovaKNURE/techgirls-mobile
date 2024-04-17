@@ -1,5 +1,8 @@
 package com.example.techgirls;
 
+import static androidx.core.app.ActivityCompat.startActivityForResult;
+
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -16,6 +19,7 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
@@ -26,15 +30,19 @@ import com.example.techgirls.HelpClasses.ValidationManager;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
+import java.util.HashMap;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -45,8 +53,12 @@ public class RegisterPage extends AppCompatActivity {
     AutoCompleteTextView autoCompleteTextView;
     private AtomicBoolean isEmailValid = new AtomicBoolean(false);
     private AtomicBoolean isLoginValid = new AtomicBoolean(false);
+    Button btnGoogle;
 
+    private GoogleSignInClient mGoogleSignIn;
 
+    private static int RC_SIGN_IN_GOOGLE = 2300;
+    private static int RC_GO_ACCOUNTG = 2100;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -101,5 +113,34 @@ public class RegisterPage extends AppCompatActivity {
                 ShowPages.showWelcomePage(v.getContext());
             }
         });
+        /*btnGoogle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DatabaseManager databaseManager = new DatabaseManager();
+                databaseManager.startWithGoogle(RegisterPage.this,mGoogleSignIn);
+                signInWithGoogle();
+            }
+        });*/
     }
+
+    /*private void signInWithGoogle() {
+        Intent intent = mGoogleSignIn.getSignInIntent();
+        startActivityForResult(intent,RC_SIGN_IN_GOOGLE);
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data){
+        super.onActivityResult(requestCode,resultCode,data);
+        if(requestCode==RC_SIGN_IN_GOOGLE){
+            Task<GoogleSignInAccount> task=GoogleSignIn.getSignedInAccountFromIntent(data);
+            try {
+                GoogleSignInAccount account=task.getResult(ApiException.class);
+                firebaseAuth(account.getIdToken());
+
+            } catch (ApiException e) {
+                Toast.makeText(this,e.getMessage(),Toast.LENGTH_SHORT).show();
+            }
+        }
+    }*/
+
+
 }

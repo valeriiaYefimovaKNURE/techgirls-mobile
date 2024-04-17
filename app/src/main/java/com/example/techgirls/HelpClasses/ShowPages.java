@@ -1,11 +1,15 @@
 package com.example.techgirls.HelpClasses;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 
 import com.example.techgirls.AboutAppPage;
+import com.example.techgirls.DepActivity;
+import com.example.techgirls.HelpCenterPage;
 import com.example.techgirls.LoginPage;
 import com.example.techgirls.MainPage;
+import com.example.techgirls.R;
 import com.example.techgirls.SettingsUser;
 import com.example.techgirls.WelcomeActivity;
 import com.example.techgirls.NewsActivity;
@@ -54,5 +58,20 @@ public class ShowPages {
     public static void showUserSettings(Context context){
         Intent intent = new Intent(context, SettingsUser.class);
         context.startActivity(intent);
+    }
+    public static void showDep(Context context){
+        Intent intent = new Intent(context, DepActivity.class);
+        context.startActivity(intent);
+    }
+    public static void showHelpCenter(Context context){
+        Intent intent = new Intent(context, HelpCenterPage.class);
+        context.startActivity(intent);
+    }
+    public static void showLoadingDialog(Context context) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setCancelable(false);
+        builder.setView(R.layout.loading_layout);
+        AlertDialog dialog=builder.create();
+        dialog.show();
     }
 }
