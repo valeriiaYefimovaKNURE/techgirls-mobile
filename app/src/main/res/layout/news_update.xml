@@ -29,17 +29,17 @@
 
             <ImageButton
                 android:id="@+id/updateButton_close"
-                android:layout_width="25dp"
-                android:layout_height="26dp"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
                 android:layout_marginStart="2dp"
                 android:background="@android:color/transparent"
                 android:scaleType="fitCenter"
-                app:srcCompat="@drawable/close_icon" />
+                app:srcCompat="@drawable/arrow_back_baseline" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Оберіть фото"
+                android:text="@string/select_image"
                 android:textAlignment="center"
                 android:textColor="@color/purple"
                 android:textSize="30sp" />
@@ -59,7 +59,7 @@
                 android:layout_gravity="start|center_vertical"
                 android:layout_marginTop="20dp"
                 android:background="@drawable/lavender_border"
-                android:hint="Введіть заголовок"
+                android:hint="@string/input_title"
                 android:padding="16dp"
                 android:textColor="@color/purple"
                 android:textSize="16sp"
@@ -72,7 +72,7 @@
                 android:layout_gravity="start|center_vertical"
                 android:layout_marginTop="20dp"
                 android:background="@drawable/lavender_border"
-                android:hint="Введіть короткий опис"
+                android:hint="@string/input_caption"
                 android:padding="16dp"
                 android:textColor="@color/purple"
                 android:textSize="14sp" />
@@ -85,7 +85,7 @@
                 android:layout_marginTop="20dp"
                 android:background="@drawable/lavender_border"
                 android:gravity="top"
-                android:hint="Введіть текст"
+                android:hint="@string/input_text"
                 android:inputType="textMultiLine"
                 android:minLines="12"
                 android:padding="16dp"
@@ -99,7 +99,7 @@
                 android:layout_gravity="start|center_vertical"
                 android:layout_marginTop="20dp"
                 android:background="@drawable/lavender_border"
-                android:hint="Посилання"
+                android:hint="@string/input_link"
                 android:padding="16dp"
                 android:textColor="@color/purple"
                 android:textSize="14sp" />
@@ -120,7 +120,7 @@
                     android:background="@drawable/lavender_border"
                     android:inputType="none"
                     android:padding="18dp"
-                    android:hint="Оберіть тему"
+                    android:hint="@string/choose_theme"
                     android:textColor="@color/purple"
                     android:textSize="14sp"
                     tools:ignore="SpeakableTextPresentCheck" />
@@ -131,7 +131,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:layout_marginTop="10dp"
-                android:text="Оновити"
+                android:text="@string/update"
                 android:textSize="18sp" />
 
         </LinearLayout>

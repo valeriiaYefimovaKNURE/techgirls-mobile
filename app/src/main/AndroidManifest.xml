@@ -42,7 +42,7 @@
         <activity android:name=".NewsUpdate" />
         <activity android:name=".SettingsUser"/>
         <activity android:name=".AboutAppPage"/>
-        <activity android:name=".DepActivity"/>
+        <activity android:name=".SectionsActivity"/>
         <activity android:name=".HelpCenterPage"/>
     </application>
 

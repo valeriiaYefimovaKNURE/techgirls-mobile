@@ -13,22 +13,31 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.techgirls.HelpClasses.ShowPages;
 import com.google.firebase.auth.FirebaseAuth;
 
+/**
+ * Activity for managing user settings.
+ */
 public class SettingsPage extends AppCompatActivity {
-    FirebaseAuth mAuth;
-    Button logoutBtn, aboutAppBtn, userBtn;
-    ImageView backBtn;
+
+    // Firebase authentication instance
+    private FirebaseAuth mAuth;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings);
 
-        logoutBtn=findViewById(R.id.logout_button);
-        backBtn=findViewById(R.id.back_button);
-        userBtn=findViewById(R.id.userInfo_button);
+        // Initialize buttons and image view (button)
+        Button logoutBtn = findViewById(R.id.logout_button);
+        ImageView backBtn = findViewById(R.id.back_button);
+        Button userBtn = findViewById(R.id.userInfo_button);
+
+        // Button listener for logging out
         logoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Initialize Firebase authentication instance
                 mAuth=FirebaseAuth.getInstance();
+
                 AlertDialog.Builder builder = new AlertDialog.Builder(SettingsPage.this);
                 builder.setMessage("Ви впевнені що хочете вийти?")
                         .setCancelable(false)
@@ -50,12 +59,16 @@ public class SettingsPage extends AppCompatActivity {
                 alert.show();
             }
         });
+
+        // Button listener for navigating back to sections
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ShowPages.showDep(SettingsPage.this);
+                ShowPages.showSections(SettingsPage.this);
             }
         });
+
+        // Button listener for navigating to user settings
         userBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

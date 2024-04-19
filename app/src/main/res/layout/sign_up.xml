@@ -17,17 +17,19 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="24dp"
             android:background="@android:color/transparent"
+            android:contentDescription="@string/back_to_welcomePage"
             android:scaleType="fitCenter"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/arrow_back_baseline" />
+            app:srcCompat="@drawable/arrow_back_baseline"
+            tools:ignore="TouchTargetSizeCheck" />
 
         <TextView
             android:id="@+id/textView6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:text="Приєднуйся до безпечного ком'юніті"
+            android:text="@string/Join_to_safeCo"
             android:textColor="@color/bistre"
             android:textSize="12sp"
             android:textStyle="bold"
@@ -214,8 +216,11 @@
                 android:id="@+id/signUp_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:contentDescription="@string/choose_gender"
                 android:inputType="none"
+                android:padding="16dp"
                 android:textSize="14sp"
+                tools:ignore="EditableContentDescCheck"
                 tools:layout_editor_absoluteX="72dp"
                 tools:layout_editor_absoluteY="622dp" />
         </com.google.android.material.textfield.TextInputLayout>

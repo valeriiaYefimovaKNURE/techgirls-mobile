@@ -1,16 +1,8 @@
 package com.example.techgirls;
 
-import static android.provider.Settings.System.getString;
-import static androidx.core.content.ContentProviderCompat.requireContext;
-
-import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
@@ -18,10 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
 
 import com.example.techgirls.HelpClasses.DatabaseManager;
 import com.example.techgirls.HelpClasses.NewsAdapter;
@@ -40,42 +29,52 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-
+/**
+ * Activity displaying the main page of the application.
+ */
 public class MainPage extends AppCompatActivity {
+    // Flag to indicate if it's the first load of the page
     private boolean isFirstLoad = true;
-    TextView welcomeText;
-    FloatingActionButton addNewsbtn, settingsBtn;
-    Button allThemeBtn;
 
-    GridView gridView;
-    ArrayList<NewsData> newsList;
-    NewsAdapter adapter;
-    LinearLayout buttonsLayout;
+    // List to hold news data
+    private ArrayList<NewsData> newsList;
+
+    // Adapter for the GridView
+    private NewsAdapter adapter;
+
+    // Reference to the Firebase database
     final private DatabaseReference databaseReference= FirebaseDatabase.getInstance().getReference("News");
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_page);
 
-        welcomeText = findViewById(R.id.welcomeText);
+        // TextView to display a welcome message
+        TextView welcomeText = findViewById(R.id.welcomeText);
 
+        //Get name of user
         String name= UserManager.getInstance(this).getName();
         name = name.replace(" ", "\n");
         String role=UserManager.getInstance(this).getRole();
 
         welcomeText.setText(String.format(getString(R.string.hello), name));
 
-        addNewsbtn = findViewById(R.id.addNews_button);
+        // Buttons to add news and go to settings
+        FloatingActionButton addNewsbtn = findViewById(R.id.addNews_button);
         if (DatabaseManager.isEditor(role) || DatabaseManager.isAdmin(role)) {
             addNewsbtn.setVisibility(View.VISIBLE);
         } else addNewsbtn.setVisibility(View.INVISIBLE);
 
-        settingsBtn=findViewById(R.id.settings_button);
-        allThemeBtn=findViewById(R.id.button_All);
+        FloatingActionButton settingsBtn = findViewById(R.id.settings_button);
+        // Button to display all news
+        Button allThemeBtn = findViewById(R.id.button_All);
 
-        buttonsLayout=findViewById(R.id.themeButtonsLayout);
+        // Layout for theme buttons
+        LinearLayout buttonsLayout = findViewById(R.id.themeButtonsLayout);
         createButtons(buttonsLayout);
 
-        gridView = findViewById(R.id.gridView);
+        // GridView to display news items
+        GridView gridView = findViewById(R.id.gridView);
         newsList = new ArrayList<>();
         adapter = new NewsAdapter(newsList, this);
         gridView.setAdapter(adapter);
@@ -94,12 +93,16 @@ public class MainPage extends AppCompatActivity {
 
             }
         });
+
+        // Add news button listener
         addNewsbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ShowPages.showUploadNews(v.getContext());
             }
         });
+
+        // GridView item click listener
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -110,12 +113,16 @@ public class MainPage extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        // Settings button listener
         settingsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ShowPages.showDep(MainPage.this);
+                ShowPages.showSections(MainPage.this);
             }
         });
+
+        // All theme button listener
         allThemeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -123,7 +130,13 @@ public class MainPage extends AppCompatActivity {
             }
         });
     }
-    public void createButtons(LinearLayout layout){
+
+    /**
+     * Creates buttons for each theme.
+     *
+     * @param layout The layout to add the buttons to.
+     */
+    private void createButtons(LinearLayout layout){
         String[] itemThemes = SharedData.itemThemes;
 
         for (String theme : itemThemes) {
@@ -131,6 +144,12 @@ public class MainPage extends AppCompatActivity {
         }
     }
 
+    /**
+     * Checks if news exists for a given theme and creates a button if it does.
+     *
+     * @param theme  The theme to check.
+     * @param layout The layout to add the button to.
+     */
     private void checkNewsExistenceAndCreateButton(String theme, LinearLayout layout) {
         Query query = databaseReference.orderByChild("dataTheme").equalTo(theme);
         query.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -147,6 +166,12 @@ public class MainPage extends AppCompatActivity {
         });
     }
 
+    /**
+     * Creates a button for a given theme.
+     *
+     * @param theme  The theme for the button.
+     * @param layout The layout to add the button to.
+     */
     private void createButton(String theme, LinearLayout layout) {
         MaterialButton button = new MaterialButton(this);
         button.setText(theme);
@@ -166,6 +191,12 @@ public class MainPage extends AppCompatActivity {
         params.setMarginEnd(12);
         layout.addView(button);
     }
+
+    /**
+     * Displays news filtered by a specific theme.
+     *
+     * @param theme The theme to filter by.
+     */
     private void displayNewsByTheme(String theme) {
         newsList.clear();
         Query query = databaseReference.orderByChild("dataTheme").equalTo(theme);
@@ -184,6 +215,10 @@ public class MainPage extends AppCompatActivity {
             }
         });
     }
+
+    /**
+     * Displays all news.
+     */
     private void displayAllNews() {
         newsList.clear();
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -201,4 +236,3 @@ public class MainPage extends AppCompatActivity {
         });
     }
 }
-

@@ -3,6 +3,9 @@ package com.example.techgirls.HelpClasses;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+/**
+ * Manages user data using SharedPreferences.
+ */
 public class UserManager {
     private static UserManager instance;
     private final SharedPreferences sharedPreferences;
@@ -16,10 +19,20 @@ public class UserManager {
     private static final String KEY_BIRTHDAY = "birthday";
     private static final String KEY_ROLE = "role";
 
+    /**
+     * Private constructor to enforce singleton pattern.
+     * Initializes SharedPreferences.
+     *
+     * @param context The context of the application.
+     */
     private UserManager(Context context) {
         sharedPreferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
     }
 
+    /**
+     * @param context The context of the application.
+     * @return The singleton instance of UserManager.
+     */
     public static synchronized UserManager getInstance(Context context) {
         if (instance == null) {
             instance = new UserManager(context.getApplicationContext());
@@ -27,6 +40,17 @@ public class UserManager {
         return instance;
     }
 
+    /**
+     * Saves user data to SharedPreferences.
+     *
+     * @param username The username of the user.
+     * @param email    The email of the user.
+     * @param password The password of the user.
+     * @param name     The name of the user.
+     * @param birthday The birthday of the user.
+     * @param gender   The gender of the user.
+     * @param role     The role of the user.
+     */
     public void saveUser(String username, String email,String password, String name, String birthday, String gender, String role) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(KEY_LOGIN, username);
@@ -38,6 +62,8 @@ public class UserManager {
         editor.putString(KEY_ROLE,role);
         editor.apply();
     }
+
+    // Getter methods for user data
 
     public String getLogin() {
         return sharedPreferences.getString(KEY_LOGIN, "");

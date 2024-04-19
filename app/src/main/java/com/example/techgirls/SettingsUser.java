@@ -1,7 +1,6 @@
 package com.example.techgirls;
 
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -20,25 +19,37 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.util.Arrays;
 import java.util.HashMap;
 
+
+/**
+ * Activity for managing user settings.
+ */
 public class SettingsUser extends AppCompatActivity {
-    DatabaseReference reference;
-    ImageView backBtn;
-    Button changeBtn;
-    EditText nameView, loginView, emailView, passwordView, birthView;
-    String name, login, email, password, birthday, gender;
-    TextInputLayout passwordLayout, emailLayout, birthLayout, loginLayout;
-    AutoCompleteTextView genderView;
+
+    // Firebase database reference
+    private DatabaseReference reference;
+
+    // EditText fields for user information
+    private EditText nameView, loginView, emailView, passwordView, birthView;
+    private TextInputLayout passwordLayout, emailLayout, birthLayout, loginLayout;
+
+    // Strings to store user information
+    private String name, login, email, password, birthday, gender;
+
+    // AutoCompleteTextView for selecting gender
+    private AutoCompleteTextView genderView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.user_settings);
-        reference= FirebaseDatabase.getInstance().getReference("Users");
-        backBtn=findViewById(R.id.backUser_button);
-        changeBtn=findViewById(R.id.change_button);
 
+        // Initialize Firebase database reference
+        reference= FirebaseDatabase.getInstance().getReference("Users");
+        ImageView backBtn = findViewById(R.id.backUser_button);
+        Button changeBtn = findViewById(R.id.change_button);
+
+        // Initialize views
         nameView=findViewById(R.id.user_name);
         loginView=findViewById(R.id.user_login);
         emailView=findViewById(R.id.user_email);
@@ -47,11 +58,13 @@ public class SettingsUser extends AppCompatActivity {
         genderView=findViewById(R.id.user_gender);
         SharedData.genderAutoCompleteTextView(this,genderView);
 
+        // Initialize TextInputLayouts
         passwordLayout=findViewById(R.id.user_password_layout);
         emailLayout=findViewById(R.id.user_email_layout);
         birthLayout=findViewById(R.id.user_birthday_layout);
         loginLayout=findViewById(R.id.user_login_layout);
 
+        // Load user information from UserManager
         name= UserManager.getInstance(this).getName();
         login=UserManager.getInstance(this).getLogin();
         email=UserManager.getInstance(this).getEmail();
@@ -66,9 +79,12 @@ public class SettingsUser extends AppCompatActivity {
         genderView.setText(gender,false);
         genderView.setSelection(SharedData.itemGender.length);
 
+        // Button listener for updating user information
         changeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Update user information based on changes made by the user
+
                     HashMap<String, Object> obj = new HashMap<>();
                     if (isNameChanged()) {
                         obj.put("name", nameView.getText().toString());
@@ -89,6 +105,7 @@ public class SettingsUser extends AppCompatActivity {
                         obj.put("password", passwordView.getText().toString());
                     }
 
+                // Update user information in the database
                 if (!obj.isEmpty()) {
                     reference.child(login).updateChildren(obj);
                     if (isEmailChanged() || isLoginChanged()) {
@@ -98,6 +115,8 @@ public class SettingsUser extends AppCompatActivity {
                 }
             }
         });
+
+        // Button listener for navigating back
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -105,6 +124,8 @@ public class SettingsUser extends AppCompatActivity {
             }
         });
     }
+
+    // Check if the name has been changed
     public boolean isNameChanged(){
         if(!name.equals(nameView.getText().toString())){
             name=nameView.getText().toString();
@@ -113,6 +134,8 @@ public class SettingsUser extends AppCompatActivity {
         }
         else return false;
     }
+
+    // Check if the login has been changed
     public boolean isLoginChanged(){
         if(!login.equals(loginView.getText().toString())){
             if(ValidationManager.validateLogin(loginView.getText().toString(),loginLayout)){
@@ -127,6 +150,8 @@ public class SettingsUser extends AppCompatActivity {
         }
         else return false;
     }
+
+    // Check if the email has been changed
     public boolean isEmailChanged(){
         if(!email.equals(emailView.getText().toString()) ){
             if(ValidationManager.validateEmail(emailView.getText().toString(),emailLayout)){
@@ -141,6 +166,8 @@ public class SettingsUser extends AppCompatActivity {
         }
         else return false;
     }
+
+    // Check if the birthday has been changed
     public boolean isBirthdayChanged(){
         if(!birthday.equals(birthView.getText().toString())){
             if(ValidationManager.validateDate(birthView.getText().toString(),birthLayout)){
@@ -155,6 +182,8 @@ public class SettingsUser extends AppCompatActivity {
         }
         else return false;
     }
+
+    // Check if the gender has been changed
     public boolean isGenderChanged(){
         if(!gender.equals(genderView.getText().toString())){
             gender=genderView.getText().toString();
@@ -163,6 +192,8 @@ public class SettingsUser extends AppCompatActivity {
         }
         else return false;
     }
+
+    // Check if the password has been changed
     public boolean isPasswordChanged(){
         if(!passwordView.getText().toString().isEmpty()){
             if(ValidationManager.validatePassword(passwordView.getText().toString(),passwordLayout)){

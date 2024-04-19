@@ -1,36 +1,15 @@
 package com.example.techgirls.HelpClasses;
-
-import static androidx.core.app.ActivityCompat.startActivityForResult;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.util.Log;
-import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 import com.example.techgirls.MainPage;
 import com.example.techgirls.Models.Users;
 import com.example.techgirls.R;
-import com.google.android.gms.auth.api.Auth;
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.auth.api.signin.GoogleSignInResult;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
-import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -38,27 +17,38 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.HashMap;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
-
+/**
+ * Manages interactions with the Firebase Realtime Database.
+ */
 public class DatabaseManager {
-    private final DatabaseReference table;
-    private FirebaseAuth auth;
-    private GoogleApiClient mGoogleApiClient;
 
+    private final DatabaseReference table;
+
+    /**
+     * Empty constructor for initialization the DatabaseManager and sets up a reference to the "Users" table in the Firebase Realtime Database.
+     */
     public DatabaseManager() {
         FirebaseDatabase db = FirebaseDatabase.getInstance();
         table = db.getReference("Users");
 
     }
+
+    /**
+     * Checks if an email already exists in the database.
+     *
+     * @param email      The email to check for existence.
+     * @param layout     The layout where error messages will be displayed.
+     * @param validEmail A boolean flag indicating if the email is valid.
+     */
     public void checkEmailExistence(String email, TextInputLayout layout, AtomicBoolean validEmail) {
         table.orderByChild("email").equalTo(email).addListenerForSingleValueEvent(
                 new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        validEmail.set(!dataSnapshot.exists());  //'true' если нет в базе
-                        if (!validEmail.get()) {    //не 'true'
+                        validEmail.set(!dataSnapshot.exists());  //'true' if not in the db
+                        if (!validEmail.get()) {    //not 'true'
                             layout.setError(layout.getContext().getString(R.string.error_email_exist));
                         } else {
                             layout.setError(null);
@@ -71,6 +61,13 @@ public class DatabaseManager {
         );
     }
 
+    /**
+     * Checks if a login already exists in the database.
+     *
+     * @param login      The login to check for existence.
+     * @param layout     The layout where error messages will be displayed.
+     * @param validLogin A boolean flag indicating if the login is valid.
+     */
     public void checkLoginExistence(String login, TextInputLayout layout, AtomicBoolean validLogin) {
         table.orderByChild("login").equalTo(login).addListenerForSingleValueEvent(
                 new ValueEventListener() {
@@ -89,6 +86,18 @@ public class DatabaseManager {
                 }
         );
     }
+
+    /**
+     * Registers a new user in the database.
+     *
+     * @param context  The context of the page.
+     * @param Email    The email of the user.
+     * @param Name     The name of the user.
+     * @param Login    The login of the user.
+     * @param Password The password of the user.
+     * @param Birth    The birth date of the user.
+     * @param Gender   The gender of the user.
+     */
     public void registerUser(Context context,String Email, String Name, String Login, String Password, String Birth, String Gender) {
         Users user = new Users();
         user.setEmail(Email);
@@ -99,15 +108,22 @@ public class DatabaseManager {
         user.setGender(Gender);
         user.setRole("USER");
 
+        UserManager.getInstance(context).saveUser(Login, Email, Password, Name, Birth, Gender, "USER");
+
         table.child(Login).setValue(user);
-
-        UserManager.getInstance(context).saveUser(Login,Email,Password,Name,Birth,Gender,"USER");
-        saveDataSharedPreference(context,Login,Email);
-
+        saveDataSharedPreference(context, Login, Email);
         Toast.makeText(context, R.string.toast_signup_succes, Toast.LENGTH_SHORT).show();
     }
 
-
+    /**
+     * Authenticates a user with the provided login credentials.
+     *
+     * @param context     The context of the page.
+     * @param login       The login of the user.
+     * @param loginLayout The layout where login-related error messages will be displayed.
+     * @param password    The password of the user.
+     * @param passLayout  The layout where password-related error messages will be displayed.
+     */
     public void authenticateUser(Context context,String login,TextInputLayout loginLayout,
                                  String password, TextInputLayout passLayout) {
         Query query = table.orderByChild("login").equalTo(login);
@@ -130,7 +146,6 @@ public class DatabaseManager {
                         String role=snapshot.child(login).child("role").getValue(String.class);
 
                         saveDataSharedPreference(context,loginFromDB,emailFromDB);
-
                         Intent intent = new Intent(context, MainPage.class);
                         UserManager.getInstance(context).saveUser(loginFromDB,emailFromDB,passwordFromDB,nameFromDB,dateFromDB,genderFromDB,role);
                         context.startActivity(intent);
@@ -149,40 +164,34 @@ public class DatabaseManager {
             }
         });
     }
-    /*public void startWithGoogle(Context context,GoogleSignInClient mGoogleSignIn){
-        auth=FirebaseAuth.getInstance();
-        GoogleSignInOptions gso=new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(context.getString(R.string.default_web_client_id))
-                .requestProfile()
-                .requestEmail()
-                .build();
-        mGoogleSignIn= GoogleSignIn.getClient(context,gso);
-    }
-    public void firebaseAuth(String idToken) {
-        AuthCredential credential=GoogleAuthProvider.getCredential(idToken,null);
-        auth.signInWithCredential(credential).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if(task.isSuccessful()){
-                    FirebaseUser user=auth.getCurrentUser();
 
-                    HashMap<String,Object> map=new HashMap<>();
-                    map.put("id",user.getUid());
-                    map.put("name",user.getDisplayName());
-
-                }
-            }
-        });
-    }*/
+    /**
+     * Checks if a user has editor role.
+     *
+     * @param role The role of the user.
+     * @return True if the user has editor role, otherwise false.
+     */
     public static boolean isEditor(String role){
         return role != null && (role.equals("EDITOR"));
     }
+
+    /**
+     * Checks if a user has admin role.
+     *
+     * @param role The role of the user.
+     * @return True if the user has editor role, otherwise false.
+     */
     public static boolean isAdmin(String role){
         return role != null && (role.equals("ADMIN"));
     }
-    public FirebaseUser getUser(){
-        return FirebaseAuth.getInstance().getCurrentUser();
-    }
+
+    /**
+     * Saves user data to SharedPreferences.
+     *
+     * @param context The context of the page.
+     * @param login   The login of the user.
+     * @param email   The email of the user.
+     */
     public static void saveDataSharedPreference(Context context,String login, String email){
         SharedPreferences sh=context.getSharedPreferences("mePowerLogin",Context.MODE_PRIVATE);
         SharedPreferences.Editor editor=sh.edit();

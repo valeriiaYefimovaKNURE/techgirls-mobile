@@ -1,12 +1,24 @@
 package com.example.techgirls.HelpClasses;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+/**
+ * Validates dates in the format DD/MM/YYYY.
+ */
 public class DateValidation {
+
+    /** Regular expression pattern for validating dates in the format DD/MM/YYYY. */
     private static final String DATE_PATTERN =
             "^(0?[1-9]|[12][0-9]|3[01])/(0?[1-9]|1[012])/((?:19|20)[0-9][0-9])$";
 
+    /** Compiled pattern for date validation. */
     private static final Pattern pattern = Pattern.compile(DATE_PATTERN);
-
+    /**
+     * Validates a date string.
+     *
+     * @param date The date string to validate.
+     * @return True if the date string is valid, otherwise false.
+     */
     public static boolean isValid(final String date) {
         boolean result = false;
 
@@ -32,6 +44,9 @@ public class DateValidation {
         }
         return result;
     }
+    /**
+     * Checks if a year is a leap year.
+     */
     private static boolean isLeapYear(int year) {
         return (year % 4 == 0 && (year % 100 != 0 || year % 400 == 0));
     }

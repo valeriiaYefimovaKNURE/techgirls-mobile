@@ -27,7 +27,7 @@
         android:layout_marginTop="32dp"
         android:layout_marginBottom="20dp"
         android:fontFamily="@font/ubuntu_medium"
-        android:text="@string/Deps"
+        android:text="@string/Sections"
         android:textColor="@color/bistre"
         android:textSize="28sp"
         android:textStyle="bold" />

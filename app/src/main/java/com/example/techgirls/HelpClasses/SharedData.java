@@ -3,7 +3,6 @@ package com.example.techgirls.HelpClasses;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.service.autofill.UserData;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
@@ -11,24 +10,48 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.techgirls.Models.NewsData;
-import com.example.techgirls.Models.Users;
 import com.example.techgirls.R;
 
-import org.checkerframework.checker.units.qual.C;
-
+/**
+ * Provides methods for managing shared data and views related to news items.
+ */
 public class SharedData {
+    /** Array of available themes for news items. */
     public static String[] itemThemes = {"Наука", "Соціальне", "Новини","Спорт","Подкасти","Навчання","Мода"};
+
+    /** Array of available genders. */
     public static String[] itemGender={"Жінка","Чоловік","Невідомо"};
+
+    /**
+     * Sets up an AutoCompleteTextView with themes for news items.
+     *
+     * @param context The context of the application.
+     * @param textView The AutoCompleteTextView to set up.
+     */
     public static void themeAutoCompleteTextView(Context context,AutoCompleteTextView textView){
         ArrayAdapter<String> adapterItems;
         adapterItems = new ArrayAdapter<String>(context, R.layout.item_list, itemThemes);
         textView.setAdapter(adapterItems);
     }
+
+    /**
+     * Sets up an AutoCompleteTextView with genders.
+     *
+     * @param context The context of the application.
+     * @param textView The AutoCompleteTextView to set up.
+     */
     public static void genderAutoCompleteTextView(Context context,AutoCompleteTextView textView){
         ArrayAdapter<String> adapterItems;
         adapterItems = new ArrayAdapter<String>(context, R.layout.item_list, itemGender);
         textView.setAdapter(adapterItems);
     }
+
+    /**
+     * Puts news information into an intent.
+     *
+     * @param intent The intent to put the news information into.
+     * @param news The NewsData object containing the news information.
+     */
     public static void putNewsInfo(Intent intent, NewsData news){
         intent.putExtra("Image", news.getDataImage());
         intent.putExtra("Title", news.getDataTitle());
@@ -38,18 +61,18 @@ public class SharedData {
         intent.putExtra("Theme",news.getDataTheme());
         intent.putExtra("Key",news.getKey());
     }
-    public static void putNewsInfo(Context context, String image, String title, String caption, String text, String link, String theme,
-                                   String key){
-        Intent intent = ((Activity) context).getIntent();
 
-        intent.putExtra("Image", image);
-        intent.putExtra("Title", title);
-        intent.putExtra("Caption", caption);
-        intent.putExtra("Text",text);
-        intent.putExtra("Link",link);
-        intent.putExtra("Theme",theme);
-        intent.putExtra("Key",key);
-    }
+    /**
+     * Retrieves news data from an intent and sets it into views.
+     *
+     * @param context The context of the application.
+     * @param imageView The ImageView to display the news image.
+     * @param titleView The TextView to display the news title.
+     * @param captionView The TextView to display the news caption.
+     * @param textView The TextView to display the news text.
+     * @param linkView The TextView to display the news link.
+     * @param themeView The TextView to display the news theme.
+     */
     public static void getNewsData(Context context, ImageView imageView, TextView titleView,
                                        TextView captionView, TextView textView, TextView linkView,
                                        TextView themeView) {
@@ -65,13 +88,5 @@ public class SharedData {
         linkView.setText(intent.getStringExtra("Link"));
         themeView.setText(intent.getStringExtra("Theme"));
         intent.getStringExtra("Key");
-    }
-    public static String getNewsKey(Context context){
-        Intent intent = ((Activity) context).getIntent();
-        return intent.getStringExtra("Key");
-    }
-    public static String getNewsImageUrl(Context context){
-        Intent intent = ((Activity) context).getIntent();
-        return intent.getStringExtra("Image");
     }
 }

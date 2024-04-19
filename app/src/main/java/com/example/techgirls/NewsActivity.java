@@ -1,6 +1,5 @@
 package com.example.techgirls;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -25,12 +24,17 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 public class NewsActivity extends AppCompatActivity {
+    // ImageView for settings button
     ImageView settingsBtn;
+
+    // Key and image URL of the news item
     String key="";
     String imageUrl="";
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.news_view);
+
+        // Find views in the layout
         ImageView backBtn=findViewById(R.id.back_button);
         settingsBtn=findViewById(R.id.settingsNews_button);
 
@@ -41,27 +45,37 @@ public class NewsActivity extends AppCompatActivity {
         TextView linkView=findViewById(R.id.link);
         TextView themeView=findViewById(R.id.themes);
 
+        // Get user's role
         String role= UserManager.getInstance(this).getRole();
 
+        // Set news data to views
         SharedData.getNewsData(this,imageView,titleView,captionView,textView,linkView,themeView);
 
+        // Set visibility of settings button based on user's role
         if (DatabaseManager.isEditor(role) || DatabaseManager.isAdmin(role)) {
             settingsBtn.setVisibility(View.VISIBLE);
         } else settingsBtn.setVisibility(View.INVISIBLE);
 
+        // Register settings button for context menu
         registerForContextMenu(settingsBtn);
 
+        // Back button click listener
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ShowPages.showMainPage(v.getContext());
             }
         });
+
+        // Get news item key and image URL from intent
         key=getIntent().getStringExtra("Key");
         imageUrl=getIntent().getStringExtra("Image");
+
+        // Settings button click listener
         settingsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Create and show popup menu for settings button
                 PopupMenu popupMenu=new PopupMenu(NewsActivity.this,settingsBtn);
                 popupMenu.getMenuInflater().inflate(R.menu.popup_news_menu,popupMenu.getMenu());
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -69,11 +83,13 @@ public class NewsActivity extends AppCompatActivity {
                     public boolean onMenuItemClick(MenuItem item) {
                         int id = item.getItemId();
                         if(id==R.id.item_1){
+                            // Edit news item
                             Intent intent = new Intent(NewsActivity.this, NewsUpdate.class);
                             intent.putExtra("Key", key);
                             startActivity(intent);
                         }
                         else if(id==R.id.item_2){
+                            // Delete news item
                             DeleteNews();
                         }
                         return true;
@@ -83,20 +99,29 @@ public class NewsActivity extends AppCompatActivity {
             }
         });
     }
+
+    /**
+     * Deletes the news item.
+     */
     private void DeleteNews(){
+        // Create confirmation dialog
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("Ви точно хочете видалити цей запис?")
                 .setCancelable(false)
                 .setPositiveButton("Так", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
+                        // Delete news item from database and storage
                         final DatabaseReference reference= FirebaseDatabase.getInstance().getReference("News");
                         FirebaseStorage storage=FirebaseStorage.getInstance();
                         StorageReference storageReference=storage.getReferenceFromUrl(imageUrl);
                         storageReference.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void unused) {
+                                // Delete news item reference from database
                                 reference.child(key).removeValue();
                                 Toast.makeText(NewsActivity.this,"Видалено",Toast.LENGTH_SHORT).show();
+
+                                // Navigate to main page
                                 ShowPages.showMainPage(NewsActivity.this);
                             }
                         });
