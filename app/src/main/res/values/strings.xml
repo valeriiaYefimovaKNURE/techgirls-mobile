@@ -12,13 +12,14 @@
 
     <!-- Strings used for registration -->
     <string name="Registartion">Реєстрація</string>
+    <string name="Join_to_safeCo">Приєднуйся до безпечного ком\'юніті</string>
     <string name="error_email">Введіть коректну пошту</string>
     <string name="error_password">Введіть пароль, який більше 5 символів</string>
     <string name="error_signUpEmptyFields">Введіть будь ласка інформацію</string>
     <string name="error_name">Будь ласка введіть це поле</string>
     <string name="error_login_exist">Цей логін вже зайнятий. Введіть інший</string>
     <string name="error_email_exist">Ця пошта вже зайнята</string>
-    <string name="error_gender">Будь ласка оберіть свій пол</string>
+    <string name="error_gender">Будь ласка оберіть свою стать</string>
     <string name="error_date">Будь ласка введіть дату у форматі dd/mm/yyyy</string>
     <string name="error_login_containsCharacters">Логін не може містити такі знаки як . $ # [ ]</string>
     <string name="toast_signup_succes">Ви успішно зареєстровані</string>
@@ -26,9 +27,10 @@
     <string name="Email">Пошта</string>
     <string name="Name">Ім\'я</string>
     <string name="Birthday">dd/mm/yyyy</string>
-    <string name="gender">Пол</string>
+    <string name="gender">Стать</string>
 
     <!-- Strings used for authorization -->
+    <string name="Happy_to_see_you">Раді тебе бачити!</string>
     <string name="error_logIn_password">Неправильно введена пошта або пароль</string>
     <string name="error_logIn_userNotExist">Користувача з таким логіном не існує</string>
     <string name="login_with_google">Login with Google</string>
@@ -48,6 +50,14 @@
         <string name="contentDescription_main_button_addNews">Додати нову публікацію</string>
         <string name="contentDescription_main_button_settings">Перейти до налаштувань</string>
 
+    <!-- Strings used for news page -->
+    <string name="choose_theme">Оберіть тему</string>
+    <string name="select_image">Оберіть фото</string>
+    <string name="input_text">Введіть текст</string>
+    <string name="input_link">Посилання</string>
+    <string name="input_title">Введіть заголовок</string>
+    <string name="input_caption">Введіть короткий опис</string>
+
     <!-- Strings used for settings-->
     <string name="settings_userInfo">Дані користувача</string>
     <string name="logout_text">Вийти з акаунту</string>
@@ -64,6 +74,7 @@
     <string name="user_info">Дані користувача</string>
     <string name="date_birthday">День народження</string>
     <string name="change_password">Змінити пароль</string>
+    <string name="choose_gender">Оберіть свою стать</string>
 
     <!-- Strings used for about app page-->
     <string name="aboutApp_text">Про додаток</string>
@@ -80,21 +91,13 @@
     <string name="backOnMainPage_button">Повернутись на головну сторінку</string>
     <string name="back_to_settings">Повернутись до налаштувань</string>
     <string name="backToSections">Повернутись до розділів</string>
+    <string name="back_to_welcomePage">Повернутись на сторінку привітання</string>
 
     <!-- General words-->
     <string name="change">Змінити</string>
     <string name="or">Або</string>
-    <string name="Happy_to_see_you">Ради тебе бачити!</string>
-    <string name="Join_to_safeCo">Приєднуйся до безпечного ком\'юніті</string>
-    <string name="back_to_welcomePage">Повернутись на сторінку привітання</string>
-    <string name="choose_gender">Оберіть свій пол</string>
-    <string name="choose_theme">Оберіть тему</string>
-    <string name="select_image">Оберіть фото</string>
-    <string name="input_title">Введіть заголовок</string>
-    <string name="input_caption">Введіть короткий опис</string>
-    <string name="input_text">Введіть текст</string>
-    <string name="input_link">Посилання</string>
     <string name="save">Зберегти</string>
     <string name="update">Оновити</string>
+
 
 </resources>

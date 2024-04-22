@@ -17,7 +17,7 @@ import com.example.techgirls.R;
  */
 public class SharedData {
     /** Array of available themes for news items. */
-    public static String[] itemThemes = {"Наука", "Соціальне", "Новини","Спорт","Подкасти","Навчання","Мода"};
+    public static String[] itemThemes = {"Наука", "Соціальне", "Новини","Спорт","Подкасти","Навчання","Мода","Історія"};
 
     /** Array of available genders. */
     public static String[] itemGender={"Жінка","Чоловік","Невідомо"};

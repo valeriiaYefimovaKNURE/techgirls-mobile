@@ -49,7 +49,13 @@ public class hotlinesAdapter extends RecyclerView.Adapter<MyViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         holder.title.setText(dataHotlines.get(position).getOrgName());
-        holder.phones.setText(dataHotlines.get(position).getPhones());
+        if(TextUtils.isEmpty(dataHotlines.get(position).getPhones())){
+            holder.phones.setVisibility(View.GONE);
+        }
+        else{
+            holder.phones.setText(dataHotlines.get(position).getPhones());
+            holder.phones.setVisibility(View.VISIBLE);
+        }
         holder.auditorium.setText(dataHotlines.get(position).getAuditoria());
         if(TextUtils.isEmpty(dataHotlines.get(position).getSiteLink())){
             holder.siteLink.setVisibility(View.GONE);
