@@ -17,7 +17,7 @@ import com.example.techgirls.R;
  */
 public class SharedData {
     /** Array of available themes for news items. */
-    public static String[] itemThemes = {"Наука", "Соціальне", "Новини","Спорт","Подкасти","Навчання","Мода","Історія"};
+    public static String[] itemThemes = {"Наука", "Соціальне", "Новини","Спорт","Подкасти","Навчання","Історія"};
 
     /** Array of available genders. */
     public static String[] itemGender={"Жінка","Чоловік","Невідомо"};
@@ -84,7 +84,7 @@ public class SharedData {
 
         titleView.setText(intent.getStringExtra("Title"));
         captionView.setText(intent.getStringExtra("Caption"));
-        textView.setText(intent.getStringExtra("Text"));
+        textView.setText(intent.getStringExtra("Text").replace("\\n", "\n"));
         linkView.setText(intent.getStringExtra("Link"));
         themeView.setText(intent.getStringExtra("Theme"));
         intent.getStringExtra("Key");

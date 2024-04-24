@@ -19,6 +19,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.bumptech.glide.Glide;
 import com.example.techgirls.HelpClasses.SharedData;
@@ -28,6 +29,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -77,6 +79,7 @@ public class NewsUpdate extends AppCompatActivity {
         updateLink=findViewById(R.id.updateLink);
         autoCompleteTextView=findViewById(R.id.uploadTheme);
         backButton=findViewById(R.id.updateButton_close);
+        TextInputLayout themeLayout=findViewById(R.id.outlinedThemeField);
 
         // Register activity result launcher
         ActivityResultLauncher<Intent> activityResultLauncher=registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
@@ -111,8 +114,13 @@ public class NewsUpdate extends AppCompatActivity {
 
                     // Populate theme AutoCompleteTextView
                     SharedData.themeAutoCompleteTextView(NewsUpdate.this,autoCompleteTextView);
-                    autoCompleteTextView.setText(newsData.getDataTheme(),false);
-                    autoCompleteTextView.setSelection(SharedData.itemThemes.length);
+                    if (SharedData.itemThemes.length > 0) {
+                        autoCompleteTextView.setText(newsData.getDataTheme(), false);
+                        autoCompleteTextView.setSelection(SharedData.itemThemes.length - 1);
+                    } else {
+                        autoCompleteTextView.setText(newsData.getDataTheme(), false);
+                        themeLayout.setError("Вибачте, виникла помилка. Ви не зможете змінити тему.");
+                    }
 
                     // Load image
                     imageUrl = newsData.getDataImage();
@@ -207,6 +215,7 @@ public class NewsUpdate extends AppCompatActivity {
 
         // Create news data object
         NewsData newsData=new NewsData(title,caption,text,link,theme,imageUrl);
+        newsData.setKey(key);
 
         // Update data in database
         databaseReference.setValue(newsData).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -216,14 +225,14 @@ public class NewsUpdate extends AppCompatActivity {
                     // Delete old image
                     StorageReference reference=FirebaseStorage.getInstance().getReferenceFromUrl(oldImageUrl);
                     reference.delete();
-                    Toast.makeText(NewsUpdate.this,"Updated",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(NewsUpdate.this,"Оновлено",Toast.LENGTH_SHORT).show();
                     finish();
                 }
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Toast.makeText(NewsUpdate.this,"Error",Toast.LENGTH_SHORT).show();
+                Toast.makeText(NewsUpdate.this,"Помилка",Toast.LENGTH_SHORT).show();
             }
         });
     }

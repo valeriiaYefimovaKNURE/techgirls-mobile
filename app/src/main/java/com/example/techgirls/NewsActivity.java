@@ -10,6 +10,8 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -18,10 +20,18 @@ import com.example.techgirls.HelpClasses.SharedData;
 import com.example.techgirls.HelpClasses.ShowPages;
 import com.example.techgirls.HelpClasses.UserManager;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Tasks;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+
+import java.util.concurrent.ExecutionException;
 
 public class NewsActivity extends AppCompatActivity {
     // ImageView for settings button
@@ -84,13 +94,30 @@ public class NewsActivity extends AppCompatActivity {
                         int id = item.getItemId();
                         if(id==R.id.item_1){
                             // Edit news item
+                            //get key from database
+                            try{
                             Intent intent = new Intent(NewsActivity.this, NewsUpdate.class);
                             intent.putExtra("Key", key);
                             startActivity(intent);
+                            }
+                            catch (Exception e){
+                                AlertDialog.Builder builder = new AlertDialog.Builder(NewsActivity.this);
+                                builder.setMessage("Виникла помилка.")
+                                        .setCancelable(true)
+                                        .show();
+                            }
                         }
                         else if(id==R.id.item_2){
                             // Delete news item
-                            DeleteNews();
+                            try{
+                                DeleteNews();
+                            }
+                            catch (Exception e){
+                                AlertDialog.Builder builder = new AlertDialog.Builder(NewsActivity.this);
+                                builder.setMessage("Виникла помилка.")
+                                        .setCancelable(true)
+                                        .show();
+                            }
                         }
                         return true;
                     }

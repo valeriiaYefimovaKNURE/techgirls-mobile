@@ -110,7 +110,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                app:errorEnabled="true">
+                app:errorEnabled="true"
+                app:errorIconTint="@color/grey_hint"
+                app:errorTextColor="@color/grey_hint">
+
                 <AutoCompleteTextView
                     android:id="@+id/uploadTheme"
                     android:layout_width="match_parent"
@@ -118,9 +121,9 @@
                     android:layout_gravity="start|center_vertical"
                     android:layout_marginTop="20dp"
                     android:background="@drawable/lavender_border"
+                    android:hint="@string/choose_theme"
                     android:inputType="none"
                     android:padding="18dp"
-                    android:hint="@string/choose_theme"
                     android:textColor="@color/purple"
                     android:textSize="14sp"
                     tools:ignore="SpeakableTextPresentCheck" />
