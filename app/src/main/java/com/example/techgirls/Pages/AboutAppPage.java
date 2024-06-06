@@ -1,4 +1,4 @@
-package com.example.techgirls;
+package com.example.techgirls.Pages;
 
 import android.os.Bundle;
 import android.view.View;
@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.techgirls.HelpClasses.ShowPages;
+import com.example.techgirls.R;
 
 /**
  * Activity displaying information about the application.

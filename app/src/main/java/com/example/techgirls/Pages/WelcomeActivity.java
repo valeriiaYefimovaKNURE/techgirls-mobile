@@ -1,4 +1,4 @@
-package com.example.techgirls;
+package com.example.techgirls.Pages;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -9,7 +9,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.techgirls.RegistrationClasses.DatabaseManager;
 import com.example.techgirls.HelpClasses.ShowPages;
+import com.example.techgirls.R;
 
 /**
  * Activity displayed to users when they open the app.
@@ -23,6 +25,9 @@ public class WelcomeActivity extends AppCompatActivity {
 
         // Check if the user is already logged in
         checkAccessToken();
+        if(DatabaseManager.checkCurrentUserAuth()){
+            ShowPages.showMainPage(this);
+        }
 
         // Initialize buttons
         Button btnLogin = findViewById(R.id.btnLogIn);

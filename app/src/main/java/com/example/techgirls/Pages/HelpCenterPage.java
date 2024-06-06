@@ -1,4 +1,4 @@
-package com.example.techgirls;
+package com.example.techgirls.Pages;
 
 import android.app.AlertDialog;
 import android.os.Bundle;
@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.techgirls.HelpClasses.ShowPages;
 import com.example.techgirls.HelpClasses.hotlinesAdapter;
 import com.example.techgirls.Models.hotlinesModel;
+import com.example.techgirls.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;

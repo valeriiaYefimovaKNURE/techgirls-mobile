@@ -1,9 +1,11 @@
-package com.example.techgirls;
+package com.example.techgirls.Pages;
 
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 
@@ -11,6 +13,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.techgirls.HelpClasses.ShowPages;
+import com.example.techgirls.R;
 import com.google.firebase.auth.FirebaseAuth;
 
 /**
@@ -38,25 +41,30 @@ public class SettingsPage extends AppCompatActivity {
                 // Initialize Firebase authentication instance
                 mAuth=FirebaseAuth.getInstance();
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(SettingsPage.this);
-                builder.setMessage("Ви впевнені що хочете вийти?")
-                        .setCancelable(false)
-                        .setPositiveButton("Так", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                mAuth.signOut();
-                                SharedPreferences sh=getSharedPreferences("mePowerLogin",MODE_PRIVATE);
-                                sh.edit().clear().commit();
-                                ShowPages.showWelcomePage(SettingsPage.this);
-                                SettingsPage.this.finish();
-                            }
-                        })
-                        .setNegativeButton("Ні", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.cancel();
-                            }
-                        });
-                AlertDialog alert = builder.create();
-                alert.show();
+                Dialog dialog = new Dialog(SettingsPage.this);
+                dialog.setContentView(R.layout.card_view_logout);
+                dialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                dialog.getWindow().setBackgroundDrawable(getDrawable(R.drawable.custom_card_bag));
+                dialog.setCancelable(false);
+                Button btnDialogCancel = dialog.findViewById(R.id.cardCancelButton);
+                Button btnDialogNext = dialog.findViewById(R.id.cardNextButton);
+                btnDialogCancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+                btnDialogNext.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mAuth.signOut();
+                        SharedPreferences sh=getSharedPreferences("mePowerLogin",MODE_PRIVATE);
+                        sh.edit().clear().commit();
+                        ShowPages.showWelcomePage(SettingsPage.this);
+                        SettingsPage.this.finish();
+                    }
+                });
+                dialog.show();
             }
         });
 

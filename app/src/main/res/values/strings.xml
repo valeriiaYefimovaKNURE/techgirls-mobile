@@ -37,7 +37,7 @@
     <string name="Login">Логін</string>
     <string name="Password">Пароль</string>
     <string name="Enter">Вхід</string>
-    <string name="sign_google">Увійти з Google</string>
+    <string name="login_google">Увійти з Google</string>
     <string name="verify_email_toast">Будь ласка, підтвердіть свою пошту</string>
 
     <!-- Strings used for main page -->
@@ -100,4 +100,5 @@
     <string name="update">Оновити</string>
 
 
+    <string name="default_web_client_id">204552763865-mm2dh7r53pev83o4ok2che72fa7usm2s.apps.googleusercontent.com</string>
 </resources>

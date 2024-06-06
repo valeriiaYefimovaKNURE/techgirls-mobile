@@ -1,4 +1,4 @@
-package com.example.techgirls;
+package com.example.techgirls.Pages;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -19,12 +19,12 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 
 import com.bumptech.glide.Glide;
 import com.example.techgirls.HelpClasses.SharedData;
 import com.example.techgirls.HelpClasses.ShowPages;
 import com.example.techgirls.Models.NewsData;
+import com.example.techgirls.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;

@@ -10,7 +10,7 @@
     android:background="@color/background_color"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context=".MainPage"
+    tools:context=".Pages.MainPage"
     >
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"

@@ -1,4 +1,4 @@
-package com.example.techgirls;
+package com.example.techgirls.Pages;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -10,28 +10,19 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.techgirls.HelpClasses.DatabaseManager;
+import com.example.techgirls.RegistrationClasses.DatabaseManager;
 import com.example.techgirls.HelpClasses.SharedData;
 import com.example.techgirls.HelpClasses.ShowPages;
-import com.example.techgirls.HelpClasses.UserManager;
+import com.example.techgirls.RegistrationClasses.UserManager;
+import com.example.techgirls.R;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Tasks;
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-
-import java.util.concurrent.ExecutionException;
 
 public class NewsActivity extends AppCompatActivity {
     // ImageView for settings button

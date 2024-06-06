@@ -1,4 +1,4 @@
-package com.example.techgirls.HelpClasses;
+package com.example.techgirls.RegistrationClasses;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -6,10 +6,14 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
-import com.example.techgirls.MainPage;
+import com.example.techgirls.HelpClasses.ShowPages;
+import com.example.techgirls.Pages.MainPage;
 import com.example.techgirls.Models.Users;
+import com.example.techgirls.Pages.RegisterPage;
 import com.example.techgirls.R;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -17,13 +21,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 /**
  * Manages interactions with the Firebase Realtime Database.
  */
 public class DatabaseManager {
-
     private final DatabaseReference table;
 
     /**
@@ -32,7 +34,6 @@ public class DatabaseManager {
     public DatabaseManager() {
         FirebaseDatabase db = FirebaseDatabase.getInstance();
         table = db.getReference("Users");
-
     }
 
     /**
@@ -59,6 +60,24 @@ public class DatabaseManager {
                     }
                 }
         );
+    }
+    public void checkEmailExistence(Context context, FirebaseUser user){
+        table.orderByChild("email").equalTo(user.getEmail()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    // User exists, proceed to the main activity
+                    ShowPages.showMainPage(context);
+                } else {
+                    RegisterPage r=new RegisterPage();
+                    r.showDialogForAdditionalInfo(user);
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(context, "Error with checking email existence", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     /**
@@ -99,11 +118,12 @@ public class DatabaseManager {
      * @param Gender   The gender of the user.
      */
     public void registerUser(Context context,String Email, String Name, String Login, String Password, String Birth, String Gender) {
+        try{
         Users user = new Users();
         user.setEmail(Email);
         user.setName(Name);
         user.setLogin(Login);
-        user.setPassword(Password);
+        user.setPassword(HashingClass.hashPassword(Password));
         user.setBirthday(Birth);
         user.setGender(Gender);
         user.setRole("USER");
@@ -113,6 +133,25 @@ public class DatabaseManager {
         table.child(Login).setValue(user);
         saveDataSharedPreference(context, Login, Email);
         Toast.makeText(context, R.string.toast_signup_succes, Toast.LENGTH_SHORT).show();
+        }
+        catch (Exception e){
+            Toast.makeText(context, "Помилка при зберіганні до бази даних", Toast.LENGTH_SHORT).show();
+        }
+    }
+    public void registerUser(Context context,Users user) {
+        try{
+            user.setRole("USER");
+
+            UserManager.getInstance(context).saveUser(user.getLogin(), user.getEmail(), user.getPassword(), user.getName(),
+                    user.getBirthday(), user.getGender(), "USER");
+
+            table.child(user.getLogin()).setValue(user);
+            saveDataSharedPreference(context, user.getLogin(), user.getEmail());
+            Toast.makeText(context, R.string.toast_signup_succes, Toast.LENGTH_SHORT).show();
+        }
+        catch (Exception e){
+            Toast.makeText(context, "Помилка при зберіганні до бази даних", Toast.LENGTH_SHORT).show();
+        }
     }
 
     /**
@@ -134,25 +173,28 @@ public class DatabaseManager {
                     loginLayout.setError(null);
 
                     String passwordFromDB = snapshot.child(login).child("password").getValue(String.class);
+                    try {
+                        if (HashingClass.verifyPassword(password,passwordFromDB)) {
+                            loginLayout.setError(null);
 
-                    if (Objects.equals(passwordFromDB, password)) {
-                        loginLayout.setError(null);
+                            String nameFromDB = snapshot.child(login).child("name").getValue(String.class);
+                            String emailFromDB = snapshot.child(login).child("email").getValue(String.class);
+                            String loginFromDB = snapshot.child(login).child("login").getValue(String.class);
+                            String dateFromDB = snapshot.child(login).child("birthday").getValue(String.class);
+                            String genderFromDB = snapshot.child(login).child("gender").getValue(String.class);
+                            String role=snapshot.child(login).child("role").getValue(String.class);
 
-                        String nameFromDB = snapshot.child(login).child("name").getValue(String.class);
-                        String emailFromDB = snapshot.child(login).child("email").getValue(String.class);
-                        String loginFromDB = snapshot.child(login).child("login").getValue(String.class);
-                        String dateFromDB = snapshot.child(login).child("birthday").getValue(String.class);
-                        String genderFromDB = snapshot.child(login).child("gender").getValue(String.class);
-                        String role=snapshot.child(login).child("role").getValue(String.class);
-
-                        saveDataSharedPreference(context,loginFromDB,emailFromDB);
-                        Intent intent = new Intent(context, MainPage.class);
-                        UserManager.getInstance(context).saveUser(loginFromDB,emailFromDB,passwordFromDB,nameFromDB,dateFromDB,genderFromDB,role);
-                        context.startActivity(intent);
-                    }
-                    else {
-                        passLayout.setError(passLayout.getContext().getString(R.string.error_logIn_password));
-                        passLayout.requestFocus();
+                            saveDataSharedPreference(context,loginFromDB,emailFromDB);
+                            Intent intent = new Intent(context, MainPage.class);
+                            UserManager.getInstance(context).saveUser(loginFromDB,emailFromDB,passwordFromDB,nameFromDB,dateFromDB,genderFromDB,role);
+                            context.startActivity(intent);
+                        }
+                        else {
+                            passLayout.setError(passLayout.getContext().getString(R.string.error_logIn_password));
+                            passLayout.requestFocus();
+                        }
+                    }catch (Exception e){
+                        Toast.makeText(context, "Помилка при роботі з базами даних", Toast.LENGTH_SHORT).show();
                     }
                 } else {
                     loginLayout.setError(loginLayout.getContext().getString(R.string.error_logIn_userNotExist));
@@ -184,7 +226,10 @@ public class DatabaseManager {
     public static boolean isAdmin(String role){
         return role != null && (role.equals("ADMIN"));
     }
-
+    public static boolean checkCurrentUserAuth(){
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        return firebaseUser != null;
+    }
     /**
      * Saves user data to SharedPreferences.
      *
@@ -192,6 +237,7 @@ public class DatabaseManager {
      * @param login   The login of the user.
      * @param email   The email of the user.
      */
+
     public static void saveDataSharedPreference(Context context,String login, String email){
         SharedPreferences sh=context.getSharedPreferences("mePowerLogin",Context.MODE_PRIVATE);
         SharedPreferences.Editor editor=sh.edit();

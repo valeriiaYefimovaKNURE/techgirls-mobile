@@ -1,4 +1,4 @@
-package com.example.techgirls.HelpClasses;
+package com.example.techgirls.RegistrationClasses;
 
 import android.content.Context;
 import android.content.SharedPreferences;

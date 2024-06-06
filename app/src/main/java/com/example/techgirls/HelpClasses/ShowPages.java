@@ -3,18 +3,18 @@ package com.example.techgirls.HelpClasses;
 import android.content.Context;
 import android.content.Intent;
 
-import com.example.techgirls.AboutAppPage;
-import com.example.techgirls.SectionsActivity;
-import com.example.techgirls.HelpCenterPage;
-import com.example.techgirls.LoginPage;
-import com.example.techgirls.MainPage;
-import com.example.techgirls.SettingsUser;
-import com.example.techgirls.WelcomeActivity;
-import com.example.techgirls.NewsActivity;
-import com.example.techgirls.NewsUpdate;
-import com.example.techgirls.RegisterPage;
-import com.example.techgirls.SettingsPage;
-import com.example.techgirls.UploadActivity;
+import com.example.techgirls.Pages.AboutAppPage;
+import com.example.techgirls.Pages.SectionsActivity;
+import com.example.techgirls.Pages.HelpCenterPage;
+import com.example.techgirls.Pages.LoginPage;
+import com.example.techgirls.Pages.MainPage;
+import com.example.techgirls.Pages.SettingsUser;
+import com.example.techgirls.Pages.WelcomeActivity;
+import com.example.techgirls.Pages.NewsActivity;
+import com.example.techgirls.Pages.NewsUpdate;
+import com.example.techgirls.Pages.RegisterPage;
+import com.example.techgirls.Pages.SettingsPage;
+import com.example.techgirls.Pages.UploadActivity;
 
 /**
  * Utility class for showing different pages or activities.

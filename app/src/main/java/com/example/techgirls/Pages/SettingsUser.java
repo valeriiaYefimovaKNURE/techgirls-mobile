@@ -1,4 +1,4 @@
-package com.example.techgirls;
+package com.example.techgirls.Pages;
 
 import android.os.Bundle;
 import android.view.View;
@@ -10,11 +10,13 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.techgirls.HelpClasses.DatabaseManager;
+import com.example.techgirls.RegistrationClasses.DatabaseManager;
+import com.example.techgirls.RegistrationClasses.HashingClass;
 import com.example.techgirls.HelpClasses.SharedData;
 import com.example.techgirls.HelpClasses.ShowPages;
-import com.example.techgirls.HelpClasses.UserManager;
+import com.example.techgirls.RegistrationClasses.UserManager;
 import com.example.techgirls.HelpClasses.ValidationManager;
+import com.example.techgirls.R;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -83,36 +85,38 @@ public class SettingsUser extends AppCompatActivity {
         changeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Update user information based on changes made by the user
+                    try {
+                        HashMap<String, Object> obj = new HashMap<>();
+                        if (isNameChanged()) {
+                            obj.put("name", nameView.getText().toString());
+                        }
+                        if (isBirthdayChanged()) {
+                            obj.put("birthday", birthView.getText().toString());
+                        }
+                        if (isEmailChanged()) {
+                            obj.put("email", emailView.getText().toString());
+                        }
+                        if (isGenderChanged()) {
+                            obj.put("gender", genderView.getText().toString());
+                        }
+                        if (isLoginChanged()) {
+                            obj.put("login", loginView.getText().toString());
+                        }
+                        if (isPasswordChanged()) {
+                            obj.put("password", HashingClass.hashPassword(passwordView.getText().toString()));
+                        }
 
-                    HashMap<String, Object> obj = new HashMap<>();
-                    if (isNameChanged()) {
-                        obj.put("name", nameView.getText().toString());
+                        // Update user information in the database
+                        if (!obj.isEmpty()) {
+                            reference.child(login).updateChildren(obj);
+                            if (isEmailChanged() || isLoginChanged()) {
+                                DatabaseManager.saveDataSharedPreference(SettingsUser.this, loginView.getText().toString(), emailView.getText().toString());
+                            }
+                            Toast.makeText(SettingsUser.this, "Дані збережено", Toast.LENGTH_SHORT).show();
+                        }
+                    }catch (Exception e){
+                        Toast.makeText(SettingsUser.this, "Помилка при зберіганні до бази даних", Toast.LENGTH_SHORT).show();
                     }
-                    if (isBirthdayChanged()) {
-                        obj.put("birthday", birthView.getText().toString());
-                    }
-                    if (isEmailChanged()) {
-                        obj.put("email", emailView.getText().toString());
-                    }
-                    if (isGenderChanged()) {
-                        obj.put("gender", genderView.getText().toString());
-                    }
-                    if (isLoginChanged()) {
-                        obj.put("login", loginView.getText().toString());
-                    }
-                    if (isPasswordChanged()) {
-                        obj.put("password", passwordView.getText().toString());
-                    }
-
-                // Update user information in the database
-                if (!obj.isEmpty()) {
-                    reference.child(login).updateChildren(obj);
-                    if (isEmailChanged() || isLoginChanged()) {
-                        DatabaseManager.saveDataSharedPreference(SettingsUser.this, loginView.getText().toString(), emailView.getText().toString());
-                    }
-                    Toast.makeText(SettingsUser.this, "Дані збережено", Toast.LENGTH_SHORT).show();
-                }
             }
         });
 

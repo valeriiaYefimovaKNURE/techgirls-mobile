@@ -1,26 +1,36 @@
-package com.example.techgirls;
+package com.example.techgirls.Pages;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Toast;
+
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.techgirls.HelpClasses.DatabaseManager;
+import com.example.techgirls.RegistrationClasses.DatabaseManager;
+import com.example.techgirls.RegistrationClasses.GoogleSignInHelper;
 import com.example.techgirls.HelpClasses.ShowPages;
 import com.example.techgirls.HelpClasses.ValidationManager;
+import com.example.techgirls.R;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.FirebaseUser;
 
 /**
  * Activity for user login.
  */
-public class LoginPage extends AppCompatActivity {
+public class LoginPage extends AppCompatActivity implements GoogleSignInHelper.GoogleSignInListener {
     // TextInputLayouts for login and password fields
     private TextInputLayout passwordLayout, loginLayout;
 
     // EditText fields for login and password
     private EditText loginField, passwordField;
+    private GoogleSignInHelper googleSignInHelper;
+    private final int RC_SIGN_IN=40;
+    private DatabaseManager databaseManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,11 +45,11 @@ public class LoginPage extends AppCompatActivity {
 
         // Find the login button in the layout
         Button btnLogin = findViewById(R.id.btnLogin2);
+
+        databaseManager=new DatabaseManager();
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Create an instance of DatabaseManager
-                DatabaseManager databaseManager=new DatabaseManager();
 
                 // Get login and password from EditText fields
                 String login=loginField.getText().toString().trim();
@@ -61,5 +71,28 @@ public class LoginPage extends AppCompatActivity {
                 ShowPages.showWelcomePage(v.getContext());
             }
         });
+        Button btnGoogle=findViewById(R.id.btnRegGoogle);
+        btnGoogle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                googleSignInHelper = new GoogleSignInHelper(LoginPage.this, LoginPage.this, RC_SIGN_IN);
+            }
+        });
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == RC_SIGN_IN) {
+            googleSignInHelper.handleSignInResult(data);
+        }
+    }
+    @Override
+    public void onGoogleSignInSuccess(FirebaseUser user) {
+        // Проверка существования пользователя в базе данных
+        databaseManager.checkEmailExistence(this, user);
+    }
+    @Override
+    public void onGoogleSignInFailure(String errorMessage) {
+        Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show();
     }
 }

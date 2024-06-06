@@ -1,4 +1,4 @@
-package com.example.techgirls;
+package com.example.techgirls.Pages;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -25,6 +25,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.techgirls.HelpClasses.SharedData;
 import com.example.techgirls.HelpClasses.ShowPages;
 import com.example.techgirls.Models.NewsData;
+import com.example.techgirls.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
@@ -140,21 +141,26 @@ public class UploadActivity extends AppCompatActivity {
                 fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
                     public void onSuccess(Uri uri) {
-                        // Create a NewsData object with the news information
-                        NewsData newsData = new NewsData(title, caption, text, link, theme, uri.toString());
+                        try {
+                            // Create a NewsData object with the news information
+                            NewsData newsData = new NewsData(title, caption, text, link, theme, uri.toString());
 
-                        // Generate a unique key for the news item
-                        String key = databaseReference.push().getKey();
-                        // Set the key for the news item
-                        newsData.setKey(key);
-                        // Save the news item to the Firebase database
-                        databaseReference.child(key).setValue(newsData);
+                            // Generate a unique key for the news item
+                            String key = databaseReference.push().getKey();
+                            // Set the key for the news item
+                            newsData.setKey(key);
+                            // Save the news item to the Firebase database
+                            databaseReference.child(key).setValue(newsData);
 
-                        // Show a progress dialog and toast to indicate success
-                        AlertDialog.Builder builder = new AlertDialog.Builder(UploadActivity.this);
-                        builder.setCancelable(false);
-                        builder.setView(R.layout.progress_layout);
-                        Toast.makeText(UploadActivity.this, "Викладено", Toast.LENGTH_SHORT).show();
+                            // Show a progress dialog and toast to indicate success
+                            AlertDialog.Builder builder = new AlertDialog.Builder(UploadActivity.this);
+                            builder.setCancelable(false);
+                            builder.setView(R.layout.progress_layout);
+                            Toast.makeText(UploadActivity.this, "Викладено", Toast.LENGTH_SHORT).show();
+                            ShowPages.showMainPage(UploadActivity.this);
+                        }catch (Exception e){
+                            Toast.makeText(UploadActivity.this, "Виникла помилка під час зберігання до бази даних", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
             }
