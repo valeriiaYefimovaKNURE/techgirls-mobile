@@ -44,6 +44,7 @@
         <activity android:name=".Pages.AboutAppPage"/>
         <activity android:name=".Pages.SectionsActivity"/>
         <activity android:name=".Pages.HelpCenterPage"/>
+        <activity android:name=".Pages.EmailVerificationPage"/>
     </application>
 
 </manifest>

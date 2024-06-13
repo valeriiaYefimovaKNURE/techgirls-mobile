@@ -40,9 +40,6 @@ public class RegisterPage extends AppCompatActivity implements GoogleSignInHelpe
 
     // EditText fields for user input
     private EditText email, name, login, birthday, gender, password;
-
-    // AtomicBoolean flags for email and login validation
-    private AtomicBoolean isEmailValid = new AtomicBoolean(false);
     private AtomicBoolean isLoginValid = new AtomicBoolean(false);
     private DatabaseManager databaseManager;
     private GoogleSignInHelper googleSignInHelper;
@@ -88,19 +85,16 @@ public class RegisterPage extends AppCompatActivity implements GoogleSignInHelpe
                 // Validate email and login using ValidationManager
                 if (ValidationManager.validateEmail(userEmail, emailLayout) && ValidationManager.validateLogin(userLogin, loginLayout)) {
 
-                    //Check if the entered email and login exist
-                    databaseManager.checkEmailExistence(userEmail, emailLayout, isEmailValid);
-                    databaseManager.checkLoginExistence(userLogin, loginLayout, isLoginValid);
-
-                    //if not
-                    if (isEmailValid.get() && isLoginValid.get()) {
+                    if (databaseManager.checkLoginExistence(userLogin, loginLayout).get()) {
                         // Validate other fields
                         if (ValidationManager.validateName(userName, nameLayout) && ValidationManager.validatePassword(userPassword, passwordLayout)
                                 && ValidationManager.validateDate(userBirthday, birthdayLayout) && ValidationManager.validateGender(userGender, genderLayout)) {
 
                             //Registers a user
-                            databaseManager.registerUser(RegisterPage.this, userEmail, userName, userLogin, userPassword, userBirthday, userGender);
-                            ShowPages.showMainPage(v.getContext());
+                            databaseManager.registerUser(RegisterPage.this, userEmail,userPassword);
+                            Intent intent = new Intent(RegisterPage.this, EmailVerificationPage.class);
+                            SharedData.putUserInfo(intent,userEmail,userName,userLogin,userPassword,userBirthday,userGender);
+                            startActivity(intent);
                         }
                     }
                 }
@@ -164,7 +158,6 @@ public class RegisterPage extends AppCompatActivity implements GoogleSignInHelpe
         EditText cardLogin = dialog.findViewById(R.id.card_signUp_loginText);
         EditText cardBirthday = dialog.findViewById(R.id.card_signUp_birthText);
         EditText cardPassword = dialog.findViewById(R.id.card_signUp_passwordText);
-        EditText cardGender = autoCompleteTextView;
 
         Button btnDialogCancel = dialog.findViewById(R.id.cardCancelButton);
         Button btnDialogNext = dialog.findViewById(R.id.cardNextButton);
@@ -188,12 +181,11 @@ public class RegisterPage extends AppCompatActivity implements GoogleSignInHelpe
             public void onClick(View v) {
                 String login = cardLogin.getText().toString().trim();
                 String birthday = cardBirthday.getText().toString().trim();
-                String gender = cardGender.getText().toString().trim();
+                String gender = autoCompleteTextView.getText().toString().trim();
                 String password = cardPassword.getText().toString().trim();
 
                 if (ValidationManager.validateLogin(login, cardLoginLayout)) {
-                    databaseManager.checkLoginExistence(login, cardLoginLayout, isLoginValid);
-                    if (isLoginValid.get()) {
+                    if (databaseManager.checkLoginExistence(login, cardLoginLayout).get()) {
                         if (ValidationManager.validatePassword(password, cardPasswordLayout)
                                 && ValidationManager.validateDate(birthday, cardBirthdayLayout)
                                 && ValidationManager.validateGender(gender, cardGenderLayout)) {
@@ -205,7 +197,7 @@ public class RegisterPage extends AppCompatActivity implements GoogleSignInHelpe
                                 users.setGender(gender);
                                 users.setPassword(HashingClass.hashPassword(password));
                                 users.setBirthday(birthday);
-                                databaseManager.registerUser(RegisterPage.this, users);
+                                databaseManager.saveUserData(RegisterPage.this, users);
                                 dialog.dismiss();
                                 ShowPages.showMainPage(v.getContext());
                             }

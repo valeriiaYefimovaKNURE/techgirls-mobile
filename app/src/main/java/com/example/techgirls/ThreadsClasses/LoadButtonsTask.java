@@ -1,4 +1,4 @@
-package com.example.techgirls.HelpClasses;
+package com.example.techgirls.ThreadsClasses;
 
 import android.app.Activity;
 import android.os.AsyncTask;
@@ -8,6 +8,7 @@ import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 
+import com.example.techgirls.HelpClasses.SharedData;
 import com.example.techgirls.Pages.MainPage;
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.database.DataSnapshot;
@@ -19,8 +20,10 @@ public class LoadButtonsTask implements Runnable {
     private DatabaseReference databaseReference;
     private LinearLayout layout;
     private Handler mainHandler;
+    private MainPage mainPage;
 
-    public LoadButtonsTask(DatabaseReference databaseReference, LinearLayout layout, Handler mainHandler) {
+    public LoadButtonsTask(MainPage mainPage, DatabaseReference databaseReference, LinearLayout layout, Handler mainHandler) {
+        this.mainPage = mainPage;
         this.databaseReference = databaseReference;
         this.layout = layout;
         this.mainHandler = mainHandler;
@@ -61,7 +64,6 @@ public class LoadButtonsTask implements Runnable {
         params.weight = 1;
         button.setLayoutParams(params);
 
-        MainPage mainPage=new MainPage();
         button.setOnClickListener(v -> mainPage.displayNewsByTheme(theme));
         layout.addView(button);
     }

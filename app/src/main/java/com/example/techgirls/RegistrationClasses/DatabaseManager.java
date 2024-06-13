@@ -1,18 +1,32 @@
 package com.example.techgirls.RegistrationClasses;
+
+import static androidx.core.content.ContextCompat.getDrawable;
+
+import static com.google.android.material.internal.ContextUtils.getActivity;
+
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.example.techgirls.HelpClasses.SharedMethods;
 import com.example.techgirls.HelpClasses.ShowPages;
 import com.example.techgirls.Pages.MainPage;
 import com.example.techgirls.Models.Users;
 import com.example.techgirls.Pages.RegisterPage;
 import com.example.techgirls.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -21,45 +35,22 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 /**
  * Manages interactions with the Firebase Realtime Database.
  */
 public class DatabaseManager {
     private final DatabaseReference table;
-
+    private final FirebaseAuth firebaseAuth;
+    private FirebaseUser firebaseUser;
     /**
      * Empty constructor for initialization the DatabaseManager and sets up a reference to the "Users" table in the Firebase Realtime Database.
      */
     public DatabaseManager() {
         FirebaseDatabase db = FirebaseDatabase.getInstance();
         table = db.getReference("Users");
-    }
-
-    /**
-     * Checks if an email already exists in the database.
-     *
-     * @param email      The email to check for existence.
-     * @param layout     The layout where error messages will be displayed.
-     * @param validEmail A boolean flag indicating if the email is valid.
-     */
-    public void checkEmailExistence(String email, TextInputLayout layout, AtomicBoolean validEmail) {
-        table.orderByChild("email").equalTo(email).addListenerForSingleValueEvent(
-                new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        validEmail.set(!dataSnapshot.exists());  //'true' if not in the db
-                        if (!validEmail.get()) {    //not 'true'
-                            layout.setError(layout.getContext().getString(R.string.error_email_exist));
-                        } else {
-                            layout.setError(null);
-                        }
-                    }
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-                    }
-                }
-        );
+        firebaseAuth=FirebaseAuth.getInstance();
     }
     public void checkEmailExistence(Context context, FirebaseUser user){
         table.orderByChild("email").equalTo(user.getEmail()).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -85,9 +76,10 @@ public class DatabaseManager {
      *
      * @param login      The login to check for existence.
      * @param layout     The layout where error messages will be displayed.
-     * @param validLogin A boolean flag indicating if the login is valid.
      */
-    public void checkLoginExistence(String login, TextInputLayout layout, AtomicBoolean validLogin) {
+    public AtomicBoolean checkLoginExistence(String login, TextInputLayout layout) {
+        AtomicBoolean validLogin = new AtomicBoolean(true);
+
         table.orderByChild("login").equalTo(login).addListenerForSingleValueEvent(
                 new ValueEventListener() {
                     @Override
@@ -104,8 +96,84 @@ public class DatabaseManager {
                     }
                 }
         );
-    }
 
+        return validLogin;
+    }
+    public void registerUser(Activity context, String email, String password) {
+        AlertDialog progressDialog = SharedMethods.createProgressDialog(context);
+        try {
+            firebaseAuth.createUserWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            firebaseUser= firebaseAuth.getCurrentUser();
+                            if (firebaseUser != null) {
+                                // Отправка письма для верификации
+                                firebaseUser.sendEmailVerification().addOnCompleteListener(verificationTask -> {
+                                    if(verificationTask.isSuccessful()) {
+                                        progressDialog.dismiss();
+                                    }
+                                    else {
+                                        // Ошибка при отправке письма для верификации
+                                        Toast.makeText(context, "Помилка під час відправки листа для верифікації пошти", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            }
+                        } else {
+                            Exception exception = task.getException();
+                            if (exception instanceof FirebaseAuthUserCollisionException) {
+                                Toast.makeText(context, "Ця пошта вже використовується", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(context, "Ошибка при регистрации: " + Objects.requireNonNull(exception).getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+        } catch (Exception e) {
+            Toast.makeText(context, "Ошибка при сохранении в базу данных", Toast.LENGTH_SHORT).show();
+        }
+    }
+    public void verifyEmail(Context context, String email, String name, String login, String password, String birth, String gender) {
+        firebaseUser = firebaseAuth.getCurrentUser();
+        if (firebaseUser != null) {
+            // Обновляем информацию о пользователе
+            firebaseUser.reload().addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    if (firebaseUser.isEmailVerified()) {
+                        saveUserData(context, email, name, login, password, birth, gender);
+                        Toast.makeText(context, R.string.toast_signup_succes, Toast.LENGTH_SHORT).show();
+                        ShowPages.showMainPage(context);
+                    } else {
+                        Toast.makeText(context, "Будь ласка, підтвердити свою пошту", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(context, "Не вдалося оновити статус користувача", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+    }
+    public void resendEmailVerification(Context context){
+        firebaseUser= firebaseAuth.getCurrentUser();
+        firebaseUser.sendEmailVerification().addOnCompleteListener(verificationTask -> {
+            if(verificationTask.isSuccessful()) {
+                Toast.makeText(context, "Повторний лист відіслано", Toast.LENGTH_SHORT).show();
+            }
+            else {
+                // Ошибка при отправке письма для верификации
+                Toast.makeText(context, "Помилка під час відправки листа для верифікації пошти", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+    public void deleteAuthUser(Context context){
+        firebaseUser= firebaseAuth.getCurrentUser();
+        if (firebaseUser != null) {
+            firebaseUser.delete()
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                        }
+                    });
+            
+        }
+    }
     /**
      * Registers a new user in the database.
      *
@@ -117,7 +185,7 @@ public class DatabaseManager {
      * @param Birth    The birth date of the user.
      * @param Gender   The gender of the user.
      */
-    public void registerUser(Context context,String Email, String Name, String Login, String Password, String Birth, String Gender) {
+    public void saveUserData(Context context, String Email, String Name, String Login, String Password, String Birth, String Gender) {
         try{
         Users user = new Users();
         user.setEmail(Email);
@@ -138,7 +206,7 @@ public class DatabaseManager {
             Toast.makeText(context, "Помилка при зберіганні до бази даних", Toast.LENGTH_SHORT).show();
         }
     }
-    public void registerUser(Context context,Users user) {
+    public void saveUserData(Context context, Users user) {
         try{
             user.setRole("USER");
 
@@ -152,6 +220,22 @@ public class DatabaseManager {
         catch (Exception e){
             Toast.makeText(context, "Помилка при зберіганні до бази даних", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    //Вход происходит без FirebaseAuthentication поэтому не понятно как сделать
+    public void ResetPassword(Context context,String email){
+        firebaseAuth.sendPasswordResetEmail(email).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if(task.isSuccessful()){
+                    Toast.makeText(context, "Лист для відновлення паролю відправлено на пошту", Toast.LENGTH_SHORT).show();
+                    ShowPages.showLoginForm(context);
+                }
+                else{
+                    Toast.makeText(context, "Помилка при відправленні листа", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     /**

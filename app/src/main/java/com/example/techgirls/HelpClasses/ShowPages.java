@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.example.techgirls.Pages.AboutAppPage;
+import com.example.techgirls.Pages.EmailVerificationPage;
 import com.example.techgirls.Pages.SectionsActivity;
 import com.example.techgirls.Pages.HelpCenterPage;
 import com.example.techgirls.Pages.LoginPage;
@@ -126,6 +127,10 @@ public class ShowPages {
      */
     public static void showHelpCenter(Context context){
         Intent intent = new Intent(context, HelpCenterPage.class);
+        context.startActivity(intent);
+    }
+    public static void showEmailVerificationPage(Context context){
+        Intent intent = new Intent(context, EmailVerificationPage.class);
         context.startActivity(intent);
     }
 }

@@ -1,10 +1,14 @@
 package com.example.techgirls.Pages;
 
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
@@ -85,7 +89,6 @@ public class NewsActivity extends AppCompatActivity {
                         int id = item.getItemId();
                         if(id==R.id.item_1){
                             // Edit news item
-                            //get key from database
                             try{
                             Intent intent = new Intent(NewsActivity.this, NewsUpdate.class);
                             intent.putExtra("Key", key);
@@ -122,35 +125,38 @@ public class NewsActivity extends AppCompatActivity {
      * Deletes the news item.
      */
     private void DeleteNews(){
-        // Create confirmation dialog
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Ви точно хочете видалити цей запис?")
-                .setCancelable(false)
-                .setPositiveButton("Так", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        // Delete news item from database and storage
-                        final DatabaseReference reference= FirebaseDatabase.getInstance().getReference("News");
-                        FirebaseStorage storage=FirebaseStorage.getInstance();
-                        StorageReference storageReference=storage.getReferenceFromUrl(imageUrl);
-                        storageReference.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void unused) {
-                                // Delete news item reference from database
-                                reference.child(key).removeValue();
-                                Toast.makeText(NewsActivity.this,"Видалено",Toast.LENGTH_SHORT).show();
+        Dialog dialog = new Dialog(NewsActivity.this);
+        dialog.setContentView(R.layout.card_view_delete_news);
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.getWindow().setBackgroundDrawable(getDrawable(R.drawable.custom_card_bag));
+        dialog.setCancelable(false);
+        Button btnDialogCancel = dialog.findViewById(R.id.cardCancelButton);
+        Button btnDialogNext = dialog.findViewById(R.id.cardNextButton);
+        btnDialogCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        btnDialogNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final DatabaseReference reference= FirebaseDatabase.getInstance().getReference("News");
+                FirebaseStorage storage=FirebaseStorage.getInstance();
+                StorageReference storageReference=storage.getReferenceFromUrl(imageUrl);
+                storageReference.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        // Delete news item reference from database
+                        reference.child(key).removeValue();
+                        Toast.makeText(NewsActivity.this,"Видалено",Toast.LENGTH_SHORT).show();
 
-                                // Navigate to main page
-                                ShowPages.showMainPage(NewsActivity.this);
-                            }
-                        });
-                    }
-                })
-                .setNegativeButton("Ні", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
+                        // Navigate to main page
+                        ShowPages.showMainPage(NewsActivity.this);
                     }
                 });
-        AlertDialog alert = builder.create();
-        alert.show();
+            }
+        });
+        dialog.show();
     }
 }

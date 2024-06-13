@@ -81,6 +81,7 @@
     <string name="developers">Працювали: Ольга Капець, Єфімова Валерія, Богдана Лемішовська, Ірина Лабенко.</string>
     <string name="special_thanks">Окреме дякую: Lindsay Rawitscher.</string>
     <string name="app_version">App version:1.0.0</string>
+    <string name="about_app_email">Пошта для зв\'язку: mee.we.women@gmail.com</string>
 
     <!-- Progress bar strings-->
     <string name="loading">Завантаження...</string>
@@ -93,12 +94,27 @@
     <string name="backToSections">Повернутись до розділів</string>
     <string name="back_to_welcomePage">Повернутись на сторінку привітання</string>
 
+    <!-- Email verification page-->
+    <string name="email_forverification">%s</string>
+    <string name="email_verification_text">Лист було відправлено на вашу пошту,</string>
+    <string name="email_ver_button_sendAgain">Відправити знову</string>
+
+    <!-- CardView to delete news-->
+    <string name="card_deleteNews_text1">Ви дійсно хочете</string>
+    <string name="card_deleteNews_text2">видалити цей запис?</string>
+
     <!-- General words-->
     <string name="change">Змінити</string>
     <string name="or">Або</string>
     <string name="save">Зберегти</string>
     <string name="update">Оновити</string>
+    <string name="button_next">Продовжити</string>
 
 
     <string name="default_web_client_id">204552763865-mm2dh7r53pev83o4ok2che72fa7usm2s.apps.googleusercontent.com</string>
+    <string name="button_delete">Видалити</string>
+    <string name="button_back">Назад</string>
+    <string name="popUp_explanation">Використовуй \\\\n щоб\nпочати з нової строки</string>
+
+
 </resources>

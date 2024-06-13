@@ -14,7 +14,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.techgirls.HelpClasses.LoadButtonsTask;
+import com.example.techgirls.ThreadsClasses.LoadButtonsTask;
 import com.example.techgirls.RegistrationClasses.DatabaseManager;
 import com.example.techgirls.HelpClasses.NewsAdapter;
 import com.example.techgirls.HelpClasses.SharedData;
@@ -22,7 +22,7 @@ import com.example.techgirls.HelpClasses.ShowPages;
 import com.example.techgirls.RegistrationClasses.UserManager;
 import com.example.techgirls.Models.NewsData;
 import com.example.techgirls.R;
-import com.google.android.material.button.MaterialButton;
+import com.example.techgirls.ThreadsClasses.LoadNewsTask;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -39,6 +39,7 @@ import java.util.concurrent.Executors;
  * Activity displaying the main page of the application.
  */
 public class MainPage extends AppCompatActivity {
+    private final ExecutorService executorService = Executors.newFixedThreadPool(2);
     // Flag to indicate if it's the first load of the page
     private boolean isFirstLoad = true;
 
@@ -78,30 +79,17 @@ public class MainPage extends AppCompatActivity {
         // Layout for theme buttons
         LinearLayout buttonsLayout = findViewById(R.id.themeButtonsLayout);
         Handler mainHandler = new Handler(Looper.getMainLooper());
-        LoadButtonsTask loadButtonsTask = new LoadButtonsTask(databaseReference, buttonsLayout, mainHandler);
-        new Thread(loadButtonsTask).start();
+
 
         // GridView to display news items
         GridView gridView = findViewById(R.id.gridView);
         newsList = new ArrayList<>();
         adapter = new NewsAdapter(newsList, this);
         gridView.setAdapter(adapter);
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    NewsData newsClass = dataSnapshot.getValue(NewsData.class);
-                    newsClass.setKey(dataSnapshot.getKey());
-                    newsList.add(newsClass);
-                }
-                adapter.notifyDataSetChanged();
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
+        // Load buttons and news in separate threads
+        executorService.execute(new LoadButtonsTask(this, databaseReference, buttonsLayout, mainHandler));
+        executorService.execute(new LoadNewsTask(databaseReference, newsList, adapter, mainHandler));
 
         // Add news button listener
         addNewsbtn.setOnClickListener(new View.OnClickListener() {
@@ -140,53 +128,6 @@ public class MainPage extends AppCompatActivity {
         });
     }
 
-    /**
-     * Creates buttons for each theme.
-     *
-     * @param layout The layout to add the buttons to.
-     */
-    /*private void loadButtons(LinearLayout layout) {
-        executorService.execute(() -> {
-            String[] itemThemes = SharedData.itemThemes;
-            for (String theme : itemThemes) {
-                checkNewsExistenceAndCreateButton(theme, layout);
-            }
-        });
-    }
-    private void checkNewsExistenceAndCreateButton(String theme, LinearLayout layout) {
-        Query query = databaseReference.orderByChild("dataTheme").equalTo(theme);
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()) {
-                    mainHandler.post(() -> createButton(theme, layout));
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-            }
-        });
-    }
-    private void createButton(String theme, LinearLayout layout) {
-        MaterialButton button = new MaterialButton(this);
-        button.setText(theme);
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.WRAP_CONTENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
-        );
-        params.setMargins(12, 0, 0, 0);
-        params.weight = 1;
-        button.setLayoutParams(params);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                displayNewsByTheme(theme);
-            }
-        });
-        params.setMarginEnd(12);
-        mainHandler.post(() -> layout.addView(button));
-    }*/
 
     /**
      * Displays news filtered by a specific theme.

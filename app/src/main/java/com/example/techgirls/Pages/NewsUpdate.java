@@ -5,12 +5,17 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResult;
@@ -22,6 +27,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 import com.example.techgirls.HelpClasses.SharedData;
+import com.example.techgirls.HelpClasses.SharedMethods;
 import com.example.techgirls.HelpClasses.ShowPages;
 import com.example.techgirls.Models.NewsData;
 import com.example.techgirls.R;
@@ -81,6 +87,30 @@ public class NewsUpdate extends AppCompatActivity {
         backButton=findViewById(R.id.updateButton_close);
         TextInputLayout themeLayout=findViewById(R.id.outlinedThemeField);
 
+        autoCompleteTextView.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // Ничего не делаем перед изменением текста
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                themeLayout.setHint("");
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                // Проверяем, есть ли текст в AutoCompleteTextView
+                if (s.toString().isEmpty()) {
+                    // Если нет текста, отображаем hint
+                    autoCompleteTextView.setHint(R.string.choose_theme);
+                } else {
+                    // Если есть текст, скрываем hint
+                    themeLayout.setHint("");
+                }
+            }
+        });
+
         // Register activity result launcher
         ActivityResultLauncher<Intent> activityResultLauncher=registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
                 new ActivityResultCallback<ActivityResult>() {
@@ -96,6 +126,9 @@ public class NewsUpdate extends AppCompatActivity {
 
         // Get news key from intent
         key=getIntent().getStringExtra("Key");
+        if(key==null){
+            Toast.makeText(NewsUpdate.this,"Вибачте, помилка передачі ID новини",Toast.LENGTH_SHORT).show();
+        }
 
         // Get database reference for the news
         databaseReference= FirebaseDatabase.getInstance().getReference("News").child(key);
@@ -164,6 +197,14 @@ public class NewsUpdate extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 ShowPages.showMainPage(v.getContext());
+            }
+        });
+
+        ImageButton explainBtn=findViewById(R.id.explainButton);
+        explainBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SharedMethods.showPopupWindow(NewsUpdate.this, v, R.layout.popup_news_add_explanation);
             }
         });
     }

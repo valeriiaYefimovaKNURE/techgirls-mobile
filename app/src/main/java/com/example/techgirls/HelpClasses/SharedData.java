@@ -61,6 +61,14 @@ public class SharedData {
         intent.putExtra("Theme",news.getDataTheme());
         intent.putExtra("Key",news.getKey());
     }
+    public static void putUserInfo(Intent intent,String email, String name, String login, String password, String birth, String gender){
+        intent.putExtra("Email", email);
+        intent.putExtra("Name", name);
+        intent.putExtra("Login", login);
+        intent.putExtra("Password",password);
+        intent.putExtra("Birth",birth);
+        intent.putExtra("Gender",gender);
+    }
 
     /**
      * Retrieves news data from an intent and sets it into views.

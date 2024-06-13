@@ -9,6 +9,7 @@
         <item name="colorPrimary">@color/lavender</item>
         <item name="fontFamily">@font/ubuntu</item>
         <item name="colorSecondary">#00FF00</item> <!-- Цвет иконки -->
+        <item name="android:popupMenuStyle">@style/popUpBGStyle</item>
     </style>
     <style name="Theme.TechGirls" parent="Base.Theme.TechGirls" />
 
@@ -20,5 +21,8 @@
     <style name="Base.Theme.TechGirls.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Base.Theme.TechGirls.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="popUpBGStyle" parent="Widget.Material3.PopupMenu">
+        <item name="android:popupBackground">@drawable/custom_card_bag</item>
+    </style>
 
 </resources>

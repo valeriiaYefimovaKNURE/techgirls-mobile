@@ -36,7 +36,7 @@
             android:lines="2"
             android:text="Title"
             android:textAlignment="center"
-            android:textSize="14sp"
+            android:textSize="12sp"
             android:textStyle="bold" />
 
         <TextView
@@ -52,7 +52,7 @@
             android:lines="2"
             android:text="Короткий опис"
             android:textAlignment="center"
-            android:textSize="12sp" />
+            android:textSize="10sp" />
     </LinearLayout>
 
 

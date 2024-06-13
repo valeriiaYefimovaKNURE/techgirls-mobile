@@ -6,6 +6,9 @@ import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.AutoCompleteTextView;
@@ -13,6 +16,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResult;
@@ -23,11 +28,13 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.techgirls.HelpClasses.SharedData;
+import com.example.techgirls.HelpClasses.SharedMethods;
 import com.example.techgirls.HelpClasses.ShowPages;
 import com.example.techgirls.Models.NewsData;
 import com.example.techgirls.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -72,6 +79,19 @@ public class UploadActivity extends AppCompatActivity {
         uploadText = findViewById(R.id.uploadText);
         uploadLink = findViewById(R.id.uploadLink);
         uploadTheme = autoCompleteTextView;
+        TextInputLayout themeLayout=findViewById(R.id.outlinedThemeField);
+        autoCompleteTextView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    // Если в фокусе, убираем hint
+                    themeLayout.setHint("");
+                } else {
+                    // Если не в фокусе, восстанавливаем hint
+                    ((AutoCompleteTextView) v).setHint(R.string.choose_theme);
+                }
+            }
+        });
 
         // Register activity result launcher for selecting image from gallery
         ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(
@@ -119,8 +139,15 @@ public class UploadActivity extends AppCompatActivity {
                 ShowPages.showMainPage(v.getContext());
             }
         });
-    }
 
+        ImageButton explainBtn=findViewById(R.id.explainButton);
+        explainBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SharedMethods.showPopupWindow(UploadActivity.this, v, R.layout.popup_news_add_explanation);
+            }
+        });
+    }
     // Upload image and news data to Firebase storage and database
     public void uploadToFirebase(Uri uri) {
         String title = uploadTitle.getText().toString().trim();
