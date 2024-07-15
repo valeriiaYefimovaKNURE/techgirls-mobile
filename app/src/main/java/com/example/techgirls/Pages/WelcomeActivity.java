@@ -48,10 +48,6 @@ public class WelcomeActivity extends AppCompatActivity {
         });
     }
 
-    /**
-     * Check if the user is already logged in.
-     * If logged in, directly navigate to the main page.
-     */
     private void checkAccessToken() {
         SharedPreferences sharedPreferences = getSharedPreferences("mePowerLogin", Context.MODE_PRIVATE);
         boolean counter=sharedPreferences.getBoolean("loginCounter",Boolean.valueOf(String.valueOf(MODE_PRIVATE)));
