@@ -76,6 +76,7 @@ public class LoginPage extends AppCompatActivity implements GoogleSignInHelper.G
             @Override
             public void onClick(View v) {
                 googleSignInHelper = new GoogleSignInHelper(LoginPage.this, LoginPage.this, RC_SIGN_IN);
+                googleSignInHelper.signIn();
             }
         });
     }
@@ -88,8 +89,7 @@ public class LoginPage extends AppCompatActivity implements GoogleSignInHelper.G
     }
     @Override
     public void onGoogleSignInSuccess(FirebaseUser user) {
-        // Проверка существования пользователя в базе данных
-        databaseManager.checkEmailExistence(this, user);
+
     }
     @Override
     public void onGoogleSignInFailure(String errorMessage) {

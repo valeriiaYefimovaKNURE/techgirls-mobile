@@ -25,9 +25,11 @@ import com.example.techgirls.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -52,18 +54,18 @@ public class DatabaseManager {
         table = db.getReference("Users");
         firebaseAuth=FirebaseAuth.getInstance();
     }
-    public void checkEmailExistence(Context context, FirebaseUser user){
+    public void checkEmailExistence(Context context, FirebaseUser user, Runnable onUserExists, Runnable notUserExists) {
         table.orderByChild("email").equalTo(user.getEmail()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
-                    // User exists, proceed to the main activity
-                    ShowPages.showMainPage(context);
+                    // User exists, proceed with onUserExists action
+                    onUserExists.run();
                 } else {
-                    RegisterPage r=new RegisterPage();
-                    r.showDialogForAdditionalInfo(user);
+                    notUserExists.run();
                 }
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 Toast.makeText(context, "Error with checking email existence", Toast.LENGTH_SHORT).show();
@@ -285,6 +287,38 @@ public class DatabaseManager {
                     loginLayout.requestFocus();
                 }
             }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
+    }
+    public void authenticateUser(Context context, String email){
+        Query query = table.orderByChild("email").equalTo(email);
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    for (DataSnapshot userSnapshot : snapshot.getChildren()) {
+                        String loginFromDB = userSnapshot.getKey();
+                        String nameFromDB = userSnapshot.child("name").getValue(String.class);
+                        String dateFromDB = userSnapshot.child("birthday").getValue(String.class);
+                        String genderFromDB = userSnapshot.child("gender").getValue(String.class);
+                        String role = userSnapshot.child("role").getValue(String.class);
+                        String passwordFromDB = userSnapshot.child("password").getValue(String.class);
+
+                        saveDataSharedPreference(context, loginFromDB, email);
+
+                        UserManager.getInstance(context).saveUser(loginFromDB, email, passwordFromDB, nameFromDB, dateFromDB, genderFromDB, role);
+
+                        Intent intent = new Intent(context, MainPage.class);
+                        context.startActivity(intent);
+                        return;
+                    }
+                } else {
+                    Toast.makeText(context, "Пользователь не найден", Toast.LENGTH_SHORT).show();
+                }
+            }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
             }

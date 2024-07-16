@@ -14,7 +14,15 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.techgirls.HelpClasses.ShowPages;
 import com.example.techgirls.R;
+import com.example.techgirls.RegistrationClasses.GoogleSignInHelper;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+
+import org.checkerframework.checker.nullness.qual.NonNull;
 
 /**
  * Activity for managing user settings.
@@ -23,6 +31,8 @@ public class SettingsPage extends AppCompatActivity {
 
     // Firebase authentication instance
     private FirebaseAuth mAuth;
+    private GoogleSignInClient googleSignInClient;
+    private Dialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,14 +44,14 @@ public class SettingsPage extends AppCompatActivity {
         ImageView backBtn = findViewById(R.id.back_button);
         Button userBtn = findViewById(R.id.userInfo_button);
 
+        mAuth = FirebaseAuth.getInstance();
+        googleSignInClient = GoogleSignIn.getClient(SettingsPage.this, GoogleSignInOptions.DEFAULT_SIGN_IN);
+
         // Button listener for logging out
         logoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Initialize Firebase authentication instance
-                mAuth=FirebaseAuth.getInstance();
-
-                Dialog dialog = new Dialog(SettingsPage.this);
+                dialog = new Dialog(SettingsPage.this);
                 dialog.setContentView(R.layout.card_view_logout);
                 dialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                 dialog.getWindow().setBackgroundDrawable(getDrawable(R.drawable.custom_card_bag));
@@ -57,11 +67,22 @@ public class SettingsPage extends AppCompatActivity {
                 btnDialogNext.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        mAuth.signOut();
-                        SharedPreferences sh=getSharedPreferences("mePowerLogin",MODE_PRIVATE);
-                        sh.edit().clear().commit();
-                        ShowPages.showWelcomePage(SettingsPage.this);
-                        SettingsPage.this.finish();
+                        googleSignInClient.signOut().addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()) {
+                                    mAuth.signOut();
+                                    // Clear shared preferences if needed
+                                    SharedPreferences sh = getSharedPreferences("mePower_user_prefs", MODE_PRIVATE);
+                                    sh.edit().clear().apply();
+                                    sh = getSharedPreferences("mePowerLogin", MODE_PRIVATE);
+                                    sh.edit().clear().apply();
+                                    ShowPages.showWelcomePage(SettingsPage.this);
+                                    finish();
+                                    dialog.dismiss();
+                                }
+                            }
+                        });
                     }
                 });
                 dialog.show();
@@ -83,5 +104,12 @@ public class SettingsPage extends AppCompatActivity {
                 ShowPages.showUserSettings(SettingsPage.this);
             }
         });
+    }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (dialog != null && dialog.isShowing()) {
+            dialog.dismiss();
+        }
     }
 }
