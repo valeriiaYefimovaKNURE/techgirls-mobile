@@ -23,8 +23,11 @@ import com.example.techgirls.HelpClasses.ValidationManager;
 import com.example.techgirls.Models.Users;
 import com.example.techgirls.R;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -116,6 +119,7 @@ public class RegisterPage extends AppCompatActivity implements GoogleSignInHelpe
             @Override
             public void onClick(View v) {
                 googleSignInHelper = new GoogleSignInHelper(RegisterPage.this, RegisterPage.this, RC_SIGN_IN);
+                googleSignInHelper.signIn();
             }
         });
 
@@ -130,8 +134,6 @@ public class RegisterPage extends AppCompatActivity implements GoogleSignInHelpe
 
     @Override
     public void onGoogleSignInSuccess(FirebaseUser user) {
-        // Проверка существования пользователя в базе данных
-        databaseManager.checkEmailExistence(this, user);
     }
 
     @Override
