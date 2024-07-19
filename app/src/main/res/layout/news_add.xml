@@ -55,20 +55,20 @@
                 <EditText
                     android:id="@+id/uploadTitle"
                     android:layout_width="match_parent"
-                    android:layout_height="60dp"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="start|center_vertical"
                     android:layout_marginTop="20dp"
                     android:background="@drawable/lavender_border"
                     android:hint="@string/input_title"
                     android:padding="16dp"
                     android:textColor="@color/purple"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     android:textStyle="bold" />
 
                 <EditText
                     android:id="@+id/uploadCaption"
                     android:layout_width="match_parent"
-                    android:layout_height="60dp"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="start|center_vertical"
                     android:layout_marginTop="20dp"
                     android:background="@drawable/lavender_border"
@@ -106,7 +106,7 @@
                 <EditText
                     android:id="@+id/uploadLink"
                     android:layout_width="match_parent"
-                    android:layout_height="60dp"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="start|center_vertical"
                     android:layout_marginTop="20dp"
                     android:background="@drawable/lavender_border"

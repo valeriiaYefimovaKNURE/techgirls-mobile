@@ -68,7 +68,7 @@ public class LoginPage extends AppCompatActivity implements GoogleSignInHelper.G
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ShowPages.showWelcomePage(v.getContext());
+                finish();
             }
         });
         Button btnGoogle=findViewById(R.id.btnRegGoogle);

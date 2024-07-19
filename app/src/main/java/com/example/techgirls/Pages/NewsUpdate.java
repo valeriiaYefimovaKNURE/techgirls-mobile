@@ -128,10 +128,11 @@ public class NewsUpdate extends AppCompatActivity {
         key=getIntent().getStringExtra("Key");
         if(key==null){
             Toast.makeText(NewsUpdate.this,"Вибачте, помилка передачі ID новини",Toast.LENGTH_SHORT).show();
+            return;
         }
 
         // Get database reference for the news
-        databaseReference= FirebaseDatabase.getInstance().getReference("News").child(key);
+        databaseReference = FirebaseDatabase.getInstance().getReference("News").child(key);
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -146,10 +147,13 @@ public class NewsUpdate extends AppCompatActivity {
                     updateLink.setText(newsData.getDataLink());
 
                     // Populate theme AutoCompleteTextView
-                    SharedData.themeAutoCompleteTextView(NewsUpdate.this,autoCompleteTextView);
+                    SharedData.themeAutoCompleteTextView(NewsUpdate.this, autoCompleteTextView);
                     if (SharedData.itemThemes.length > 0) {
                         autoCompleteTextView.setText(newsData.getDataTheme(), false);
-                        autoCompleteTextView.setSelection(SharedData.itemThemes.length - 1);
+                        int length = newsData.getDataTheme().length();
+                        if (length > 0) {
+                            autoCompleteTextView.setSelection(length);
+                        }
                     } else {
                         autoCompleteTextView.setText(newsData.getDataTheme(), false);
                         themeLayout.setError("Вибачте, виникла помилка. Ви не зможете змінити тему.");
@@ -162,13 +166,14 @@ public class NewsUpdate extends AppCompatActivity {
                     Glide.with(NewsUpdate.this).load(imageUrl).into(updateImage);
                 } else {
                     AlertDialog.Builder builder = new AlertDialog.Builder(NewsUpdate.this);
-                    builder.setMessage("Даних по цій записі немає").setCancelable(true);
+                    builder.setMessage("Даних по цій записі немає").setCancelable(true).show();
                 }
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(NewsUpdate.this);
-                builder.setMessage("Виникла помилка під час загрузки з бази даних").setCancelable(true);
+                builder.setMessage("Виникла помилка під час загрузки з бази даних").setCancelable(true).show();
             }
         });
 
@@ -196,7 +201,7 @@ public class NewsUpdate extends AppCompatActivity {
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ShowPages.showMainPage(v.getContext());
+                finish();
             }
         });
 

@@ -93,7 +93,7 @@ public class HelpCenterPage extends AppCompatActivity {
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ShowPages.showSections(HelpCenterPage.this);
+                finish();
             }
         });
     }

@@ -142,7 +142,10 @@ public class MainPage extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     NewsData newsClass = dataSnapshot.getValue(NewsData.class);
-                    newsList.add(newsClass);
+                    if (newsClass != null) {
+                        newsClass.setKey(dataSnapshot.getKey());
+                        newsList.add(newsClass);
+                    }
                 }
                 adapter.notifyDataSetChanged();
             }
@@ -163,7 +166,10 @@ public class MainPage extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     NewsData newsClass = dataSnapshot.getValue(NewsData.class);
-                    newsList.add(newsClass);
+                    if (newsClass != null) {
+                        newsClass.setKey(dataSnapshot.getKey());
+                        newsList.add(newsClass);
+                    }
                 }
                 adapter.notifyDataSetChanged();
             }
