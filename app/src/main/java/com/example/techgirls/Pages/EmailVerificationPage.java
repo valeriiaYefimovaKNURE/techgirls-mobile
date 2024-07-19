@@ -60,7 +60,7 @@ public class EmailVerificationPage extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 databaseManager.deleteAuthUser(EmailVerificationPage.this);
-                ShowPages.showRegisterForm(v.getContext());
+                finish();
             }
         });
         registerActivityLifecycleCallbacks(new Application.ActivityLifecycleCallbacks() {

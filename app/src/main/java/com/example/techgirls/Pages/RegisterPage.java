@@ -109,7 +109,7 @@ public class RegisterPage extends AppCompatActivity implements GoogleSignInHelpe
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ShowPages.showWelcomePage(v.getContext());
+                finish();
             }
         });
 

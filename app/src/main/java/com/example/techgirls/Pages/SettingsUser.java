@@ -124,7 +124,7 @@ public class SettingsUser extends AppCompatActivity {
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ShowPages.showSettings(SettingsUser.this);
+                finish();
             }
         });
     }
