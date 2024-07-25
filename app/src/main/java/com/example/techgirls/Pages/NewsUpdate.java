@@ -31,6 +31,7 @@ import com.example.techgirls.HelpClasses.SharedMethods;
 import com.example.techgirls.HelpClasses.ShowPages;
 import com.example.techgirls.Models.NewsData;
 import com.example.techgirls.R;
+import com.example.techgirls.RegistrationClasses.UserManager;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -57,7 +58,7 @@ public class NewsUpdate extends AppCompatActivity {
     AutoCompleteTextView autoCompleteTextView;
 
     // Data
-    String title, caption, text, link, theme;
+    String title, caption, text, link, theme, author;
     String imageUrl, oldImageUrl;
     String key;
     Uri uri;
@@ -253,6 +254,7 @@ public class NewsUpdate extends AppCompatActivity {
         text = updateText.getText().toString().trim();
         link = updateLink.getText().toString().trim();
         theme = autoCompleteTextView.getText().toString().trim();
+        author = UserManager.getInstance(this).getName();
 
         // Create news data object
         NewsData newsData=new NewsData(title,caption,text,link,theme,imageUrl);
