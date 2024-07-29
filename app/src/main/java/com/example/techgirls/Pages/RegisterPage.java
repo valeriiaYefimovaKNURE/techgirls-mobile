@@ -161,6 +161,7 @@ public class RegisterPage extends AppCompatActivity implements GoogleSignInHelpe
 
         EditText cardLogin = dialog.findViewById(R.id.card_signUp_loginText);
         EditText cardBirthday = dialog.findViewById(R.id.card_signUp_birthText);
+        cardBirthday.addTextChangedListener(new DateFormattingTextWatcher());
         EditText cardPassword = dialog.findViewById(R.id.card_signUp_passwordText);
 
         Button btnDialogCancel = dialog.findViewById(R.id.cardCancelButton);
