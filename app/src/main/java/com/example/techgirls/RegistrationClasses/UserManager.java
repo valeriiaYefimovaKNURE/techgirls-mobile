@@ -1,7 +1,21 @@
 package com.example.techgirls.RegistrationClasses;
 
+import static androidx.appcompat.content.res.AppCompatResources.getDrawable;
+
+import android.app.Dialog;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.TextView;
+
+import com.example.techgirls.HelpClasses.SharedData;
+import com.example.techgirls.Pages.SettingsPage;
+import com.example.techgirls.R;
+
+import java.util.Calendar;
+import java.util.Random;
 
 /**
  * Manages user data using SharedPreferences.
@@ -18,6 +32,10 @@ public class UserManager {
     private static final String KEY_NAME = "name";
     private static final String KEY_BIRTHDAY = "birthday";
     private static final String KEY_ROLE = "role";
+
+    private static final String LAST_SHOW_TIME_EMOTIONS = "lastShowTimeEmotions";
+
+
 
     /**
      * Private constructor to enforce singleton pattern.
@@ -86,6 +104,14 @@ public class UserManager {
     }
     public String getGender() {
         return sharedPreferences.getString(KEY_GENDER, "");
+    }
+    public long getTimeEmotions() {
+        return sharedPreferences.getLong(LAST_SHOW_TIME_EMOTIONS, 0);
+    }
+    public void setTimeEmotions(long value) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putLong(LAST_SHOW_TIME_EMOTIONS, value);
+        editor.apply();
     }
     public void setLogin(String username) {
         SharedPreferences.Editor editor = sharedPreferences.edit();

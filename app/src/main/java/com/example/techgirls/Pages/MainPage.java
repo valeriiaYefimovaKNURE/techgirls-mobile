@@ -56,6 +56,8 @@ public class MainPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_page);
 
+        SharedData.checkAndShowDialog(this);
+
         // TextView to display a welcome message
         TextView welcomeText = findViewById(R.id.welcomeText);
 

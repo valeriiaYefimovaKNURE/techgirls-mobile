@@ -12,6 +12,13 @@
         android:scaleType="fitStart"
         android:visibility="visible"
         app:srcCompat="@drawable/up" />
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitEnd"
+        app:srcCompat="@drawable/down"
+        />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -31,142 +38,118 @@
             app:srcCompat="@drawable/arrow_back"
             tools:ignore="TouchTargetSizeCheck" />
 
-        <TextView
-            android:id="@+id/textView4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="144dp"
-            android:text="@string/Happy_to_see_you"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.497"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            >
 
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="80dp"
-            android:text="@string/Enter"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView4" />
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="144dp"
+                android:text="@string/Happy_to_see_you"
+                android:textSize="24sp"
+                android:textStyle="bold" />
 
-        <Button
-            android:id="@+id/btnRegGoogle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
-            android:backgroundTint="@color/purple_light"
-            android:elevation="5dp"
-            android:stateListAnimator="@null"
-            android:text="@string/login_google"
-            app:icon="@drawable/googleg_standard_color_18"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.48"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView2" />
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="80dp"
+                android:text="@string/Enter"
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/textView3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
-            android:text="@string/or"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btnRegGoogle" />
+            <Button
+                android:id="@+id/btnRegGoogle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:backgroundTint="@color/purple_light"
+                android:elevation="5dp"
+                android:stateListAnimator="@null"
+                android:text="@string/login_google"
+                app:icon="@drawable/googleg_standard_color_18" />
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/outlinedLoginFieldLogIn"
-            android:layout_width="246dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            app:boxStrokeColor="@color/purple_logo"
-            app:boxStrokeWidth="1.5dp"
-            app:errorEnabled="true"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.503"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView3">
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:text="@string/or"
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/logIn_emailText"
-                style="@style/Base.Theme.TechGirls"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/outlinedLoginFieldLogIn"
                 android:layout_width="246dp"
-                android:layout_height="55dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:ems="10"
-                android:hint="@string/Login"
-                android:inputType="textEmailAddress"
-                android:text=""
-                android:textSize="16sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.503"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView3" />
+                app:boxStrokeColor="@color/purple_logo"
+                app:boxStrokeWidth="1.5dp"
+                app:errorEnabled="true">
 
-        </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/logIn_emailText"
+                    style="@style/Base.Theme.TechGirls"
+                    android:layout_width="246dp"
+                    android:layout_height="55dp"
+                    android:layout_marginTop="20dp"
+                    android:ems="10"
+                    android:hint="@string/Login"
+                    android:inputType="textEmailAddress"
+                    android:text=""
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.503"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/outlinedPasswordFieldLogIn"
-            android:layout_width="246dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            app:endIconMode="password_toggle"
-            app:errorEnabled="true"
-            app:boxStrokeColor="@color/purple_light"
-            app:boxStrokeWidth="1.5dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.503"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/outlinedLoginFieldLogIn">
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/logIn_passwordText"
-                style="@style/Base.Theme.TechGirls"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/outlinedPasswordFieldLogIn"
                 android:layout_width="246dp"
-                android:layout_height="55dp"
-                android:layout_marginTop="100dp"
-                android:ems="10"
-                android:hint="@string/Password"
-                android:inputType="textPassword"
-                android:text=""
-                android:textSize="16sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.503"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView3" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                app:boxStrokeColor="@color/purple_light"
+                app:boxStrokeWidth="1.5dp"
+                app:endIconMode="password_toggle"
+                app:errorEnabled="true">
 
-        </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/logIn_passwordText"
+                    style="@style/Base.Theme.TechGirls"
+                    android:layout_width="246dp"
+                    android:layout_height="55dp"
+                    android:layout_marginTop="100dp"
+                    android:ems="10"
+                    android:hint="@string/Password"
+                    android:inputType="textPassword"
+                    android:text=""
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.503"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
-        <Button
-            android:id="@+id/btnLogin2"
-            android:layout_width="120dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:backgroundTint="@color/lavender"
-            android:elevation="5dp"
-            android:stateListAnimator="@null"
-            android:text="@string/welcomePage_login"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.501"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/outlinedPasswordFieldLogIn" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <Button
+                android:id="@+id/btnLogin2"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:backgroundTint="@color/lavender"
+                android:elevation="5dp"
+                android:stateListAnimator="@null"
+                android:text="@string/welcomePage_login" />
+        </LinearLayout>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <ImageView
-        android:id="@+id/imageView5"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="fitEnd"
-        app:srcCompat="@drawable/down" />
 </RelativeLayout>
