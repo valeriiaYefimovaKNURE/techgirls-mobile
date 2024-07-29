@@ -46,4 +46,5 @@ public class LoadNewsTask implements Runnable {
             }
         });
     }
+
 }

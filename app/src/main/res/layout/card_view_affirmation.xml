@@ -1,17 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardCornerRadius="16dp"
-    app:cardElevation="10dp">
+    app:cardElevation="10dp"
+
+    >
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="32dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp">
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp">
+
         <TextView
             android:id="@+id/cardTitle"
             android:layout_width="wrap_content"
@@ -19,24 +23,38 @@
             android:layout_marginTop="24dp"
             android:fontFamily="@font/ubuntu_medium"
             android:text="Сьогодні"
-            android:textSize="17sp"
+            android:textAlignment="center"
+            android:textAppearance="@style/Base.Theme.TechGirls"
+            android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/cardText"
+            android:id="@+id/affirmation_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
             android:fontFamily="@font/ubuntu_medium"
-            android:text="Бути собою це важливо, ти молодець!"
-            android:textSize="14sp"
-            android:textStyle="bold"
+            android:text="Обери те, що більше за все описує тебе"
+            android:textAlignment="center"
+            android:textAppearance="@style/Base.Theme.TechGirls"
+            android:textSize="13sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/cardTitle" />
+
+        <ImageView
+            android:id="@+id/imageView_affirmation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/affirmation_text"
+            app:srcCompat="@drawable/affirmation_image_1"
+            tools:srcCompat="@tools:sample/avatars" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

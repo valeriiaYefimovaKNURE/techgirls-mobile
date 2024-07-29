@@ -14,6 +14,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.techgirls.HelpClasses.DateFormattingTextWatcher;
 import com.example.techgirls.RegistrationClasses.DatabaseManager;
 import com.example.techgirls.RegistrationClasses.GoogleSignInHelper;
 import com.example.techgirls.RegistrationClasses.HashingClass;
@@ -43,7 +44,6 @@ public class RegisterPage extends AppCompatActivity implements GoogleSignInHelpe
 
     // EditText fields for user input
     private EditText email, name, login, birthday, gender, password;
-    private AtomicBoolean isLoginValid = new AtomicBoolean(false);
     private DatabaseManager databaseManager;
     private GoogleSignInHelper googleSignInHelper;
     private final int RC_SIGN_IN=40;
@@ -69,6 +69,8 @@ public class RegisterPage extends AppCompatActivity implements GoogleSignInHelpe
         login = findViewById(R.id.signUp_loginText);
         password = findViewById(R.id.signUp_passwordText);
         birthday = findViewById(R.id.signUp_birthText);
+        birthday.addTextChangedListener(new DateFormattingTextWatcher());
+
         gender = autoCompleteTextView;
 
         databaseManager = new DatabaseManager();
@@ -159,6 +161,7 @@ public class RegisterPage extends AppCompatActivity implements GoogleSignInHelpe
 
         EditText cardLogin = dialog.findViewById(R.id.card_signUp_loginText);
         EditText cardBirthday = dialog.findViewById(R.id.card_signUp_birthText);
+        cardBirthday.addTextChangedListener(new DateFormattingTextWatcher());
         EditText cardPassword = dialog.findViewById(R.id.card_signUp_passwordText);
 
         Button btnDialogCancel = dialog.findViewById(R.id.cardCancelButton);
