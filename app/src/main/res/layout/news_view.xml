@@ -103,6 +103,36 @@
                 android:textSize="14sp" />
 
             <TextView
+                android:id="@+id/textView17"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="24dp"
+                android:text="Автор"
+                android:textColor="@color/bistre"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/author"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="24dp"
+                android:autoLink="web"
+                android:background="@drawable/lavender_border"
+                android:backgroundTint="@color/purple_background"
+                android:paddingStart="8dp"
+                android:paddingTop="4dp"
+                android:paddingEnd="4dp"
+                android:paddingBottom="4dp"
+                android:text="TextView"
+                android:textColor="@color/bistre"
+                android:textSize="14sp" />
+
+            <TextView
                 android:id="@+id/textView9"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

@@ -32,6 +32,7 @@ import com.example.techgirls.HelpClasses.SharedMethods;
 import com.example.techgirls.HelpClasses.ShowPages;
 import com.example.techgirls.Models.NewsData;
 import com.example.techgirls.R;
+import com.example.techgirls.RegistrationClasses.UserManager;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputLayout;
@@ -155,6 +156,7 @@ public class UploadActivity extends AppCompatActivity {
         String text = uploadText.getText().toString().trim();
         String link = uploadLink.getText().toString().trim();
         String theme = uploadTheme.getText().toString().trim();
+        String author = UserManager.getInstance(this).getName();
 
         // Define a reference to store the image
         final StorageReference fileRef = storageReference.child("Images")
@@ -171,7 +173,7 @@ public class UploadActivity extends AppCompatActivity {
                         try {
                             // Create a NewsData object with the news information
                             NewsData newsData = new NewsData(title, caption, text, link, theme, uri.toString());
-
+                            newsData.setDataAuthor(author);
                             // Generate a unique key for the news item
                             String key = databaseReference.push().getKey();
                             // Set the key for the news item

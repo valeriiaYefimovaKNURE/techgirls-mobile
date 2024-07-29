@@ -8,6 +8,7 @@ public class NewsData {
     private String dataTheme;
     private String dataImage;
     private String key;
+    private String dataAuthor;
     public NewsData(){}
 
     public NewsData(String dataTitle, String dataCaption, String dataText, String dataLink, String dataTheme, String dataImage) {
@@ -72,4 +73,13 @@ public class NewsData {
     public void setDataImage(String dataImage) {
         this.dataImage = dataImage;
     }
+
+    public String getDataAuthor() {
+        return dataAuthor;
+    }
+
+    public void setDataAuthor(String dataAuthor) {
+        this.dataAuthor = dataAuthor;
+    }
+
 }

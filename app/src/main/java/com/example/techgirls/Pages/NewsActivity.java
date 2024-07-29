@@ -49,12 +49,13 @@ public class NewsActivity extends AppCompatActivity {
         TextView textView=findViewById(R.id.text);
         TextView linkView=findViewById(R.id.link);
         TextView themeView=findViewById(R.id.themes);
+        TextView authorView=findViewById(R.id.author);
 
         // Get user's role
         String role= UserManager.getInstance(this).getRole();
 
         // Set news data to views
-        SharedData.getNewsData(this,imageView,titleView,captionView,textView,linkView,themeView);
+        SharedData.getNewsData(this,imageView,titleView,captionView,textView,linkView,themeView, authorView);
 
         // Set visibility of settings button based on user's role
         if (DatabaseManager.isEditor(role) || DatabaseManager.isAdmin(role)) {

@@ -200,6 +200,7 @@ public class SharedData {
         intent.putExtra("Link",news.getDataLink());
         intent.putExtra("Theme",news.getDataTheme());
         intent.putExtra("Key",news.getKey());
+        intent.putExtra("Author",news.getDataAuthor());
     }
     public static void putUserInfo(Intent intent,String email, String name, String login, String password, String birth, String gender){
         intent.putExtra("Email", email);
@@ -223,7 +224,7 @@ public class SharedData {
      */
     public static void getNewsData(Context context, ImageView imageView, TextView titleView,
                                        TextView captionView, TextView textView, TextView linkView,
-                                       TextView themeView) {
+                                       TextView themeView, TextView authorView) {
         Intent intent = ((Activity) context).getIntent();
 
         Glide.with(context)
@@ -236,5 +237,7 @@ public class SharedData {
         linkView.setText(intent.getStringExtra("Link"));
         themeView.setText(intent.getStringExtra("Theme"));
         intent.getStringExtra("Key");
+        authorView.setText(intent.getStringExtra("Author"));
+
     }
 }
