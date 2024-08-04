@@ -1,14 +1,11 @@
 package com.example.techgirls.Pages;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.view.LayoutInflater;
+import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.AutoCompleteTextView;
@@ -16,8 +13,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResult;
@@ -29,16 +24,17 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.techgirls.HelpClasses.SharedData;
 import com.example.techgirls.HelpClasses.SharedMethods;
-import com.example.techgirls.HelpClasses.ShowPages;
 import com.example.techgirls.Models.NewsData;
 import com.example.techgirls.R;
+import com.example.techgirls.RegistrationClasses.UserManager;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
@@ -64,6 +60,7 @@ public class UploadActivity extends AppCompatActivity {
     protected void onCreate(Bundle saveInstanceState) {
         super.onCreate(saveInstanceState);
         setContentView(R.layout.news_add);
+        Log.d("Check role","Role: "+UserManager.getInstance(this).getRole());
 
         // Initialize views
         Button saveButton = findViewById(R.id.uploadButton_save);
@@ -103,7 +100,7 @@ public class UploadActivity extends AppCompatActivity {
                             imageUri = data.getData();
                             uploadImage.setImageURI(imageUri);
                         } else {
-                            Toast.makeText(UploadActivity.this, "Нічого не обрано", Toast.LENGTH_SHORT);
+                            Toast.makeText(UploadActivity.this, R.string.warning_empty_photo, Toast.LENGTH_SHORT).show();
                         }
                     }
                 }
@@ -127,7 +124,7 @@ public class UploadActivity extends AppCompatActivity {
                 if (imageUri != null) {
                     uploadToFirebase(imageUri);
                 } else
-                    Toast.makeText(UploadActivity.this, "Будь ласка, оберіть зображення", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(UploadActivity.this, R.string.warning_select_photo, Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -155,6 +152,8 @@ public class UploadActivity extends AppCompatActivity {
         String text = uploadText.getText().toString().trim();
         String link = uploadLink.getText().toString().trim();
         String theme = uploadTheme.getText().toString().trim();
+        String author = UserManager.getInstance(this).getName();
+        String authorLogin=UserManager.getInstance(UploadActivity.this).getLogin();
 
         // Define a reference to store the image
         final StorageReference fileRef = storageReference.child("Images")
@@ -164,45 +163,40 @@ public class UploadActivity extends AppCompatActivity {
         fileRef.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                // Get the download URL of the uploaded image
+                // Получение URL загруженного изображения
                 fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
                     public void onSuccess(Uri uri) {
                         try {
-                            // Create a NewsData object with the news information
                             NewsData newsData = new NewsData(title, caption, text, link, theme, uri.toString());
+                            newsData.setDataAuthor(author);
+                            newsData.setAuthorLogin(authorLogin);
 
-                            // Generate a unique key for the news item
                             String key = databaseReference.push().getKey();
-                            // Set the key for the news item
                             newsData.setKey(key);
-                            // Save the news item to the Firebase database
-                            databaseReference.child(key).setValue(newsData);
 
-                            // Show a progress dialog and toast to indicate success
-                            AlertDialog.Builder builder = new AlertDialog.Builder(UploadActivity.this);
-                            builder.setCancelable(false);
-                            builder.setView(R.layout.progress_layout);
-                            Toast.makeText(UploadActivity.this, "Викладено", Toast.LENGTH_SHORT).show();
-                            ShowPages.showMainPage(UploadActivity.this);
-                        }catch (Exception e){
-                            Toast.makeText(UploadActivity.this, "Виникла помилка під час зберігання до бази даних", Toast.LENGTH_SHORT).show();
+                            // Сохранение новости в Firebase Realtime Database
+                            databaseReference.child(key).setValue(newsData).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful()) {
+                                        Toast.makeText(UploadActivity.this, R.string.upload_success, Toast.LENGTH_SHORT).show();
+                                        finish();
+                                    } else {
+                                        Toast.makeText(UploadActivity.this, R.string.upload_error_permission, Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+                        } catch (Exception e) {
+                            Toast.makeText(UploadActivity.this, R.string.error_db_saving, Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
             }
-        }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(UploadActivity.this);
-                builder.setCancelable(false);
-                builder.setView(R.layout.progress_layout);
-            }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                // Show a toast to indicate failure
-                Toast.makeText(UploadActivity.this, "Помилка", Toast.LENGTH_SHORT).show();
+                Toast.makeText(UploadActivity.this, R.string.Error, Toast.LENGTH_SHORT).show();
             }
         });
     }

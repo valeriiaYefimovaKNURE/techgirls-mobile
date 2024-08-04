@@ -24,6 +24,7 @@ import com.example.techgirls.Models.NewsData;
 import com.example.techgirls.R;
 import com.example.techgirls.ThreadsClasses.LoadNewsTask;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -139,7 +140,7 @@ public class MainPage extends AppCompatActivity {
     public void displayNewsByTheme(String theme) {
         newsList.clear();
         Query query = databaseReference.orderByChild("dataTheme").equalTo(theme);
-        ((Query) query).addListenerForSingleValueEvent(new ValueEventListener() {
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {

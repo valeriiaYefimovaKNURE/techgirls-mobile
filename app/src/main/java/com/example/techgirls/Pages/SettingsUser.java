@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.techgirls.HelpClasses.DateFormattingTextWatcher;
 import com.example.techgirls.RegistrationClasses.DatabaseManager;
 import com.example.techgirls.RegistrationClasses.HashingClass;
 import com.example.techgirls.HelpClasses.SharedData;
@@ -57,6 +58,8 @@ public class SettingsUser extends AppCompatActivity {
         emailView=findViewById(R.id.user_email);
         passwordView=findViewById(R.id.user_password);
         birthView=findViewById(R.id.user_birthday);
+        birthView.addTextChangedListener(new DateFormattingTextWatcher());
+
         genderView=findViewById(R.id.user_gender);
         SharedData.genderAutoCompleteTextView(this,genderView);
 
@@ -112,10 +115,10 @@ public class SettingsUser extends AppCompatActivity {
                             if (isEmailChanged() || isLoginChanged()) {
                                 DatabaseManager.saveDataSharedPreference(SettingsUser.this, loginView.getText().toString(), emailView.getText().toString());
                             }
-                            Toast.makeText(SettingsUser.this, "Дані збережено", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SettingsUser.this, R.string.db_saving_success, Toast.LENGTH_SHORT).show();
                         }
                     }catch (Exception e){
-                        Toast.makeText(SettingsUser.this, "Помилка при зберіганні до бази даних", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SettingsUser.this, R.string.error_db_saving, Toast.LENGTH_SHORT).show();
                     }
             }
         });

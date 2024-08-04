@@ -1,6 +1,7 @@
 package com.example.techgirls.Pages;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -120,7 +121,7 @@ public class RegisterPage extends AppCompatActivity implements GoogleSignInHelpe
         btnGoogle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                googleSignInHelper = new GoogleSignInHelper(RegisterPage.this, RegisterPage.this, RC_SIGN_IN);
+                googleSignInHelper = new GoogleSignInHelper(RegisterPage.this, RegisterPage.this);
                 googleSignInHelper.signIn();
             }
         });
@@ -143,11 +144,11 @@ public class RegisterPage extends AppCompatActivity implements GoogleSignInHelpe
         Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show();
     }
 
-    public void showDialogForAdditionalInfo(FirebaseUser user) {
-        Dialog dialog = new Dialog(RegisterPage.this);
+    public void showDialogForAdditionalInfo(Context context, FirebaseUser user) {
+        Dialog dialog = new Dialog(context);
         dialog.setContentView(R.layout.card_view_registration);
         dialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        dialog.getWindow().setBackgroundDrawable(getDrawable(R.drawable.custom_card_bag));
+        dialog.getWindow().setBackgroundDrawable(context.getDrawable(R.drawable.custom_card_bag));
         dialog.setCancelable(false);
 
         // Initialize dialog views
@@ -167,17 +168,13 @@ public class RegisterPage extends AppCompatActivity implements GoogleSignInHelpe
         Button btnDialogCancel = dialog.findViewById(R.id.cardCancelButton);
         Button btnDialogNext = dialog.findViewById(R.id.cardNextButton);
 
+        databaseManager=new DatabaseManager();
         btnDialogCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
-                // Sign out the user from Google and Firebase
-                GoogleSignInClient mGoogleSignInClient = GoogleSignIn.getClient(RegisterPage.this,
-                        new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).build());
-                mGoogleSignInClient.signOut().addOnCompleteListener(task -> {
-                    FirebaseAuth.getInstance().signOut();
-                    ShowPages.showRegisterForm(RegisterPage.this);
-                });
+                databaseManager.deleteAuthUser(context);
+                finish();
             }
         });
 
@@ -202,12 +199,13 @@ public class RegisterPage extends AppCompatActivity implements GoogleSignInHelpe
                                 users.setGender(gender);
                                 users.setPassword(HashingClass.hashPassword(password));
                                 users.setBirthday(birthday);
-                                databaseManager.saveUserData(RegisterPage.this, users);
+                                users.setUid(user.getUid());
+                                databaseManager.saveUserData(context, users);
                                 dialog.dismiss();
                                 ShowPages.showMainPage(v.getContext());
                             }
                             catch (Exception e){
-                                Toast.makeText(RegisterPage.this, "Save user failed.", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, "Save user failed.", Toast.LENGTH_SHORT).show();
                             }
                         }
                     }

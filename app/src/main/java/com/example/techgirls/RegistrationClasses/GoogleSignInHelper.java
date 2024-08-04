@@ -4,6 +4,8 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 
+import androidx.annotation.NonNull;
+
 import com.example.techgirls.HelpClasses.ShowPages;
 import com.example.techgirls.Pages.RegisterPage;
 import com.example.techgirls.R;
@@ -20,14 +22,12 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
-import org.checkerframework.checker.nullness.qual.NonNull;
-
 public class GoogleSignInHelper {
     private GoogleSignInClient googleSignInClient;
-    private FirebaseAuth firebaseAuth;
+    private final FirebaseAuth firebaseAuth;
     private Activity activity;
     private GoogleSignInListener listener;
-    private int RC_SIGN_IN;
+    private final int RC_SIGN_IN=40;
     private final DatabaseManager databaseManager=new DatabaseManager();
 
     public interface GoogleSignInListener {
@@ -35,10 +35,9 @@ public class GoogleSignInHelper {
         void onGoogleSignInFailure(String errorMessage);
     }
 
-    public GoogleSignInHelper(Activity activity, GoogleSignInListener listener, int RC_SIGN_IN) {
+    public GoogleSignInHelper(Activity activity, GoogleSignInListener listener) {
         this.activity = activity;
         this.listener = listener;
-        this.RC_SIGN_IN = RC_SIGN_IN;
         this.firebaseAuth = FirebaseAuth.getInstance();
         initGoogleSignIn();
     }
@@ -90,7 +89,7 @@ public class GoogleSignInHelper {
                                         // Действия, если пользователь не существует в базе
                                         () -> {
                                             RegisterPage r=new RegisterPage();
-                                            r.showDialogForAdditionalInfo(user);
+                                            r.showDialogForAdditionalInfo(activity,user);
                                         }
                                 );
                             } else {

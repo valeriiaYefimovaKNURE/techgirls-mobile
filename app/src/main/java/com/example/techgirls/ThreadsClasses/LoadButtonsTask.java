@@ -17,10 +17,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
 public class LoadButtonsTask implements Runnable {
-    private DatabaseReference databaseReference;
-    private LinearLayout layout;
-    private Handler mainHandler;
-    private MainPage mainPage;
+    private final DatabaseReference databaseReference;
+    private final LinearLayout layout;
+    private final Handler mainHandler;
+    private final MainPage mainPage;
 
     public LoadButtonsTask(MainPage mainPage, DatabaseReference databaseReference, LinearLayout layout, Handler mainHandler) {
         this.mainPage = mainPage;
@@ -60,7 +60,7 @@ public class LoadButtonsTask implements Runnable {
                 LinearLayout.LayoutParams.WRAP_CONTENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT
         );
-        params.setMargins(12, 0, 0, 0);
+        params.setMargins(10, 0, 0, 0);
         params.weight = 1;
         button.setLayoutParams(params);
 

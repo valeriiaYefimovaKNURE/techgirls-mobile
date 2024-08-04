@@ -1,5 +1,7 @@
 package com.example.techgirls.Models;
 
+import com.example.techgirls.RegistrationClasses.UserManager;
+
 public class NewsData {
     private String dataTitle;
     private String dataCaption;
@@ -8,6 +10,8 @@ public class NewsData {
     private String dataTheme;
     private String dataImage;
     private String key;
+    private String dataAuthor;
+    private String authorLogin;
     public NewsData(){}
 
     public NewsData(String dataTitle, String dataCaption, String dataText, String dataLink, String dataTheme, String dataImage) {
@@ -72,4 +76,17 @@ public class NewsData {
     public void setDataImage(String dataImage) {
         this.dataImage = dataImage;
     }
+
+    public String getDataAuthor() {
+        return dataAuthor;
+    }
+
+    public void setDataAuthor(String dataAuthor) {
+        this.dataAuthor = dataAuthor;
+    }
+    public void setAuthorLogin(String authorLogin){ this.authorLogin=authorLogin;}
+    public String getAuthorLogin(){
+        return authorLogin;
+    }
+
 }

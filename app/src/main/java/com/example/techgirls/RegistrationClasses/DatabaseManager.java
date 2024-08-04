@@ -1,35 +1,25 @@
 package com.example.techgirls.RegistrationClasses;
 
-import static androidx.core.content.ContextCompat.getDrawable;
-
-import static com.google.android.material.internal.ContextUtils.getActivity;
-
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.view.ViewGroup;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
 import com.example.techgirls.HelpClasses.SharedMethods;
 import com.example.techgirls.HelpClasses.ShowPages;
-import com.example.techgirls.Pages.MainPage;
 import com.example.techgirls.Models.Users;
-import com.example.techgirls.Pages.RegisterPage;
 import com.example.techgirls.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
-import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -116,21 +106,21 @@ public class DatabaseManager {
                                     }
                                     else {
                                         // Ошибка при отправке письма для верификации
-                                        Toast.makeText(context, "Помилка під час відправки листа для верифікації пошти", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(context, R.string.register_error_sending_email, Toast.LENGTH_SHORT).show();
                                     }
                                 });
                             }
                         } else {
                             Exception exception = task.getException();
                             if (exception instanceof FirebaseAuthUserCollisionException) {
-                                Toast.makeText(context, "Ця пошта вже використовується", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, R.string.error_email_is_used, Toast.LENGTH_SHORT).show();
                             } else {
-                                Toast.makeText(context, "Ошибка при регистрации: " + Objects.requireNonNull(exception).getMessage(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, R.string.Error + Objects.requireNonNull(exception).getMessage(), Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
         } catch (Exception e) {
-            Toast.makeText(context, "Ошибка при сохранении в базу данных", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, R.string.error_db_saving, Toast.LENGTH_SHORT).show();
         }
     }
     public void verifyEmail(Context context, String email, String name, String login, String password, String birth, String gender) {
@@ -140,14 +130,14 @@ public class DatabaseManager {
             firebaseUser.reload().addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     if (firebaseUser.isEmailVerified()) {
-                        saveUserData(context, email, name, login, password, birth, gender);
+                        saveUserData(context, email, name, login, password, birth, gender, firebaseUser.getUid());
                         Toast.makeText(context, R.string.toast_signup_succes, Toast.LENGTH_SHORT).show();
                         ShowPages.showMainPage(context);
                     } else {
-                        Toast.makeText(context, "Будь ласка, підтвердити свою пошту", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, R.string.verify_email_warning, Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    Toast.makeText(context, "Не вдалося оновити статус користувача", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, R.string.verify_email_error, Toast.LENGTH_SHORT).show();
                 }
             });
         }
@@ -156,11 +146,11 @@ public class DatabaseManager {
         firebaseUser= firebaseAuth.getCurrentUser();
         firebaseUser.sendEmailVerification().addOnCompleteListener(verificationTask -> {
             if(verificationTask.isSuccessful()) {
-                Toast.makeText(context, "Повторний лист відіслано", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, R.string.verify_email_resend_sms, Toast.LENGTH_SHORT).show();
             }
             else {
                 // Ошибка при отправке письма для верификации
-                Toast.makeText(context, "Помилка під час відправки листа для верифікації пошти", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, R.string.register_error_sending_email, Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -187,7 +177,8 @@ public class DatabaseManager {
      * @param Birth    The birth date of the user.
      * @param Gender   The gender of the user.
      */
-    public void saveUserData(Context context, String Email, String Name, String Login, String Password, String Birth, String Gender) {
+    public void saveUserData(Context context, String Email, String Name, String Login,
+                             String Password, String Birth, String Gender, String uid) {
         try{
         Users user = new Users();
         user.setEmail(Email);
@@ -197,6 +188,8 @@ public class DatabaseManager {
         user.setBirthday(Birth);
         user.setGender(Gender);
         user.setRole("USER");
+        user.setUid(uid);
+        user.setCountry("Україна");
 
         UserManager.getInstance(context).saveUser(Login, Email, Password, Name, Birth, Gender, "USER");
 
@@ -205,90 +198,44 @@ public class DatabaseManager {
         Toast.makeText(context, R.string.toast_signup_succes, Toast.LENGTH_SHORT).show();
         }
         catch (Exception e){
-            Toast.makeText(context, "Помилка при зберіганні до бази даних", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, R.string.error_db_saving, Toast.LENGTH_SHORT).show();
         }
     }
     public void saveUserData(Context context, Users user) {
         try{
             user.setRole("USER");
+            user.setCountry("Україна");
 
             UserManager.getInstance(context).saveUser(user.getLogin(), user.getEmail(), user.getPassword(), user.getName(),
                     user.getBirthday(), user.getGender(), "USER");
 
-            table.child(user.getLogin()).setValue(user);
+            table.child(user.getLogin()).setValue(user)
+                    .addOnSuccessListener(aVoid -> {
+                        Toast.makeText(context, R.string.toast_signup_succes, Toast.LENGTH_SHORT).show();
+                    })
+                    .addOnFailureListener(e -> {
+                        Toast.makeText(context, "Save user failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    });
+
             saveDataSharedPreference(context, user.getLogin(), user.getEmail());
             Toast.makeText(context, R.string.toast_signup_succes, Toast.LENGTH_SHORT).show();
         }
         catch (Exception e){
-            Toast.makeText(context, "Помилка при зберіганні до бази даних", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, R.string.error_db_saving, Toast.LENGTH_SHORT).show();
         }
     }
 
-    //Вход происходит без FirebaseAuthentication поэтому не понятно как сделать
     public void ResetPassword(Context context,String email){
         firebaseAuth.sendPasswordResetEmail(email).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if(task.isSuccessful()){
-                    Toast.makeText(context, "Лист для відновлення паролю відправлено на пошту", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, R.string.reset_password_mail_send, Toast.LENGTH_SHORT).show();
                     ShowPages.showLoginForm(context);
                 }
                 else{
-                    Toast.makeText(context, "Помилка при відправленні листа", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, R.string.error_sending_mail, Toast.LENGTH_SHORT).show();
                 }
-            }
-        });
-    }
-
-    /**
-     * Authenticates a user with the provided login credentials.
-     *
-     * @param context     The context of the page.
-     * @param login       The login of the user.
-     * @param loginLayout The layout where login-related error messages will be displayed.
-     * @param password    The password of the user.
-     * @param passLayout  The layout where password-related error messages will be displayed.
-     */
-    public void authenticateUser(Context context,String login,TextInputLayout loginLayout,
-                                 String password, TextInputLayout passLayout) {
-        Query query = table.orderByChild("login").equalTo(login);
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()){
-                    loginLayout.setError(null);
-
-                    String passwordFromDB = snapshot.child(login).child("password").getValue(String.class);
-                    try {
-                        if (HashingClass.verifyPassword(password,passwordFromDB)) {
-                            loginLayout.setError(null);
-
-                            String nameFromDB = snapshot.child(login).child("name").getValue(String.class);
-                            String emailFromDB = snapshot.child(login).child("email").getValue(String.class);
-                            String loginFromDB = snapshot.child(login).child("login").getValue(String.class);
-                            String dateFromDB = snapshot.child(login).child("birthday").getValue(String.class);
-                            String genderFromDB = snapshot.child(login).child("gender").getValue(String.class);
-                            String role=snapshot.child(login).child("role").getValue(String.class);
-
-                            saveDataSharedPreference(context,loginFromDB,emailFromDB);
-                            Intent intent = new Intent(context, MainPage.class);
-                            UserManager.getInstance(context).saveUser(loginFromDB,emailFromDB,passwordFromDB,nameFromDB,dateFromDB,genderFromDB,role);
-                            context.startActivity(intent);
-                        }
-                        else {
-                            passLayout.setError(passLayout.getContext().getString(R.string.error_logIn_password));
-                            passLayout.requestFocus();
-                        }
-                    }catch (Exception e){
-                        Toast.makeText(context, "Помилка при роботі з базами даних", Toast.LENGTH_SHORT).show();
-                    }
-                } else {
-                    loginLayout.setError(loginLayout.getContext().getString(R.string.error_logIn_userNotExist));
-                    loginLayout.requestFocus();
-                }
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
             }
         });
     }
@@ -309,13 +256,13 @@ public class DatabaseManager {
                         saveDataSharedPreference(context, loginFromDB, email);
 
                         UserManager.getInstance(context).saveUser(loginFromDB, email, passwordFromDB, nameFromDB, dateFromDB, genderFromDB, role);
+                        Log.d("AuthCheck", "User is authenticated: "+loginFromDB);
 
-                        Intent intent = new Intent(context, MainPage.class);
-                        context.startActivity(intent);
+                        ShowPages.showMainPage(context);
                         return;
                     }
                 } else {
-                    Toast.makeText(context, "Пользователь не найден", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, R.string.error_user_not_found, Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -324,7 +271,70 @@ public class DatabaseManager {
             }
         });
     }
+    public void authenticateUser(Context context, String email, TextInputLayout emailLayout,
+                                 String password, TextInputLayout passLayout) {
+        firebaseAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener((activity) -> {
+                    if (activity.isSuccessful()) {
+                        FirebaseUser user = firebaseAuth.getCurrentUser();
 
+                        if (user != null) {
+                            Query query = table.orderByChild("email").equalTo(email);
+                            query.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    if (snapshot.exists()) {
+                                        for (DataSnapshot userSnapshot : snapshot.getChildren()) {
+                                            String loginFromDB = userSnapshot.getKey();
+                                            String nameFromDB = userSnapshot.child("name").getValue(String.class);
+                                            String dateFromDB = userSnapshot.child("birthday").getValue(String.class);
+                                            String genderFromDB = userSnapshot.child("gender").getValue(String.class);
+                                            String role = userSnapshot.child("role").getValue(String.class);
+                                            String passwordFromDB = userSnapshot.child("password").getValue(String.class);
+
+                                            saveDataSharedPreference(context, loginFromDB, email);
+
+                                            UserManager.getInstance(context).saveUser(loginFromDB, email, passwordFromDB, nameFromDB, dateFromDB, genderFromDB, role);
+                                            Log.d("AuthCheck", "User is authenticated: "+loginFromDB);
+                                            ShowPages.showMainPage(context);
+                                            return;
+                                        }
+                                    } else {
+                                        Toast.makeText(context, R.string.error_user_not_found, Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+                                }
+                            });
+                        }
+                    } else {
+                        // Ошибка аутентификации
+                        String errorMessage = ((FirebaseAuthException) activity.getException()).getErrorCode();
+                        handleAuthenticationError(errorMessage, emailLayout, passLayout, context);
+                    }
+                });
+    }
+    private void handleAuthenticationError(String errorCode, TextInputLayout emailLayout, TextInputLayout passLayout, Context context) {
+        switch (errorCode) {
+            case "ERROR_INVALID_EMAIL":
+                emailLayout.setError(context.getString(R.string.error_logIn_email));
+                emailLayout.requestFocus();
+                break;
+            case "ERROR_WRONG_PASSWORD":
+                passLayout.setError(context.getString(R.string.error_logIn_password));
+                passLayout.requestFocus();
+                break;
+            case "ERROR_USER_NOT_FOUND":
+                emailLayout.setError(context.getString(R.string.error_user_not_found));
+                emailLayout.requestFocus();
+                break;
+            default:
+                Toast.makeText(context, R.string.error_authentication, Toast.LENGTH_SHORT).show();
+                break;
+        }
+    }
     /**
      * Checks if a user has editor role.
      *
@@ -346,7 +356,9 @@ public class DatabaseManager {
     }
     public static boolean checkCurrentUserAuth(){
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        return firebaseUser != null;
+        boolean isAuthenticated = firebaseUser != null;
+        Log.d("AuthCheck", "User authenticated: " + isAuthenticated);
+        return isAuthenticated;
     }
     /**
      * Saves user data to SharedPreferences.

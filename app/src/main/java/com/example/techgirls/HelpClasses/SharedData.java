@@ -5,18 +5,31 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.techgirls.Models.NewsData;
+import com.example.techgirls.Models.Users;
+import com.example.techgirls.Pages.RegisterPage;
 import com.example.techgirls.R;
+import com.example.techgirls.RegistrationClasses.HashingClass;
 import com.example.techgirls.RegistrationClasses.UserManager;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Calendar;
 import java.util.Random;
@@ -116,6 +129,7 @@ public class SharedData {
                 View.OnClickListener buttonClickListener = new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        dialog.dismiss();
                         showAffirmationDialog(context);
                     }
                 };
@@ -126,11 +140,11 @@ public class SharedData {
                 anxietyButton.setOnClickListener(buttonClickListener);
                 happyButton.setOnClickListener(buttonClickListener);
 
-                // Сохранение текущего времени как время последнего показа
                 userManager.setTimeEmotions(currentCalendar.getTimeInMillis());
-            } catch (Exception e) {
-                e.printStackTrace();
 
+            } catch (Exception e) {
+                Log.d("SharedData.checkAndShowDialog:","Exception occurred.");
+                e.printStackTrace();
                 dialog.dismiss();
             }
         }
@@ -157,11 +171,12 @@ public class SharedData {
             dialog.show();
         } catch (Exception e) {
             // Логирование ошибки
+            Log.d("SharedData.showAffirmationDialog:","Exception occurred.");
             e.printStackTrace();
-
             dialog.dismiss();
         }
     }
+
     /**
      * Sets up an AutoCompleteTextView with themes for news items.
      *
@@ -200,6 +215,7 @@ public class SharedData {
         intent.putExtra("Link",news.getDataLink());
         intent.putExtra("Theme",news.getDataTheme());
         intent.putExtra("Key",news.getKey());
+        intent.putExtra("Author",news.getDataAuthor());
     }
     public static void putUserInfo(Intent intent,String email, String name, String login, String password, String birth, String gender){
         intent.putExtra("Email", email);
@@ -223,7 +239,7 @@ public class SharedData {
      */
     public static void getNewsData(Context context, ImageView imageView, TextView titleView,
                                        TextView captionView, TextView textView, TextView linkView,
-                                       TextView themeView) {
+                                       TextView themeView, TextView authorView) {
         Intent intent = ((Activity) context).getIntent();
 
         Glide.with(context)
@@ -236,5 +252,7 @@ public class SharedData {
         linkView.setText(intent.getStringExtra("Link"));
         themeView.setText(intent.getStringExtra("Theme"));
         intent.getStringExtra("Key");
+        authorView.setText(intent.getStringExtra("Author"));
+
     }
 }

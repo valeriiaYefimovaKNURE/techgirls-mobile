@@ -31,8 +31,8 @@
 
     <!-- Strings used for authorization -->
     <string name="Happy_to_see_you">Раді тебе бачити!</string>
-    <string name="error_logIn_password">Неправильно введена пошта або пароль</string>
-    <string name="error_logIn_userNotExist">Користувача з таким логіном не існує</string>
+    <string name="error_logIn_password">Неправильно введен пароль</string>
+    <string name="error_logIn_email">Неправильно введена пошта</string>
     <string name="login_with_google">Login with Google</string>
     <string name="Login">Логін</string>
     <string name="Password">Пароль</string>
@@ -109,9 +109,7 @@
     <string name="save">Зберегти</string>
     <string name="update">Оновити</string>
     <string name="button_next">Продовжити</string>
-
-
-    <string name="default_web_client_id">204552763865-mm2dh7r53pev83o4ok2che72fa7usm2s.apps.googleusercontent.com</string>
+    <string name="hi">Привіт!</string>
 
     <string name="button_delete">Видалити</string>
     <string name="button_back">Назад</string>
@@ -151,6 +149,31 @@
     <string name="affirmation_31">Будь ласка, виділи час, щоб знайти свою пристрасть. Будь хоробрим/ою, будь відважним/ою і я обіцяю, ти знайдеш свій шлях. Я вболіваю за тебе!</string>
     <string name="affirmation_32">Немає іншої/го тебе. Ти робиш цей світ яскравішим, добрішим і набагато красивішим. Будь реальним самим собою. Будь реальною самою собою. Будь собою.</string>
 
+
+
+    <string name="warning_empty_photo">Нічого не обрано.</string>
+    <string name="warning_select_photo">Будь ласка, оберіть зображення.</string>
+    <string name="upload_success">Викладено.</string>
+    <string name="upload_error_permission">Виникла помилка. Можливо у вас немає дозволу.</string>
+    <string name="error_db_saving">Виникла помилка під час зберігання до бази даних</string>
+    <string name="Error">Помилка.</string>
+    <string name="register_error_sending_email">Помилка під час відправки листа для верифікації пошти</string>
+    <string name="error_email_is_used">Ця пошта вже використовується.</string>
+    <string name="verify_email_warning">Будь ласка, підтвердити свою пошту.</string>
+    <string name="verify_email_error">Не вдалося оновити статус користувача.</string>
+    <string name="verify_email_resend_sms">Повторний лист відіслано.</string>
+    <string name="error_sending_mail">Помилка при відправленні листа.</string>
+    <string name="reset_password_mail_send">Лист для відновлення паролю відправлено на пошту</string>
+    <string name="error_user_not_found">Пользователь не найден.</string>
+    <string name="error_authentication">Ошибка аутентификации.</string>
+    <string name="db_saving_success">Дані збережено</string>
+    <string name="card_emotions_how_are_you">Як ти почуваєшся?</string>
+    <string name="card_emotions_choose">Обери те, що більше за все описує тебе</string>
+    <string name="emotions_angry">Злий</string>
+    <string name="emotions_sad">Сумний</string>
+    <string name="emotions_happy">Радісний</string>
+    <string name="emotions_anxiety">Стривожений</string>
+    <string name="emotions_wtf">Капець</string>
 
 
 </resources>

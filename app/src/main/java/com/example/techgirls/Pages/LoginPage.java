@@ -13,7 +13,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.techgirls.RegistrationClasses.DatabaseManager;
 import com.example.techgirls.RegistrationClasses.GoogleSignInHelper;
-import com.example.techgirls.HelpClasses.ShowPages;
 import com.example.techgirls.HelpClasses.ValidationManager;
 import com.example.techgirls.R;
 import com.google.android.material.textfield.TextInputLayout;
@@ -24,10 +23,10 @@ import com.google.firebase.auth.FirebaseUser;
  */
 public class LoginPage extends AppCompatActivity implements GoogleSignInHelper.GoogleSignInListener {
     // TextInputLayouts for login and password fields
-    private TextInputLayout passwordLayout, loginLayout;
+    private TextInputLayout passwordLayout, emailLayout;
 
     // EditText fields for login and password
-    private EditText loginField, passwordField;
+    private EditText emailField, passwordField;
     private GoogleSignInHelper googleSignInHelper;
     private final int RC_SIGN_IN=40;
     private DatabaseManager databaseManager;
@@ -37,10 +36,10 @@ public class LoginPage extends AppCompatActivity implements GoogleSignInHelper.G
         setContentView(R.layout.login);
 
         // Find TextInputLayouts and EditText fields in the layout
-        loginLayout =findViewById(R.id.outlinedLoginFieldLogIn);
+        emailLayout =findViewById(R.id.outlinedLoginFieldLogIn);
         passwordLayout=findViewById(R.id.outlinedPasswordFieldLogIn);
 
-        loginField=findViewById(R.id.logIn_emailText);
+        emailField =findViewById(R.id.logIn_emailText);
         passwordField=findViewById(R.id.logIn_passwordText);
 
         // Find the login button in the layout
@@ -51,15 +50,15 @@ public class LoginPage extends AppCompatActivity implements GoogleSignInHelper.G
             @Override
             public void onClick(View v) {
 
-                // Get login and password from EditText fields
-                String login=loginField.getText().toString().trim();
+                // Get email and password from EditText fields
+                String email= emailField.getText().toString().trim();
                 String password=passwordField.getText().toString().trim();
 
-                // Validate login and password fields using ValidationManager
-                if (ValidationManager.validateLogin(login,loginLayout) |
+                // Validate email and password fields using ValidationManager
+                if (ValidationManager.validateEmail(email, emailLayout) |
                         ValidationManager.validatePassword(password,passwordLayout)) {
                     // Authenticate user using DatabaseManager
-                    databaseManager.authenticateUser(LoginPage.this,login,loginLayout,password, passwordLayout);
+                    databaseManager.authenticateUser(LoginPage.this,email, emailLayout,password, passwordLayout);
                 }
             }
         });
@@ -75,7 +74,7 @@ public class LoginPage extends AppCompatActivity implements GoogleSignInHelper.G
         btnGoogle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                googleSignInHelper = new GoogleSignInHelper(LoginPage.this, LoginPage.this, RC_SIGN_IN);
+                googleSignInHelper = new GoogleSignInHelper(LoginPage.this, LoginPage.this);
                 googleSignInHelper.signIn();
             }
         });
