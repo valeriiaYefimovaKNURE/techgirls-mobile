@@ -2,91 +2,92 @@ package com.example.techgirls.Models;
 
 import com.example.techgirls.RegistrationClasses.UserManager;
 
-public class NewsData {
-    private String dataTitle;
-    private String dataCaption;
-    private String dataText;
-    private String dataLink;
-    private String dataTheme;
-    private String dataImage;
-    private String key;
-    private String dataAuthor;
-    private String authorLogin;
-    public NewsData(){}
-
-    public NewsData(String dataTitle, String dataCaption, String dataText, String dataLink, String dataTheme, String dataImage) {
-        this.dataTitle = dataTitle;
-        this.dataCaption = dataCaption;
-        this.dataText = dataText;
-        this.dataLink = dataLink;
-        this.dataTheme = dataTheme;
-        this.dataImage=dataImage;
-    }
-    public String getKey() {
-        return key;
+public class Users {
+    private String email;
+    private String password;
+    private String name;
+    private String login;
+    private String gender;
+    private String birthday;
+    private String role;
+    private String country;
+    private String uid;
+    public Users(){}
+    public Users(String email, String password, String name, String login, String gender, String birthday) {
+        this.email = email;
+        this.password = password;
+        this.name = name;
+        this.login = login;
+        this.gender = gender;
+        this.birthday = birthday;
+        this.role="USER";
+        this.country="Україна";
     }
 
-    public void setKey(String key) {
-        this.key = key;
-    }
-    public String getDataTitle() {
-        return dataTitle;
+    public String getEmail() {
+        return email;
     }
 
-    public void setDataTitle(String dataTitle) {
-        this.dataTitle = dataTitle;
+    public void setEmail(String email) {
+        this.email = email;
+    }
+    public void setUid(String uid){
+        this.uid=uid;
+    }
+    public void setCountry(String country){
+        this.country=country;
+    }
+    public String getCountry(){
+        return country;
+    }
+    public String getUid(){
+        return uid;
     }
 
-    public String getDataCaption() {
-        return dataCaption;
+    public String getPassword() {
+        return password;
     }
 
-    public void setDataCaption(String dataCaption) {
-        this.dataCaption = dataCaption;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
-    public String getDataText() {
-        return dataText;
+    public String getName() {
+        return name;
     }
 
-    public void setDataText(String dataText) {
-        this.dataText = dataText;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getDataLink() {
-        return dataLink;
+    public String getLogin() {
+        return login;
     }
 
-    public void setDataLink(String dataLink) {
-        this.dataLink = dataLink;
+    public void setLogin(String login) {
+        this.login = login;
     }
 
-    public String getDataTheme() {
-        return dataTheme;
+    public String getGender() {
+        return gender;
     }
 
-    public void setDataTheme(String dataTheme) {
-        this.dataTheme = dataTheme;
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 
-    public String getDataImage() {
-        return dataImage;
+    public String getBirthday() {
+        return birthday;
     }
 
-    public void setDataImage(String dataImage) {
-        this.dataImage = dataImage;
+    public void setBirthday(String birthday) {
+        this.birthday = birthday;
+    }
+    public String getRole() {
+        return role;
     }
 
-    public String getDataAuthor() {
-        return dataAuthor;
+    public void setRole(String birthday) {
+        this.role = role;
     }
-
-    public void setDataAuthor(String dataAuthor) {
-        this.dataAuthor = dataAuthor;
-    }
-    public void setAuthorLogin(String authorLogin){ this.authorLogin=authorLogin;}
-    public String getAuthorLogin(){
-        return authorLogin;
-    }
-
 }

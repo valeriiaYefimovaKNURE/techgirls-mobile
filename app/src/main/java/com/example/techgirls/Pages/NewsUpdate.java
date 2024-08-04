@@ -259,6 +259,7 @@ public class NewsUpdate extends AppCompatActivity {
         text = updateText.getText().toString().trim();
         link = updateLink.getText().toString().trim();
         theme = autoCompleteTextView.getText().toString().trim();
+        author = UserManager.getInstance(this).getName();
 
         // Create news data object
         NewsData newsData=new NewsData(title,caption,text,link,theme,imageUrl);
