@@ -99,7 +99,7 @@
                     android:layout_height="55dp"
                     android:layout_marginTop="20dp"
                     android:ems="10"
-                    android:hint="@string/Login"
+                    android:hint="@string/Email"
                     android:inputType="textEmailAddress"
                     android:text=""
                     android:textSize="16sp"

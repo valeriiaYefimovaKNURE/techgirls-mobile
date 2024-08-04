@@ -1,85 +1,93 @@
 package com.example.techgirls.Models;
 
-public class NewsData {
-    private String dataTitle;
-    private String dataCaption;
-    private String dataText;
-    private String dataLink;
-    private String dataTheme;
-    private String dataImage;
-    private String key;
-    private String dataAuthor;
-    public NewsData(){}
+import com.example.techgirls.RegistrationClasses.UserManager;
 
-    public NewsData(String dataTitle, String dataCaption, String dataText, String dataLink, String dataTheme, String dataImage) {
-        this.dataTitle = dataTitle;
-        this.dataCaption = dataCaption;
-        this.dataText = dataText;
-        this.dataLink = dataLink;
-        this.dataTheme = dataTheme;
-        this.dataImage=dataImage;
-    }
-    public String getKey() {
-        return key;
-    }
-
-    public void setKey(String key) {
-        this.key = key;
-    }
-    public String getDataTitle() {
-        return dataTitle;
+public class Users {
+    private String email;
+    private String password;
+    private String name;
+    private String login;
+    private String gender;
+    private String birthday;
+    private String role;
+    private String country;
+    private String uid;
+    public Users(){}
+    public Users(String email, String password, String name, String login, String gender, String birthday) {
+        this.email = email;
+        this.password = password;
+        this.name = name;
+        this.login = login;
+        this.gender = gender;
+        this.birthday = birthday;
+        this.role="USER";
+        this.country="Україна";
     }
 
-    public void setDataTitle(String dataTitle) {
-        this.dataTitle = dataTitle;
+    public String getEmail() {
+        return email;
     }
 
-    public String getDataCaption() {
-        return dataCaption;
+    public void setEmail(String email) {
+        this.email = email;
+    }
+    public void setUid(String uid){
+        this.uid=uid;
+    }
+    public void setCountry(String country){
+        this.country=country;
+    }
+    public String getCountry(){
+        return country;
+    }
+    public String getUid(){
+        return uid;
     }
 
-    public void setDataCaption(String dataCaption) {
-        this.dataCaption = dataCaption;
+    public String getPassword() {
+        return password;
     }
 
-    public String getDataText() {
-        return dataText;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
-    public void setDataText(String dataText) {
-        this.dataText = dataText;
+    public String getName() {
+        return name;
     }
 
-    public String getDataLink() {
-        return dataLink;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public void setDataLink(String dataLink) {
-        this.dataLink = dataLink;
+    public String getLogin() {
+        return login;
     }
 
-    public String getDataTheme() {
-        return dataTheme;
+    public void setLogin(String login) {
+        this.login = login;
     }
 
-    public void setDataTheme(String dataTheme) {
-        this.dataTheme = dataTheme;
+    public String getGender() {
+        return gender;
     }
 
-    public String getDataImage() {
-        return dataImage;
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 
-    public void setDataImage(String dataImage) {
-        this.dataImage = dataImage;
+    public String getBirthday() {
+        return birthday;
     }
 
-    public String getDataAuthor() {
-        return dataAuthor;
+    public void setBirthday(String birthday) {
+        this.birthday = birthday;
+    }
+    public String getRole() {
+        return role;
     }
 
-    public void setDataAuthor(String dataAuthor) {
-        this.dataAuthor = dataAuthor;
+    public void setRole(String birthday) {
+        this.role = role;
     }
-
 }

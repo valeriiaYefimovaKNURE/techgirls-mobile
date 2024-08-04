@@ -8,6 +8,8 @@ public class Users {
     private String gender;
     private String birthday;
     private String role;
+    private String country;
+    private String uid;
     public Users(){}
     public Users(String email, String password, String name, String login, String gender, String birthday) {
         this.email = email;
@@ -17,6 +19,7 @@ public class Users {
         this.gender = gender;
         this.birthday = birthday;
         this.role="USER";
+        this.country="Україна";
     }
 
     public String getEmail() {
@@ -25,6 +28,18 @@ public class Users {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+    public void setUid(String uid){
+        this.uid=uid;
+    }
+    public void setCountry(String country){
+        this.country=country;
+    }
+    public String getCountry(){
+        return country;
+    }
+    public String getUid(){
+        return uid;
     }
 
     public String getPassword() {
