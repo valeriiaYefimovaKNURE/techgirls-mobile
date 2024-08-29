@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "521066578255",
+    "project_id": "mepower-mww",
+    "storage_bucket": "mepower-mww.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:521066578255:android:3263e57c22d67cdf11053a",
+        "android_client_info": {
+          "package_name": "com.mww.mepower"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAES-zGdjoU9zpjBeEZd76TWZj019dP5_k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

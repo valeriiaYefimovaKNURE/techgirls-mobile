@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>321132989492-rc23fd45h1ilm5nbsnanrc19cbu33f1d.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.321132989492-rc23fd45h1ilm5nbsnanrc19cbu33f1d</string>
+	<key>API_KEY</key>
+	<string>AIzaSyB4L1jVNlKtbOyeVe8mTN0quNi5p5wtsuM</string>
+	<key>GCM_SENDER_ID</key>
+	<string>321132989492</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.mww.mePower</string>
+	<key>PROJECT_ID</key>
+	<string>mepower-mewewomen</string>
+	<key>STORAGE_BUCKET</key>
+	<string>mepower-mewewomen.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:321132989492:ios:c61e0b977cce9248440e61</string>
+	<key>DATABASE_URL</key>
+	<string>https://mepower-mewewomen-default-rtdb.firebaseio.com</string>
+</dict>
+</plist>
