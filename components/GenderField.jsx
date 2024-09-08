@@ -17,7 +17,7 @@ const GenderField = ({
       <View className="border-2 border-gray-400 w-[250px] h-11 px-4 bg-white rounded-xl focus:border-primary-default items-center flex-row">
       <Dropdown
         className="flex-1 text-black font-mmedium text-base"
-        placeholder="Стать"
+        placeholder=""
         placeholderTextColor='border-grey-default'
         onChange={(item) => handleChangeText(item.value)}
         data={genderItems}

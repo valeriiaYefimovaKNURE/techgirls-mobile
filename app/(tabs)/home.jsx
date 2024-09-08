@@ -25,6 +25,7 @@ const Home = () => {
         keyExtractor={(item) => item.$id} 
         renderItem={({ item }) => (
           <NewsCard
+            newsId={posts[item].$id}
             title={posts[item].title}
             subtitle={posts[item].subtitle}
             imageUri={posts[item].imageUri}

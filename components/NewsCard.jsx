@@ -1,5 +1,6 @@
 import { View, Text, Image, TouchableOpacity } from 'react-native'
 import React from 'react'
+import { useNavigation } from '@react-navigation/native'
 import { icons } from '../constants'
 
 const NewsCard = ({
@@ -8,12 +9,19 @@ const NewsCard = ({
     date, 
     imageUri, 
     theme,
-    creator 
+    creator,
+    newsId 
 }) => {
+  const navigation = useNavigation();
+  const handlePress=()=>{
+    navigation.navigate('(news)/view', {newsId})
+  }
   return (
     
     <View className="px-3 py-1 shadow-xl shadow-slate-950 ">
-      <TouchableOpacity className="flex-row items-start rounded-sm border border-primary-400 p-2 mb-4 bg-white">
+      <TouchableOpacity className="flex-row items-start rounded-sm border border-primary-400 p-2 mb-4 bg-white"
+        onPress={handlePress}
+      >
         <View className="w-[140px] h-[140px] justify-center items-center p-2 mr-3">
           <Image
             source={{ uri: imageUri }}

@@ -23,15 +23,27 @@ const SignUp = () => {
   })
 
   const submit=async()=>{
-    if(form.email==="" || form.password==="" || form.birthday==="" || form.name==="" || form.gender==="" || form.login===""){
+    const { name, gender, birthday, login, email, password } = form;
+
+    if(email==="" || password==="" || birthday==="" || name==="" || gender==="" || login===""){
       Alert.alert("Error","Please fill in all fields");
     }
     else{
       setSubmitting(true)
 
       try{
-        const result=await registerUser(form.name, form.gender,form.birthday,form.login, form.email, form.password);
-        setUser(result)
+        await registerUser(name, gender,birthday,login, email, password);
+        setUser({
+          name,
+          gender,
+          birthday,
+          login,
+          email,
+          password,
+          role: "USER",
+          country:"Україна"
+        });
+
         setIsLogged(true)
   
         router.replace("/home")

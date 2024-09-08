@@ -11,22 +11,25 @@ export const GlobalProvider=({children})=>{
     const [isLogged, setIsLogged]=useState(false);
 
     useEffect(()=>{
-        getCurrentUser().then((res)=>{
-            if(res){
-                setIsLogged(true);
-                setUser(res);
-            }else{
-                setIsLogged(false);
-                setUser(null);
+        const fetchUser = async () => {
+            try {
+                const currentUser = await getCurrentUser();
+                if (currentUser) {
+                    setIsLogged(true);
+                    setUser(currentUser);
+                } else {
+                    setIsLogged(false);
+                    setUser(null);
+                }
+            } catch (error) {
+                console.error(error);
+            } finally {
+                setLoading(false);
             }
-        })
-        .catch((error)=>{
-            console.log(error);
-        })
-        .finally(()=>{
-            setLoading(false);
-        })
-    })
+        };
+
+        fetchUser();
+    },[])
 
     return(
         <GlobalContext.Provider

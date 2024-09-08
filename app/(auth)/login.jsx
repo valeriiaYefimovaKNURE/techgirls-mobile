@@ -26,12 +26,11 @@ const LoginLayout = () => {
       setSubmitting(true);
 
       try{
-        await loginUser(form.email,form.password)
+        const {userData}=await loginUser(form.email,form.password)
         const result=getCurrentUser();
         setUser(result);
         setIsLogged(true);
-  
-        Alert.alert("Success","User signed in")
+
         router.replace("/home")
       }catch(error){
         Alert.alert("Error"+error.message)

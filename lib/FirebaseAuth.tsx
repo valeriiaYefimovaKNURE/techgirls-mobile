@@ -1,7 +1,7 @@
 import { router } from "expo-router";
 import { FIREBASE_AUTH, FIREBASE_DATABASE } from "./firebaseConfig"
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from 'firebase/auth';
-import { ref, set } from 'firebase/database';
+import { ref, set,get } from 'firebase/database';
 
 export const registerUser=async(name, gender, birthday, login, email, password)=>{
     try{
@@ -47,8 +47,21 @@ export const registerUser=async(name, gender, birthday, login, email, password)=
 
 export const loginUser=async(email,password)=>{
     try{
-        signInWithEmailAndPassword(FIREBASE_AUTH,email,password);
-        console.log("Logged in");
+        const userCredential = await signInWithEmailAndPassword(FIREBASE_AUTH, email, password);
+        const user = userCredential.user;
+
+        const userSnapshot = await get(ref(FIREBASE_DATABASE, `/Users/${user.uid}`));
+        const userData = userSnapshot.val();
+
+        if (!userData) {
+            throw new Error('User data not found');
+        }
+
+        return {
+            uid: user.uid,
+            email: user.email,
+            ...userData
+          };
     }catch (e) {
         if (e instanceof Error) {
             switch (e.message) {
@@ -70,14 +83,34 @@ export const loginUser=async(email,password)=>{
         } else {
             console.error('An unknown error occurred:', e);
         }
+        throw e;
     }
 }
 
 export const getCurrentUser=async()=>{
+    
     try{
         const user=FIREBASE_AUTH.currentUser;
         if(user){
-            return (user);
+            try {
+            const userRef = ref(FIREBASE_DATABASE, `/Users/${user.uid}`);
+            const snapshot = await get(userRef);
+            if(snapshot.exists()){
+                return{
+                    uid:user.uid,
+                    email:user.email,
+                    ...snapshot.val()
+                };
+            }else{
+                return{
+                    uid:user.uid,
+                    email:user.email
+                }
+            }}
+            catch(error){
+                console.error('Error fetching user data:', error);
+                return null;
+            }
         }else{
             return null;
         }
@@ -89,11 +122,9 @@ export const getCurrentUser=async()=>{
 
 export const logOut=async()=>{
     console.log("Attempting to log out...");
-
     try {
         await signOut(FIREBASE_AUTH);
-        router.replace('/')
-        console.log("User successfully logged out.");
+        console.log("FIREBASE_AUTH logged out.");
     } catch (error) {
         console.error("Error logging out:", error);
     }
