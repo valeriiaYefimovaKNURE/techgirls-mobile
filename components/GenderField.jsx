@@ -3,11 +3,11 @@ import React from 'react'
 import { Dropdown } from 'react-native-element-dropdown'
 import { genderItems } from '../constants/data'
 
-const GenderField = (
-    value,
+const GenderField = ({
+  value,
     handleChangeText,
     otherStyles
-) => {
+}) => {
   return (
     <View className={`space-y-2 ${otherStyles}`}>
       <Text className="text-sm text-grey-default font-mmedium">
