@@ -1,8 +1,10 @@
 import { Alert } from "react-native";
 import { useEffect, useState } from "react";
 
-export const useFirebase=(fn)=>{
+export const useFirebase=(fn,fn2, fn3)=>{
     const [data,setData]=useState([]);
+    const [themes,setThemes]=useState([]);
+    const [actual, setActual]=useState([]);
     const [isLoading, setLoading]=useState(true);
 
     
@@ -11,8 +13,12 @@ export const useFirebase=(fn)=>{
 
         try{
         const response=await fn()
+        const themes=await fn2()
+        const actualPosts=await fn3()
         
         setData(response)
+        setThemes(themes)
+        setActual(actualPosts)
         }catch(error){
             Alert.alert('Error', error.message)
         }finally{
@@ -26,6 +32,6 @@ export const useFirebase=(fn)=>{
 
     const refetch=()=>fetchData();
 
-    return {data,isLoading,refetch};
+    return {data,themes,actual, isLoading,refetch};
 
 }

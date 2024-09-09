@@ -32,6 +32,9 @@ module.exports = {
         mlight:["Manrope-Light","sans-serif"],
         mextralight:["Manrope-ExtraLight","sans-serif"]
       },
+      fontSize: {
+        base: '16px',
+      },
       height: {
         '1/2': '50%',
         '1/3': '33%',

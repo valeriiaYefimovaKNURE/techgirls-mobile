@@ -8,4 +8,5 @@ import navCreate from "../assets/icons/navCreate.png"
 import navMap from "../assets/icons/navMap.png"
 import navSettings from "../assets/icons/navSettings.png"
 
+
 export default {back_arrow, eye, eye_hide, google_icon, dots_horizontal, navHome, navMap, navCreate, navSettings}

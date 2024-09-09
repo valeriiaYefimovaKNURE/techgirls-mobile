@@ -4,13 +4,14 @@ import { images } from '../../constants'
 import ThemeButtons from '../../components/ThemeButtons'
 import Actual from '../../components/Actual'
 import EmptyState from '../../components/EmptyState'
-import { getAllPosts } from '../../lib/FirebaseNews'
+import { getActualPosts, getAllPosts, getAllThemes } from '../../lib/FirebaseNews'
 import { useFirebase } from '../../lib/useFirebase'
 import NewsCard from '../../components/NewsCard'
 
+
 const Home = () => {
   const [refreshing, setRefreshing]=useState(false)
-  const {data:posts, refetch}=useFirebase(getAllPosts);
+  const {data:posts,themes:theme, actual:actualPosts, refetch}=useFirebase(getAllPosts, getAllThemes, getActualPosts);
 
   const onRefresh=async()=>{
     setRefreshing(true);
@@ -36,40 +37,44 @@ const Home = () => {
         ListHeaderComponent={() => (
           <View className="space-y-6 w-full">
 
-            <View className="bg-primary-default relative" >
-            <View className="px-4 w-full justify-between items-start flex-row mt-6">
+            {/* Верхняя секция с изображением и логотипом */}
+            <View className="bg-primary-default relative">
+              <View className="px-4 w-full justify-between items-start flex-row pt-10 pb-7">
                 <Image
                   source={images.logo_mp_white}
-                  className="w-[49px] h-[44px]"
+                  className="w-12 h-11"
                   resizeMode="contain"
                 />
-              <View>
-                <Text className="font-mbold text-white">Привіт, Лера!</Text>
+                <View>
+                  <Text className="text-white font-bold">Привіт, Лера!</Text>
+                </View>
               </View>
-            </View>
-            <View className="justify-end items-center">
-            <Image
+
+              {/* Wave Image */}
+              <Image
                 source={images.subtract}
-                resizeMode='contain'
-                className="w-full "
+                resizeMode="stretch"
+                className="w-full h-12 absolute bottom-0"
+                style={{
+                  transform: [{ scaleX: 1.15 }, { translateX: -10 }, { translateY: 9 }],
+                }}
               />
             </View>
+
+            {/* Актуальне Section */}
+            <View 
+              className="pl-3"
+            >
+              <Text className="text-base font-msemibold">Актуальне</Text>
+              <Actual posts={actualPosts} />
             </View>
-            
-            <View className="p-3">
-              <Text className="text-lg font-msemibold">Актуальне</Text>
-              <Actual 
-                posts={[{ id: "actual1" }, { id: "actual2" }, { id: "actual3" }]??[]}
-              />
+
+            {/* Категории */}
+            <View className="px-3">
+              <Text className="text-base font-msemibold">Категорії</Text>
+              <ThemeButtons themes={theme} />
             </View>
-            
-            <View className="p-3">
-              <Text className="text-lg font-msemibold">Категорії</Text>
-              <ThemeButtons 
-                themes={[{ id: "news" }, { id: "gaw" }, { id: "posts" }]??[]} 
-              />
-            </View>
-            
+
           </View>
         )}
         refreshControl={
